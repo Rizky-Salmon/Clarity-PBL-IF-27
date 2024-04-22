@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title }}</title>
+    <title>Clarity</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,10 +28,7 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         @include('form.sidebar')
-
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -160,8 +157,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST">
-                                                @csrf
-                                                @method('PUT')
+                                                
 
                                                 <div class="form-group">
                                                     <label for="editEmployeePSubSector">Activity</label>

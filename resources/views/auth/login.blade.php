@@ -9,12 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title }}</title>
+    <title>Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -29,7 +31,8 @@
 
             <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="card o-hidden border-0 shadow-lg my-5" style="background-image: url('img/background_login.png'); background-size: cover;">
+                <div class="card o-hidden border-0 shadow-lg my-5"
+                    style="background-image: url('img/background_login.png'); background-size: cover;">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -38,23 +41,40 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $item)
+                                                    <li>{{ $item }}</li>
+                                                @endforeach
+                                            </ul>
                                         </div>
+                                    @endif
+                                    <form class="user" method="post">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                            <input type="email" class="form-control form-control-user"
+                                                aria-describedby="emailHelp" value="{{ old('email') }}"
+                                                placeholder="Enter Email Address..." name="email"
+                                                autocomplete="email">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                placeholder="Password" name="password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" style="color: #9a9cb2;" for="customCheck">Remember
+                                                <label class="custom-control-label" style="color: #9a9cb2;"
+                                                    for="customCheck">Remember
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="/" class="btn btn-primary btn-user btn-block">
+                                        <button name="submit" type="submit" href=""
+                                            class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
                                         <!-- <hr> -->
                                         <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
@@ -74,10 +94,12 @@
                             </div>
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="mx-auto text-center">
-                                    <img src="img/clarity_login.png" alt="" style="max-width: 85%; height: auto;">
+                                    <img src="img/clarity_login.png" alt=""
+                                        style="max-width: 85%; height: auto;">
 
                                 </div>
-                                <div class="mx-auto text-center" style="margin-top: -100px;font-family: 'Alike';
+                                <div class="mx-auto text-center"
+                                    style="margin-top: -100px;font-family: 'Alike';
                                     font-style: normal;
                                     font-weight: 400;
                                     font-size: 25px;

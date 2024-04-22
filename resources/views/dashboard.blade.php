@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title }}</title>
+    <title>Clarity</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,7 +30,6 @@
     <div id="wrapper">
 
         @include('form.sidebar')
-
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -148,7 +147,8 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="addEmployeePModalLabel">Add Employee Progress</h5>
+                                            <h5 class="modal-title" id="addEmployeePModalLabel">Add Employee Progress
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -163,23 +163,23 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="addEmployeePSector">Sector</label>
-                                                    <input type="text" class="form-control" id="addEmployeePSector"
-                                                        name="sector" required>
+                                                    <input type="text" class="form-control"
+                                                        id="addEmployeePSector" name="sector" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="addEmployeePSubSector">SubSector</label>
-                                                    <input type="text" class="form-control" id="addEmployeePSubSector"
-                                                        name="sub_sector" required>
+                                                    <input type="text" class="form-control"
+                                                        id="addEmployeePSubSector" name="sub_sector" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="addEmployeePActivity">Activity</label>
-                                                    <textarea class="form-control" id="addEmployeePActivity"
-                                                        name="activity" rows="3" required></textarea>
+                                                    <textarea class="form-control" id="addEmployeePActivity" name="activity" rows="3" required></textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="activityPercentage">Persentage (1-100)</label>
-                                                    <input type="number" class="form-control" id="activityPercentage"
-                                                        name="percentage" min="0" max="100" placeholder="0" required>
+                                                    <input type="number" class="form-control"
+                                                        id="activityPercentage" name="percentage" min="0"
+                                                        max="100" placeholder="0" required>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary"
                                                     style="margin-left: 140px;">Add Employee Progress</button>
@@ -191,13 +191,11 @@
                                 </div>
                             </div>
 
-                            <div class="card-header">
-                                <i class="fa-solid fa-clipboard-list"></i>
-                                Employee Progress Data
-                            </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="dataTable" width="100%"
+                                        cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -230,10 +228,12 @@
                                                 </td>
                                                 <td>70%</td>
                                                 <td>
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editEmployeeProgressModal">
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal"
+                                                        data-target="#editEmployeeProgressModal">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEmployeeProgressModal">
+                                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                        data-target="#deleteEmployeeProgressModal">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -242,7 +242,7 @@
                                                 <td>2</td>
                                                 <td>Sarah</td>
                                                 <td>Manufacturing</td>
-                                               <td>
+                                                <td>
                                                     <select class="form-control" name="subsector">
                                                         <option value="accounting">Accounting</option>
                                                         <option value="financialplanning">Financial Planning</option>
@@ -258,10 +258,12 @@
                                                 </td>
                                                 <td>60%</td>
                                                 <td>
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editEmployeeProgressModal">
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal"
+                                                        data-target="#editEmployeeProgressModal">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEmployeeProgressModal">
+                                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                        data-target="#deleteEmployeeProgressModal">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -286,10 +288,12 @@
                                                 </td>
                                                 <td>80%</td>
                                                 <td>
-                                                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editEmployeeProgressModal">
+                                                    <button class="btn btn-success btn-sm" data-toggle="modal"
+                                                        data-target="#editEmployeeProgressModal">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEmployeeProgressModal">
+                                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                        data-target="#deleteEmployeeProgressModal">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -299,12 +303,14 @@
                                 </div>
                             </div>
                             <!-- Modal Edit Employee Progress-->
-                            <div class="modal fade" id="editEmployeeProgressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="editEmployeeProgressModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Employee Progress</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -314,15 +320,19 @@
                                                 @method('PUT')
                                                 <div class="form-group">
                                                     <label for="editEmployeePName">Name</label>
-                                                    <input type="text" class="form-control" id="editEmployeePName" name="name" value="Billy">
+                                                    <input type="text" class="form-control" id="editEmployeePName"
+                                                        name="name" value="Billy">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="editEmployeePSector">Sector</label>
-                                                    <input type="text" class="form-control" id="editEmployeePSector" name="sector" value="IT">
+                                                    <input type="text" class="form-control"
+                                                        id="editEmployeePSector" name="sector" value="IT">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="editEmployeePSubSector">SubSector</label>
-                                                    <input type="text" class="form-control" id="editEmployeePSubSector" name="sub_sector" value="Web Development">
+                                                    <input type="text" class="form-control"
+                                                        id="editEmployeePSubSector" name="sub_sector"
+                                                        value="Web Development">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="editEmployeePActivity">Activity</label>
@@ -330,10 +340,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="activityPercentage">Persentage (1-100)</label>
-                                                    <input type="number" class="form-control" id="activityPercentage" name="percentage" value="70" min="0" max="100" placeholder="0">
+                                                    <input type="number" class="form-control"
+                                                        id="activityPercentage" name="percentage" value="70"
+                                                        min="0" max="100" placeholder="0">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Update Employee Progress</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="margin-left: 140px;">Update Employee Progress</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
                                     </div>
@@ -341,12 +355,15 @@
                             </div>
 
                             <!-- Modal Delete Employee Progress-->
-                            <div class="modal fade" id="deleteEmployeeProgressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="deleteEmployeeProgressModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete Employee Progress</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete Employee Progress
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -355,57 +372,59 @@
                                             <form action="" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger mt-2" style="margin-left: 140px;">Delete</button>
-                                                <button type="button" class="btn btn-secondary mt-2" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger mt-2"
+                                                    style="margin-left: 140px;">Delete</button>
+                                                <button type="button" class="btn btn-secondary mt-2"
+                                                    data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
 
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.container-fluid -->
+
                         </div>
+                        <!-- End of Main Content -->
+
+                        <!-- Footer -->
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; Your Website 2021</span>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- End of Footer -->
+
                     </div>
+                    <!-- End of Content Wrapper -->
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Page Wrapper -->
 
-            </div>
-            <!-- End of Main Content -->
+                <!-- Scroll to Top Button-->
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        </div>
-        <!-- End of Content Wrapper -->
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    </div>
-    <!-- End of Page Wrapper -->
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+                <!-- Page level plugins -->
+                <script src="vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+                <!-- Page level custom scripts -->
+                <script src="js/demo/chart-area-demo.js"></script>
+                <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

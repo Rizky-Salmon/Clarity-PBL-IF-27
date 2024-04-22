@@ -1,30 +1,29 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('dashboard', [
-        'title' => 'Clarity'
-    ]);
+Route::middleware('guest')->group(function () {
+    Route::get('/', [SessionController::class, 'index']);
+    Route::post('/', [SessionController::class, 'login']);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard_employee', [
-        'title' => 'Clarity'
-    ]);
-});
+
+
+    Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('employees', [AdminController::class, 'employees']);
+    Route::get('/logout', [SessionController::class, 'logout']);
+
+
 
 Route::get('/register', function () {
-    return view('register', [
+    return view('auth/register', [
         'title' => 'Register'
     ]);
 });
 
-Route::get('/login', function () {
-    return view('login', [
-        'title' => 'Login'
-    ]);
-});
+
 
 //sidebar untuk admin
 Route::get('/a_activity', function () {
@@ -82,3 +81,4 @@ Route::get('/profile', function () {
         'title' => 'Clarity'
     ]);
 });
+
