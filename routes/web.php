@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [SessionController::class, 'index']);
-    Route::post('/', [SessionController::class, 'login']);
+    Route::post('/', [SessionController::class, 'login'])->middleware('throttle:5,1');
 });
 
 
