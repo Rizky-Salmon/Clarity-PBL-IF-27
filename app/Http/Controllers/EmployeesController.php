@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeesController extends Controller
 {
@@ -84,7 +87,7 @@ class EmployeesController extends Controller
                             <div class="modal-footer">
                                 <form action="' . route("employees.destroy", $item->id_employees) . '" method="POST">
                                 ' . csrf_field() . method_field("DELETE") . '
-                                    <button type="button" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                                 <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
                             </div>
@@ -113,13 +116,38 @@ class EmployeesController extends Controller
     // Menyimpan employees baru
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:employees,email',
-        ]);
 
-        Employees::create($request->all());
+        $rules = [
+            'add_employeeName' => 'required',
+            'add_employeeEmail' => 'required|email|unique:employees,email',
+        ];
 
+        $customMessage = [
+            'add_employeeName.required' => 'Employee name is required',
+            'add_employeeEmail.required' => 'Employee email is required',
+            'add_employeeEmail.email' => 'Employee email must be valid email address',
+            'add_employeeEmail.unique' => 'Employee email has already been used',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $customMessage);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with(['openModal' => 'addEmployeeModal'])
+                ->withInput($request->all());
+        }
+
+        $insert_data = [
+            'name' => $request->input('add_employeeName'),
+            'email' => $request->input('add_employeeEmail'),
+            'password' => Hash::make($request->input('add_employeeEmail'),),
+            'role' => 'employees',
+        ];
+
+        Employees::create($insert_data);
+
+        Alert::success('Success', 'Employee added successfully!');
         return redirect()->route('employees.index')
             ->with('success', 'Employees berhasil ditambahkan.');
     }
@@ -162,6 +190,9 @@ class EmployeesController extends Controller
     public function destroy($id_employee)
     {
         $employee = Employees::findOrFail($id_employee);
+
+
+        Alert::success('Success', 'Employee deleted successfully!');
 
         if ($employee->delete()) {
             return redirect()->route('employees.index')

@@ -12,6 +12,8 @@
 
 <body id="page-top">
 
+    @include('sweetalert::alert')
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -56,11 +58,18 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="employeeName">Name</label>
-                                                    <input type="text" class="form-control" id="employeeName" required>
+                                                    <input type="text" class="form-control @error('add_employeeName') is-invalid @enderror" id="add_employeeName" name="add_employeeName" value="{{ old('add_employeeName') }}" required>
+                                                    @error('add_employeeName')
+                                                    <small class="invalid-feedback">{{ $message }}</small>
+                                                    @enderror
+
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="employeeEmail">Email</label>
-                                                    <textarea class="form-control" id="employeeEmail" rows="3" required></textarea>
+                                                    <textarea class="form-control @error('add_employeeEmail') is-invalid @enderror" id="add_employeeEmail" rows="3" required name="add_employeeEmail">{{ old('add_employeeEmail') }}</textarea>
+                                                    @error('add_employeeEmail')
+                                                    <small class="invalid-feedback">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                                 <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
                                                     Employee</button>
@@ -178,6 +187,14 @@
         })
 
     </script>
+
+    @if (session('openModal'))
+    <script>
+        let modal = "{{ session('openModal') }}"
+        $('#' + modal).modal('show');
+
+    </script>
+    @endif
 
 </body>
 
