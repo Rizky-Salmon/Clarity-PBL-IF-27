@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employees;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -35,7 +36,7 @@ class EmployeesController extends Controller
                                 <button type="button" class="btn btn-danger btn-sm">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                            </a>
+                            </a> 
                         </div>
 
 
@@ -54,14 +55,17 @@ class EmployeesController extends Controller
                                     <form action="' . route('employees.update', $item->id_employees) . '" method="POST">
                                         ' . method_field("PUT") . csrf_field() . '
 
+                                        <input type="hidden" name="modalId" value="editEmployeeModal' . $item->id_employees . '">
+
                                         <input type="hidden" name="id_employees" value="' . $item->id_employees . '">
+                                        <input type="hidden" name="old_employeeEmail" value="' . $item->email . '">
                                         <div class="form-group">
                                             <label for="employeeName">Name</label>
-                                            <input type="text" class="form-control" id="employeeName" name="EmployeeName" value="' . old('EmployeeName', $item->name) . '">
+                                            <input type="text" class="form-control" id="employeeName" name="employeeName" value="' . old('employeeName', $item->name) . '">
                                         </div>
                                         <div class="form-group">
                                             <label for="employeeEmail">Email</label>
-                                            <textarea class="form-control" id="employeeEmail" rows="2">' . old('employeeEmail', $item->email) . '</textarea>
+                                            <textarea class="form-control" name="employeeEmail" id="employeeEmail" rows="2">' . old('employeeEmail', $item->email) . '</textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -168,17 +172,46 @@ class EmployeesController extends Controller
     // Menyimpan perubahan pada employees
     public function update(Request $request, $id_employee)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:employees,email,' . $id_employee,
-        ]);
+        $rules = [
+            'employeeName' => 'required',
+            'employeeEmail' => [
+                'required',
+                'email',
+                Rule::unique('employees', 'email')->ignore($request->old_employeeEmail, 'email'),
+            ],
+        ];
 
-        $employee = Employees::findOrFail($id_employee); // Mengambil employees berdasarkan id_employee
+
+        $customMessage = [
+            'employeeName.required' => 'Employee name is required',
+            'employeeEmail.required' => 'Employee email is required',
+            'employeeEmail.email' => 'Employee email must be valid email address',
+            'employeeEmail.unique' => 'Employee email has already been used',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $customMessage);
+
+        if ($validator->fails()) {
+
+            Alert::error('Error', 'Check submitted data and try again later !');
+
+            // ddd(['openModal' => $request->modalId]);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with(['openModal' => $request->modalId])
+                ->withInput($request->all());
+        }
+
+
+
+        $employee = Employees::where('id_employees', $id_employee); // Mengambil employees berdasarkan id_employee
 
         $employee->update([
-            'name' => $request->name, // Memperbarui nama employees
-            'email' => $request->email,
+            'name' => $request->employeeName, // Memperbarui nama employees
+            'email' => $request->employeeEmail,
         ]);
+
+        Alert::success('Success', 'Employee updated successfully!');
 
         return redirect()->route('employees.index')
             ->with('success', 'Employees berhasil diperbarui.');
