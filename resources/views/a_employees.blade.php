@@ -51,7 +51,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form action="{{ route('employees.store') }}" method="POST">
+                                                @csrf
                                                 <div class="form-group">
                                                     <label for="employeeName">Name</label>
                                                     <input type="text" class="form-control" id="employeeName"
@@ -85,10 +86,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($employees as $emp)
                                         <tr>
-                                            <th style="text-align: center;">1.</th>
-                                            <th style="text-align: center;">Fay</th>
-                                            <th style="text-align: center;">F4yyy@gmail.com</th>
+                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $emp->name }}</td>
+                                            <td>{{ $emp->email }}</td>
+
                                             <th>
                                                 <div class="edit-employee-buttons">
                                                     <a href="#" data-toggle="modal"
@@ -98,7 +101,7 @@
                                                         </button>
                                                     </a>
                                                     <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal">
+                                                        data-target="#deleteEmployeeModal{{ $emp->id_employees }}">
                                                         <button type="button" class="btn btn-danger btn-sm">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -107,93 +110,6 @@
                                             </th>
                                         </tr>
 
-                                        <tr>
-                                            <th style="text-align: center;">2.</th>
-                                            <th style="text-align: center;">Gehlee</th>
-                                            <th style="text-align: center;">Gehleeunis@gmail.con</th>
-                                            <th>
-                                                <div class="edit-employee-buttons">
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#editEmployeeModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">3.</th>
-                                            <th style="text-align: center;">Wonhee</th>
-                                            <th style="text-align: center;">Wonhe@gmail.com</th>
-                                            <th>
-                                                <div class="edit-employee-buttons">
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#editEmployeeModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">4.</th>
-                                            <th style="text-align: center;">Minju</th>
-                                            <th style="text-align: center;">Myinjuw@gmail.com</th>
-                                            <th>
-                                                <div class="edit-employee-buttons">
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#editEmployeeModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">5.</th>
-                                            <th style="text-align: center;">Yunha</th>
-                                            <th style="text-align: center;">yunha@gmail.com</th>
-                                            <th>
-                                                <div class="edit-employee-buttons">
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#editEmployeeModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>  
-                                                </div>
-                                            </th>
-                                        </tr>
 
                                         <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog"
                                             aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
@@ -209,11 +125,15 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form>
+                                                        <form action="{{ route('employees.update', $emp->id_employees) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+
+                                                            <input type="hidden" name="id_employees" value="{{ $emp->id_employees }}">
                                                             <div class="form-group">
                                                                 <label for="employeeName">Name</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="employeeName">
+                                                                    id="employeeName" name="EmployeeName" value="{{ $emp->name }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="employeeEmail">Email</label>
@@ -229,13 +149,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="modal fade" id="deleteEmployeeModal" tabindex="-1"
-                                            role="dialog" aria-labelledby="deleteEmployeeModalLabel"
+                                        <div class="modal fade" id="deleteEmployeeModal{{ $emp->id_employees }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="deleteEmployeeModalLabel{{ $emp->id_employees }}"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteEmployeerModalLabel">Delete
+                                                        <h5 class="modal-title" id="deleteEmployeerModalLabel{{ $emp->id_employees }}">Delete
                                                             Data
                                                             Employee</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
@@ -247,14 +167,19 @@
                                                         <p>Are you sure you want to delete this data?</p>
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <form action="{{ route('employees.destroy', $emp->id_employees) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
                                                         <button type="button" class="btn btn-danger">Delete</button>
+                                                        </form>
                                                         <button type="button" class="btn btn-success"
                                                             data-dismiss="modal">Cancel</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -287,26 +212,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

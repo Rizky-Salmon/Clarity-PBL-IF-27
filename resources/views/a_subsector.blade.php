@@ -37,14 +37,14 @@
                                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Subsector </h3>
                             </div>
                             <!--Add subsector button-->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSectorModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSubsectorModal">
                                 <i class="fas fa-plus"></i> Add SubSector
                             </button>
-                            <div class="modal fade" id="addSectorModal" tabindex="-1" role="dialog" aria-labelledby="addSectorModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="addSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="addSubsectorModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="addSectorModalLabel">Add Sector</h5>
+                                            <h5 class="modal-title" id="addSubsectorModalLabel">Add Subsector</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -56,10 +56,14 @@
                                                     <input type="text" class="form-control" id="addSectorName" required>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="addSubsectorName">Subsector Name</label>
+                                                    <input type="text" class="form-control" id="addSubsectorName" required>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="addSectorDescription">Description</label>
                                                     <textarea class="form-control" id="addSectorDescription" rows="3" required></textarea>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Sector</button>
+                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Subsector</button>
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
@@ -75,6 +79,7 @@
                                         <tr>
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Sector</th>
+                                            <th style="text-align: center;">Subsector</th>
                                             <th style="text-align: center;">Description</th>
                                             <th style="text-align: center; width: 190px;">Action</th>
                                         </tr>
@@ -83,15 +88,16 @@
                                         <tr>
                                             <th style="text-align: center;">1.</th>
                                             <th style="text-align: center;">Make an agenda</th>
+                                            <th style="text-align: center;">Make an agenda</th>
                                             <th style="text-align: center;">Visiting Indonesia</th>
                                             <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
+                                                <div class="edit-subsector-buttons">
+                                                    <a href="#" data-toggle="modal" data-target="#editSubsectorModal">
                                                         <button type="button" class="btn btn-success btn-sm">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>
                                                     </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
+                                                    <a href="#" data-toggle="modal" data-target="#deleteSubsectorModal">
                                                         <button type="button" class="btn btn-danger btn-sm">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -99,72 +105,11 @@
                                                 </div>
                                             </th>
                                         </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">2.</th>
-                                            <th style="text-align: center;">Recording meeting results</th>
-                                            <th style="text-align: center;">40%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">3.</th>
-                                            <th style="text-align: center;">Vacation</th>
-                                            <th style="text-align: center;">5%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">4.</th>
-                                            <th style="text-align: center;">Visiting England</th>
-                                            <th style="text-align: center;">50%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <div class="modal fade" id="editActivityModal" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="editSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="editSubsectorModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="editActivityModalLabel">Update SubSector!</h5>
+                                                        <h5 class="modal-title" id="editSubsectorModalLabel">Update Subsector!</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -172,15 +117,12 @@
                                                     <div class="modal-body">
                                                         <form>
                                                             <div class="form-group">
-                                                                <label for="activityName">Subsector</label>
-                                                                <input type="text" class="form-control" id="activityName">
+                                                                <label for="subsectorName">Subsector</label>
+                                                                <input type="text" class="form-control" id="subsectorName">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="activityEmail">Description</label>
-                                                                <textarea class="form-control" id="activityEmail" rows="3"></textarea>
-                                                            </div><div class="form-group">
-                                                                <label for="activityEmail">Description</label>
-                                                                <textarea class="form-control" id="activityEmail" rows="3"></textarea>
+                                                                <label for="subsectorDescription">Description</label>
+                                                                <textarea class="form-control" id="subsectorDescription" rows="3"></textarea>
                                                             </div>
                                                             <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -190,11 +132,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="modal fade" id="deleteActivityModal" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="deleteSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="deleteSubsectorModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteActivityModalLabel">Delete SubSector</h5>
+                                                        <h5 class="modal-title" id="deleteSubsectorModalLabel">Delete Subsector</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -243,24 +185,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -280,5 +204,6 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+
 
 </html>

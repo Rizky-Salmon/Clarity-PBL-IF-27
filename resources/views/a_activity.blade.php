@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-@include('form.head')
+    @include('form.head')
 </head>
 
 <body id="page-top">
@@ -36,34 +36,32 @@
                                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Activities Data</h3>
                             </div>
                             <!--Add activity button-->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivityModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#addActivityModal">
                                 <i class="fas fa-plus"></i> Add Activities
                             </button>
-                            <div class="modal fade" id="addActivityModal" tabindex="-1" role="dialog" aria-labelledby="addActivityModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="addActivityModal" tabindex="-1" role="dialog"
+                                aria-labelledby="addActivityModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="addActivityModalLabel">Add Activites</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form action="{{ route('activity.store') }}" method="POST">
+                                                @csrf
                                                 <div class="form-group">
                                                     <label for="activityName">Activities</label>
-                                                    <input type="text" class="form-control" id="activityName" required>
+                                                    <textarea class="form-control" id="activityName" name="activity_name" rows="3" required></textarea>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="startDate">Start Date</label>
-                                                    <input type="date" class="form-control" id="startDate" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="endDate">End Date</label>
-                                                    <input type="date" class="form-control" id="endDate" required>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Activity</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="margin-left: 140px;">Add Activity</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
                                     </div>
@@ -78,146 +76,106 @@
                                         <tr>
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Activities</th>
-                                            <th style="text-align: center;">Start Date</th>
-                                            <th style="text-align: center;">End Date</th>
                                             <th style="text-align: center; width: 190px;">Action</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-                                        <tr>
-                                            <th style="text-align: center;">1.</th>
-                                            <th style="text-align: center;">Make an agenda</th>
-                                            <th style="text-align: center;">2024-01-01</th>
-                                            <th style="text-align: center;">2024-04-04</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">2.</th>
-                                            <th style="text-align: center;">Recording meeting results</th>
-                                            <th style="text-align: center;">2024-01-01</th>
-                                            <th style="text-align: center;">2024-04-04</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">3.</th>
-                                            <th style="text-align: center;">Vacation</th>
-                                            <th style="text-align: center;">2024-01-01</th>
-                                            <th style="text-align: center;">2024-04-04</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">4.</th>
-                                            <th style="text-align: center;">Visiting England</th>
-                                            <th style="text-align: center;">2024-01-01</th>
-                                            <th style="text-align: center;">2024-04-04</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <div class="modal fade" id="editActivityModal" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editActivityModalLabel">Update Activities!</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                        @foreach ($activity as $act)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $act->activity_name }}</td>
+                                                <th>
+                                                    <div class="edit-activity-buttons">
+                                                        <a href="#" data-toggle="modal"
+                                                            data-target="#editActivityModal">
+                                                            <button type="button" class="btn btn-success btn-sm">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </button>
+                                                        </a>
+                                                        <a href="#" data-toggle="modal"
+                                                            data-target="#deleteActivityModal{{ $act->id_activity }}">
+                                                            <button type="button" class="btn btn-danger btn-sm">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </a>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <form>
-                                                            <div class="form-group">
-                                                                <label for="activityName">Activities</label>
-                                                                <input type="text" class="form-control" id="activityName">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="startDate">Start Date</label>
-                                                                <input type="date" class="form-control" id="startDate" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="endDate">End Date</label>
-                                                                <input type="date" class="form-control" id="endDate" required>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        </form>
+                                                </th>
+                                            </tr>
+
+                                            <!-- Edit Activity Modal -->
+                                            <div class="modal fade" id="editActivityModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="editActivityModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editActivityModalLabel">Update
+                                                                Activities!</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form
+                                                                action="{{ route('activity.update', $act->id_activity) }}"
+                                                                method="POST">
+                                                                @method('PUT')
+                                                                @csrf
+
+                                                                <input type="hidden" name="activity_id"
+                                                                    value="{{ $act->id_activity }}">
+                                                                <div class="form-group">
+                                                                    <label for="editActivityName">Activities</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="editActivityName" name="activity_name"
+                                                                        value="{{ $act->activity_name }}">
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    style="margin-left: 140px;">Save Changes</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                            </form>
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="modal fade" id="deleteActivityModal" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteActivityModalLabel">Delete Activities</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to delete this activities?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger">Delete</button>
-                                                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                                            <!-- Delete Activity Modal -->
+                                            <div class="modal fade" id="deleteActivityModal{{ $act->id_activity }}"
+                                                tabindex="-1" role="dialog"
+                                                aria-labelledby="deleteActivityModalLabel{{ $act->id_activity }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="deleteActivityModalLabel{{ $act->id_activity }}">Delete
+                                                                Activity</h5>
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete this activity?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ route('activity.destroy', $act->id_activity) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancel</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -252,7 +210,8 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

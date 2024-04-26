@@ -29,16 +29,16 @@
     </div>
 
     <!-- Manage Employee -->
-    <li class="nav-item {{ Request::segment(1) === 'a_employee' ? 'active' : '' }}">
-        <a class="nav-link" href="/a_employee">
+    <li class="nav-item {{ Request::segment(1) === 'employees' ? 'active' : '' }}">
+        <a class="nav-link" href="employees">
             <i class="fas fa-fw fa-users"></i>
             <span>Manage Employee</span>
         </a>
     </li>
 
     <!-- Manage Sector -->
-    <li class="nav-item {{ Request::segment(1) === 'a_sector' ? 'active' : '' }}">
-        <a class="nav-link" href="/a_sector">
+    <li class="nav-item {{ Request::segment(1) === 'sector' ? 'active' : '' }}">
+        <a class="nav-link" href="sector">
             <i class="fas fa-fw fa-table"></i>
             <span>Manage Sector</span>
         </a>
@@ -53,8 +53,8 @@
     </li>
 
     <!-- Manage Activity -->
-    <li class="nav-item {{ Request::segment(1) === 'a_activity' ? 'active' : '' }}">
-        <a class="nav-link" href="/a_activity">
+    <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
+        <a class="nav-link" href="activity">
             <i class="fas fa-fw fa-table"></i>
             <span>Manage Activity</span>
         </a>
