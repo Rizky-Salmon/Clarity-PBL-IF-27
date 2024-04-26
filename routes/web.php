@@ -37,9 +37,6 @@ Route::put('employees/{id_employees}', [EmployeesController::class, 'update'])->
 Route::delete('employees/{id_employees}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
 
 
-
-
-
 Route::get('/register', function () {
     return view('auth/register', [
         'title' => 'Register'

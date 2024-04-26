@@ -14,7 +14,6 @@ class SectorController extends Controller
         return view('a_sector', compact('sector'));
     }
 
-
     // Menampilkan form untuk membuat sector baru
     public function create()
     {

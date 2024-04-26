@@ -62,7 +62,6 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
     <!-- Heading - Employee Menu -->
     <div class="sidebar-heading">
         Employee Menu

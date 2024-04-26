@@ -11,6 +11,7 @@ class SectorSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    
     public function run(): void
     {
         Sector::insert([

@@ -12,6 +12,7 @@ class EmployeesSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    
     public function run(): void
     {
         // Data pengguna untuk disisipkan ke dalam tabel employees

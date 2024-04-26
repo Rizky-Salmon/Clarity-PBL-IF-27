@@ -14,7 +14,6 @@ class EmployeesController extends Controller
         return view('a_employees', compact('employees'));
     }
 
-
     // Menampilkan form untuk membuat employees baru
     public function create()
     {

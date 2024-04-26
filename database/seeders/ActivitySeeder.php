@@ -11,6 +11,7 @@ class ActivitySeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    
     public function run(): void
     {
         Activity::insert([

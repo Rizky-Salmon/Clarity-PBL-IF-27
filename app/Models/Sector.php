@@ -18,6 +18,7 @@ class Sector extends Model
      */
     protected $primaryKey = 'id_sector';
 
+
     /**
      * The attributes that are mass assignable.
      *

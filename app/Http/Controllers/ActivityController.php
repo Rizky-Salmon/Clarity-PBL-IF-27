@@ -64,8 +64,6 @@ class ActivityController extends Controller
         ->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
-
-
     // Menghapus kegiatan
     public function destroy($id_activity)
     {
