@@ -3,6 +3,11 @@
 
 <head>
     @include('form.head')
+
+    <!-- CSS DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.8/css/jquery.dataTables.css">
+
+
 </head>
 
 <body id="page-top">
@@ -34,18 +39,15 @@
                                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Employee's Data</h3>
                             </div>
                             <!--Add employee button-->
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#addEmployeeModal">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEmployeeModal">
                                 <i class="fas fa-plus"></i> Add Employee
                             </button>
-                            <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog"
-                                aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -54,18 +56,15 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="employeeName">Name</label>
-                                                    <input type="text" class="form-control" id="employeeName"
-                                                        required>
+                                                    <input type="text" class="form-control" id="employeeName" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="employeeEmail">Email</label>
                                                     <textarea class="form-control" id="employeeEmail" rows="3" required></textarea>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary"
-                                                    style="margin-left: 140px;">Add
+                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
                                                     Employee</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
                                     </div>
@@ -78,108 +77,14 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">No</th>
+                                            <th style="text-align: center;" width="5%">No</th>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Email</th>
                                             <th style="text-align: center; width: 190px;">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($employees as $emp)
-                                        <tr>
-                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $emp->name }}</td>
-                                            <td>{{ $emp->email }}</td>
 
-                                            <th>
-                                                <div class="edit-employee-buttons">
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#editEmployeeModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#deleteEmployeeModal{{ $emp->id_employees }}">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-
-                                        <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editEmployeeModalLabel">Update
-                                                            Employee's Data!
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('employees.update', $emp->id_employees) }}" method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-
-                                                            <input type="hidden" name="id_employees" value="{{ $emp->id_employees }}">
-                                                            <div class="form-group">
-                                                                <label for="employeeName">Name</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="employeeName" name="EmployeeName" value="{{ $emp->name }}">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="employeeEmail">Email</label>
-                                                                <textarea class="form-control" id="employeeEmail" rows="2"></textarea>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-primary"
-                                                                style="margin-left: 140px;">Save Changes</button>
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal fade" id="deleteEmployeeModal{{ $emp->id_employees }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="deleteEmployeeModalLabel{{ $emp->id_employees }}"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteEmployeerModalLabel{{ $emp->id_employees }}">Delete
-                                                            Data
-                                                            Employee</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to delete this data?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="{{ route('employees.destroy', $emp->id_employees) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        <button type="button" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                        <button type="button" class="btn btn-success"
-                                                            data-dismiss="modal">Cancel</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>
@@ -214,6 +119,9 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -227,7 +135,49 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    {{-- <script src="js/demo/datatables-demo.js"></script> --}}
+
+
+    <!-- JavaScript DataTables -->
+    {{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script> --}}
+    {{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap4.min.js"></script> --}}
+
+
+
+    <script>
+        var datatable = $('#dataTable').DataTable({
+            processing: true
+            , serverSide: true
+            , ordering: true
+            , ajax: {
+                url: window.location.href
+            }
+            , columns: [{
+                    data: 'id_employees'
+                    , name: 'id_employees'
+                }
+
+
+                , {
+                    data: 'name'
+                    , name: 'name'
+                }
+                , {
+                    data: 'email'
+                    , name: 'email'
+                }
+
+                , {
+                    data: 'action'
+                    , name: 'action'
+                    , orderable: false
+                    , searcable: false
+                    , width: '15%'
+                }
+            , ]
+        })
+
+    </script>
 
 </body>
 
