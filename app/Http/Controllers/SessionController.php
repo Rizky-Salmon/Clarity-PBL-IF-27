@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SessionController extends Controller
 {
-     function index()
+    function index()
     {
         return view('auth/login');
     }
 
-     function login(Request $request)
+    function login(Request $request)
     {
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-        ],[
+        ], [
             'email.required' => 'Email is required.',
             'password.required' => 'Password is required.',
         ]);
@@ -30,15 +31,19 @@ class SessionController extends Controller
 
         // ddd($infologin); // Tambahkan var_dump di sini
 
-        if(Auth::attempt($infologin)) {
-            if(auth()->user()->role == 'admin') {
+        if (Auth::attempt($infologin)) {
+            if (auth()->user()->role == 'admin') {
+                Alert::success('Success', 'Welcome to Clarity !');
                 return redirect('admin');
-            } elseif(auth()->user()->role == 'employees') {
+            } elseif (auth()->user()->role == 'employees') {
                 return redirect('employees');
             }
         } else {
-            return redirect('')->withErrors('Email or Password is wrong.')->withInput();
+            return redirect()->back()->withErrors(['password' => 'Password did not match our records.'])->withInput();
         }
+
+        // return redirect('')->withErrors('Email or Password is wrong.')->withInput();
+
     }
 
     function logout()
