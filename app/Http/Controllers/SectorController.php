@@ -28,15 +28,25 @@ class SectorController extends Controller
 
                         <div class="edit-sector-buttons">
                             <a href="#" data-toggle="modal" data-target="#editSectorModal' . $item->id_sector . '">
-                                <button type="button" class="btn btn-success btn-sm">
+                                <button type="button" class="btn btn-success btn-sm my-1 mx-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                             </a>
                             <a href="#" data-toggle="modal" data-target="#deleteSectorModal' . $item->id_sector . '">
-                                <button type="button" class="btn btn-danger btn-sm">
+                                <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </a>
+
+
+                            <a href="' . route('ManageSubSector', $item->id_sector) . '">
+                            <button type="button" class="btn btn-secondary btn-sm my-1 mx-1">
+                                Manage SubSector
+                            </button>
+                        </a>
+
+
+                            
                         </div>
 
 
