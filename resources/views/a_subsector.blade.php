@@ -19,7 +19,7 @@
 
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
             <div style="display: flex; align-items: center;">
-                <img src="img/logoaneh.png" style="height: 60px; width: 60px; margin-right: 10px;">
+                <img src="/img/logoaneh.png" style="height: 60px; width: 60px; margin-right: 10px;">
                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Subsector </h3>
             </div>
             <!--Add subsector button-->
