@@ -44,7 +44,6 @@ Route::get('/register', function () {
 });
 
 
-
 //sidebar untuk admin
 
 
