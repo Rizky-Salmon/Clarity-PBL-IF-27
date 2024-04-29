@@ -37,7 +37,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon">
-                    <img src="/img/CLAIRVOYANT.png" alt="" style="max-width: 70px; height: auto; margin-top: 30px;">
+                    <img src="{{ asset('/img/CLAIRVOYANT.png') }}" alt="" style="max-width: 70px; height: auto; margin-top: 30px;">
                 </div>
                 <div class="sidebar-brand-text mx-3">CLARITY</div>
             </a>
@@ -47,7 +47,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
-                <a class="nav-link" href="admin">
+                <a class="nav-link" href="{{ asset('/admin') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -63,7 +63,7 @@
 
             <!-- Manage Employee -->
             <li class="nav-item {{ Request::segment(1) === 'employees' ? 'active' : '' }}">
-                <a class="nav-link" href="employees">
+                <a class="nav-link" href="{{ asset('/employees')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Manage Employee</span>
                 </a>
@@ -71,7 +71,7 @@
 
             <!-- Manage Sector -->
             <li class="nav-item {{ Request::segment(1) === 'sector' ? 'active' : '' }}">
-                <a class="nav-link" href="sector">
+                <a class="nav-link" href="{{ asset('/sector') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Manage Sector</span>
                 </a>
@@ -79,7 +79,7 @@
 
             <!-- Manage Sub Sector -->
             <li class="nav-item {{ Request::segment(1) === 'a_subsector' ? 'active' : '' }}">
-                <a class="nav-link" href="/a_subsector">
+                <a class="nav-link" href="{{ asset('/a_subsector') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Manage Sub Sector</span>
                 </a>
@@ -87,7 +87,7 @@
 
             <!-- Manage Activity -->
             <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
-                <a class="nav-link" href="activity">
+                <a class="nav-link" href="{{ asset('/activity') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Manage Activity</span>
                 </a>
@@ -108,16 +108,16 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/i_activity">Overall Activity</a>
-                        <a class="collapse-item" href="/i_percentage">Activity Percentage</a>
-                        <a class="collapse-item" href="/i_employee">Employee</a>
+                        <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
+                        <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
+                        <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
                     </div>
                 </div>
             </li>
 
             <!-- Manage Activity Percentage -->
             <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
-                <a class="nav-link" href="/a_percentage">
+                <a class="nav-link" href="{{ asset('/a_percentage') }}">
                     <i class="fas fa-fw fa-tasks"></i>
                     <span>Manage Activity Percentage</span>
                 </a>
