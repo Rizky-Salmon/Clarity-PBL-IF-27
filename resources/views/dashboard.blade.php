@@ -10,7 +10,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <div class="h3">
-            <i class="fa-solid fa-globe-europe fa-lg"></i>
+            <i class="fa-solid fa-tachometer-alt fa-lg"></i>
             Dashboard
         </div>
     </div>
@@ -26,7 +26,7 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Total Activity
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count['activity'] }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-clipboard-list fa-2x text-gray-300"></i>
@@ -45,7 +45,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Total Sector
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count['sector'] }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-map-marked-alt fa-2x text-gray-300"></i>
@@ -64,7 +64,7 @@
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Total Subsector
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count['sub_sector'] }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-sitemap fa-2x text-gray-300"></i>
@@ -83,7 +83,7 @@
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Total Employee
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">11</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count['employee'] }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fa-solid fa-user-group fa-2x text-gray-300"></i>
