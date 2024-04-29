@@ -7,6 +7,7 @@ use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\SubSectorController;
 use App\Models\Employees;
 
 Route::middleware('guest')->group(function () {
@@ -19,7 +20,7 @@ Route::get('employees', [AdminController::class, 'employees']);
 Route::get('/logout', [SessionController::class, 'logout']);
 
 // activity
-Route::get('activity', [ActivityController::class, 'index'] )->name('activity.index');
+Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
 Route::post('activity', [ActivityController::class, 'store'])->name('activity.store');
 Route::put('activity/{id_activity}', [ActivityController::class, 'update'])->name('activity.update');
 Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
@@ -47,11 +48,7 @@ Route::get('/register', function () {
 //sidebar untuk admin
 
 
-Route::get('/a_subsector', function () {
-    return view('a_subsector', [
-        'title' => 'Clarity'
-    ]);
-});
+Route::get('/a_subsector/{id_subsector?}', [SubSectorController::class, 'index'])->name('ManageSubSector');
 
 // Navbar untuk Interaktif visualisasi dan employee
 Route::get('/a_percentage', function () {
@@ -84,4 +81,3 @@ Route::get('/profile', function () {
         'title' => 'Clarity'
     ]);
 });
-

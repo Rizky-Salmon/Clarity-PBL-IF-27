@@ -140,7 +140,7 @@ class SectorController extends Controller
 
         Alert::success('Success', 'Sector added successfully!');
         return redirect()->route('sector.index')
-        ->with('success', 'Sector successfully added.');
+            ->with('success', 'Sector successfully added.');
     }
 
 
@@ -176,12 +176,13 @@ class SectorController extends Controller
             'sector_name' => $request->sectorName, // Memperbarui nama sector
         ]);
 
-        Alert::success('Success',
+        Alert::success(
+            'Success',
             'Sector updated successfully!'
         );
 
         return redirect()->route('sector.index')
-        ->with('success', 'Sector successfully updated.');
+            ->with('success', 'Sector successfully updated.');
     }
 
 
@@ -206,5 +207,4 @@ class SectorController extends Controller
                 ->with('error', 'Failed to delete sector.');
         }
     }
-
 }
