@@ -25,4 +25,9 @@ class Sector extends Model
      * @var array
      */
     protected $fillable = ['sector_name'];
+
+    public function subSectors()
+    {
+        return $this->hasMany(SubSector::class, 'id_sector', 'id_sector');
+    }
 }
