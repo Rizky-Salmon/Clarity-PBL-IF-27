@@ -44,7 +44,8 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+            @auth
+            @if(Auth::user()->role == 'admin')
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ asset('/admin') }}">
@@ -52,7 +53,20 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            @else
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ Request::is('employee') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/employee') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            @endif
+            @endauth
 
+
+            @auth
+            @if(Auth::user()->role == 'admin')
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -93,6 +107,9 @@
                 </a>
             </li>
 
+            @endif
+            @endauth
+
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading - Employee Menu -->
@@ -119,7 +136,7 @@
             <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ asset('/a_percentage') }}">
                     <i class="fas fa-fw fa-tasks"></i>
-                    <span>Manage Activity Percentage</span>
+                    <span>Activity Percentage</span>
                 </a>
             </li>
 
