@@ -29,7 +29,6 @@ class SectorController extends Controller
             })
                 ->addcolumn('action', function ($item) {
                     return '
-
                         <div class="edit-sector-buttons">
                             <a href="#" data-toggle="modal" data-target="#editSectorModal' . $item->id_sector . '">
                                 <button type="button" class="btn btn-success btn-sm my-1 mx-1">
@@ -129,7 +128,7 @@ class SectorController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'add_sectorName' => 'required',
+            'add_sectorName' => 'required|unique',
         ];
 
         $customMessage = [
