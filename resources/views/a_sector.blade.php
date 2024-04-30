@@ -101,6 +101,7 @@
                                         <tr>
                                             <th style="text-align: center;">No</th>
                                             <th style="text-align: center;">Sector</th>
+                                            <th style="text-align: center;">Subsector</th>
                                             <th style="text-align: center; width: 190px;">Action</th>
                                         </tr>
                                     </thead>
@@ -180,11 +181,15 @@
                     , name: 'id_sector'
                 }
 
-
                 , {
                     data: 'sector_name'
                     , name: 'sector_name'
+                },
+                {
+                    data: 'subsector'
+                    , name: 'subsector'
                 }
+
                 , {
                     data: 'action'
                     , name: 'action'

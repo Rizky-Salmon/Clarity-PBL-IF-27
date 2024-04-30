@@ -23,6 +23,10 @@ class SectorController extends Controller
 
 
             return DataTables::of($query)
+
+            ->addcolumn('subsector', function ($item) {
+                return $item->subSectors->count(). " Subsector" ?? 0 . " Subsector";
+            })
                 ->addcolumn('action', function ($item) {
                     return '
 
