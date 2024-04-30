@@ -1,25 +1,22 @@
 <?php
 
 use App\Models\Sector;
+use App\Models\Employees;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\SubSectorController;
-use App\Models\Employees;
 
 // Akses Tanpa Login
 Route::middleware('guest')->group(function () {
     Route::get('/', [SessionController::class, 'index'])->name('login');
     Route::post('/', [SessionController::class, 'login'])->middleware('throttle:5,1');
 
-    Route::get('/register', function () {
-        return view('auth/register', [
-            'title' => 'Register'
-        ]);
-    });
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
 });
 
 
