@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [SessionController::class, 'logout']);
 
-    Route::get('/employees', [AdminController::class, 'employees']);
+    Route::get('/employee', [AdminController::class, 'employees']);
 
     Route::get('/admin', [AdminController::class, 'index']);
 
