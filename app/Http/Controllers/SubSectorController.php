@@ -2,27 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sector;
 use App\Models\SubSector;
 use Illuminate\Http\Request;
 
 class SubSectorController extends Controller
 {
-    public function index( $id_sector = null ) {
+    public function index($id_sector = null)
+    {
 
-        if ( $id_sector ) {
-            $query = SubSector::where('id_sector', $id_sector);
-        } else {
-            $query = SubSector::all();
+        $sector = Sector::all();
+
+        $query = SubSector::query();
+
+        // Jika ID sektor diberikan, maka tambahkan kriteria where
+        if ($sector->find($id_sector)) {
+            $query->where('id_sector', $id_sector);
         }
 
-
-        if ( request()->ajax() ) {
-
-        }
+        // SubSector
+        $subsectors = $query->with('sectorData')->get();
 
         return view('a_subsector', [
-            'title' => 'Clarity'
+            'subsector' => $subsectors,
+            'sector' => $sector,
+            'selectedSector' => $id_sector,
         ]);
-
     }
 }
