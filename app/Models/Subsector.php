@@ -17,4 +17,8 @@ class SubSector extends Model
      * @var string
      */
     protected $primaryKey = 'id_sector';
+
+    public function sectorData() {
+        $this->belongsTo( Sector::class, 'id_sector', 'id_sector' );
+    }
 }
