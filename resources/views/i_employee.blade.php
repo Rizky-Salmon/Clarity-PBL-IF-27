@@ -376,6 +376,7 @@
                         <h3 class="first-h3">Employee Name</h3>
                         <div>
                             <select id="limit">
+                                <option value="All">All</option>
                                 <option value="BRINDLE">BRINDLE</option>
                                 <option value="PLACE">PLACE</option>
                                 <option value="PRUVOST">PRUVOST</option>
@@ -588,208 +589,232 @@
                                         style="text-anchor: middle; font-family: Roboto; font-weight: 100; font-size: 11px; fill: rgb(255, 255, 255); pointer-events: none;"></text>
                                 </g>
                             </g>
-                        </svg></div>
+                        </svg>
+                    </div>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
                     <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.19.0/d3-legend.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
-<script>
-    var json = {
-        'children': [{
-                name: "BRINDLE",
-                aktivitas: "Représentation institutionelle",
-                value: 7
-            },
-            {
-                name: "BRINDLE",
-                aktivitas: "Accompagnement renforcé EUNICE",
-                value: 2
-            },
-            {
-                name: "LE MEUR",
-                aktivitas: "Représentation institutionelle",
-                value: 10
-            },
-            {
-                name: "LE MEUR",
-                aktivitas: "Contrôle financier de projet",
-                value: 10
-            }
-        ]
-    };
 
-    const defaultLimit = 20;
-    // setup controls
-    const limitSelect = document.querySelector('#limit');
-    const shuffleSelect = document.querySelector('#shuffle');
-    const bgSelect = document.querySelector('#bg');
-    bgSelect.selectedIndex = 0;
 
-    // Daftar nama yang disediakan dalam JSON
-    const namesFromJSON = ["BRINDLE", "PLACE", "PRUVOST", "CAULIEZ", "LE MEUR", "DEGAUGUE", "MILLER", "GARCON",
-        "DUCAMP", "QUIROGA", "PREVEL", "LEGALLIC", "DRELON", "TAMPERE"
-    ];
+                    <script>
+                        var json = {
+                            'children': [{
+                                    name: "BRINDLE",
+                                    aktivitas: "Représentation institutionelle",
+                                    value: 7
+                                },
+                                {
+                                    name: "BRINDLE",
+                                    aktivitas: "Accompagnement renforcé EUNICE",
+                                    value: 2
+                                },
+                                {
+                                    name: "LE MEUR",
+                                    aktivitas: "Représentation institutionelle",
+                                    value: 10
+                                },
+                                {
+                                    name: "LE MEUR",
+                                    aktivitas: "Contrôle financier de projet",
+                                    value: 10
+                                }
+                            ]
+                        };
 
-    // Membuat sebuah Set untuk memastikan setiap nama hanya muncul sekali
-    const uniqueNamesSet = new Set(namesFromJSON);
+                        const defaultLimit = 20;
+                        // setup controls
+                        const limitSelect = document.querySelector('#limit');
+                        const shuffleSelect = document.querySelector('#shuffle');
+                        const bgSelect = document.querySelector('#bg');
+                        bgSelect.selectedIndex = 0;
 
-    // Mengonversi Set kembali menjadi array
-    const uniqueNamesArray = Array.from(uniqueNamesSet);
+                        // Daftar nama yang disediakan dalam JSON
+                        const namesFromJSON = ["BRINDLE", "PLACE", "PRUVOST", "CAULIEZ", "LE MEUR", "DEGAUGUE", "MILLER", "GARCON",
+                            "DUCAMP", "QUIROGA", "PREVEL", "LEGALLIC", "DRELON", "TAMPERE"
+                        ];
 
-    // Mengosongkan dropdown sebelum mengisi ulang
-    limitSelect.innerHTML = '';
+                        // Membuat sebuah Set untuk memastikan setiap nama hanya muncul sekali
+                        const uniqueNamesSet = new Set(namesFromJSON);
 
-    // Mengisi dropdown dengan nama-nama unik
-    uniqueNamesArray.forEach(name => {
-        limitSelect.options[limitSelect.options.length] = new Option(name);
-    });
+                        // Mengonversi Set kembali menjadi array
+                        const uniqueNamesArray = Array.from(uniqueNamesSet);
 
-    limitSelect.addEventListener('change', render);
-    shuffleSelect.addEventListener('change', render);
-    bgSelect.addEventListener('change', render);
+                        // Mengosongkan dropdown sebelum mengisi ulang
+                        limitSelect.innerHTML = '';
 
-    render();
+                        // Menambahkan opsi "All" pada dropdown
+                        limitSelect.options[limitSelect.options.length] = new Option("All");
 
-    function render() {
-        let idx = 0;
-        const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
-        let filteredData = json.children.filter(item => item.name === selectedName);
-        const limit = filteredData.length;
+                        // Mengisi dropdown dengan nama-nama unik
+                        uniqueNamesArray.forEach(name => {
+                            limitSelect.options[limitSelect.options.length] = new Option(name);
+                        });
 
-        const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-        const shuffleOption = shuffleSelect.selectedIndex; // Periksa nilai yang dipilih
-        document.querySelector('#chart').innerHTML = '';
+                        limitSelect.addEventListener('change', render);
+                        shuffleSelect.addEventListener('change', render);
+                        bgSelect.addEventListener('change', render);
 
-        // Terapkan pengurutan berdasarkan opsi yang dipilih
-        if (shuffleOption === 2) {
-            filteredData = _.shuffle(filteredData);
-        } else if (shuffleOption === 1) {
-            filteredData.sort((a, b) => a.value - b.value); // Urutkan dari kecil ke besar
-        } else {
-            filteredData.sort((a, b) => b.value - a.value); // Urutkan dari besar ke kecil
-        }
+                        render();
 
-        const values = filteredData.map(d => d.value);
-        const min = Math.min.apply(null, values);
-        const max = Math.max.apply(null, values);
-        const total = filteredData.length;
+                        function render() {
+                            let idx = 0;
+                            const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
+                            let filteredData = selectedName === "All" ? json.children : json.children.filter(item => item.name ===
+                                selectedName);
+                            const limit = filteredData.length;
 
-        document.body.style.backgroundColor = bgColor;
+                            const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
+                            const shuffleOption = shuffleSelect.selectedIndex; // Periksa nilai yang dipilih
+                            document.querySelector('#chart').innerHTML = '';
 
-        var diameter = 600,
-            color = d3.scaleOrdinal(d3.schemeCategory20c);
+                            // Terapkan pengurutan berdasarkan opsi yang dipilih
+                            if (shuffleOption === 2) {
+                                filteredData = _.shuffle(filteredData);
+                            } else if (shuffleOption === 1) {
+                                filteredData.sort((a, b) => a.value - b.value); // Urutkan dari kecil ke besar
+                            } else {
+                                filteredData.sort((a, b) => b.value - a.value); // Urutkan dari besar ke kecil
+                            }
 
-        var bubble = d3.pack()
-            .size([diameter, diameter])
-            .padding(0);
+                            const values = filteredData.map(d => d.value);
+                            const min = Math.min.apply(null, values);
+                            const max = Math.max.apply(null, values);
+                            const total = filteredData.length;
 
-        var tip = d3.tip()
-            .attr('class', 'd3-tip-outer')
-            .offset([-38, 0])
-            .html((d, i) => {
-                const item = filteredData[i];
-                const color = getColor(i, values.length);
-                return `<div class="d3-tip" style="background-color: ${color}">${item.aktivitas} (${item.value})</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
-            });
+                            document.body.style.backgroundColor = bgColor;
 
-        var margin = {
-            left: 25,
-            right: 25,
-            top: 25,
-            bottom: 25
-        };
+                            var diameter = 600,
+                                color = d3.scaleOrdinal(d3.schemeCategory20c);
 
-        var svg = d3.select('#chart').append('svg')
-            .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
-            .attr('width', diameter + margin.right)
-            .attr('height', diameter)
-            .attr('class', 'chart-svg');
+                            var bubble = d3.pack()
+                                .size([diameter, diameter])
+                                .padding(0);
 
-        var root = d3.hierarchy({
-                children: filteredData
-            })
-            .sum(function(d) {
-                return d.value;
-            });
+                            var tip = d3.tip()
+                                .attr('class', 'd3-tip-outer')
+                                .offset([-38, 0])
+                                .html((d, i) => {
+                                    const item = filteredData[i];
+                                    const color = getColor(i, values.length);
+                                    const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
+                                    // Menambahkan nama hanya saat opsi "All" dipilih
+                                    const nameText = selectedName === "All" ? `<strong>Name:</strong> ${item.name} <br>` : "";
+                                    return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                                ${nameText}
+                                <strong>Activity:</strong> ${item.aktivitas} <br>
+                                <strong>Percentage:</strong> ${item.value} %
+                                </div>
+                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                                });
 
-        bubble(root);
+                            var margin = {
+                                left: 25,
+                                right: 25,
+                                top: 25,
+                                bottom: 25
+                            };
 
-        var node = svg.selectAll('.node')
-            .data(root.children)
-            .enter()
-            .append('g').attr('class', 'node')
-            .attr('transform', function(d) {
-                return 'translate(' + d.x + ' ' + d.y + ')';
-            })
-            .append('g').attr('class', 'graph');
+                            var svg = d3.select('#chart').append('svg')
+                                .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
+                                .attr('width', diameter + margin.right)
+                                .attr('height', diameter)
+                                .attr('class', 'chart-svg');
 
-        node.append("circle")
-            .attr("r", function(d) {
-                return d.r;
-            })
-            .style("fill", getItemColor)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+                            var root = d3.hierarchy({
+                                    children: filteredData
+                                })
+                                .sum(function(d) {
+                                    return d.value;
+                                });
 
-        node.call(tip);
+                            bubble(root);
 
-        node.append("text")
-            .attr("dy", "0.2em")
-            .style("text-anchor", "middle")
-            .style('font-family', 'Roboto')
-            .style('font-size', getFontSizeForItem)
-            .text(getLabel)
-            .style("fill", "#ffffff")
-            .style('pointer-events', 'none');
+                            var node = svg.selectAll('.node')
+                                .data(root.children)
+                                .enter()
+                                .append('g').attr('class', 'node')
+                                .attr('transform', function(d) {
+                                    return 'translate(' + d.x + ' ' + d.y + ')';
+                                })
+                                .append('g').attr('class', 'graph');
 
-        node.append("text")
-            .attr("dy", "1.3em")
-            .style("text-anchor", "middle")
-            .style('font-family', 'Roboto')
-            .style('font-weight', '100')
-            .style('font-size', getFontSizeForItem)
-            .text(getValueText)
-            .style("fill", "#ffffff")
-            .style('pointer-events', 'none');
+                            node.append("circle")
+                                .attr("r", function(d) {
+                                    return d.r;
+                                })
+                                .style("fill", getItemColor)
+                                .on('mouseover', tip.show)
+                                .on('mouseout', tip.hide);
 
-        function getItemColor(item) {
-            return getColor(idx++, filteredData.length);
-        }
+                            node.call(tip);
 
-        function getColor(idx, total) {
-            const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
-                '1F539A'
-            ];
-            const colorIdx = idx % colorList.length;
-            return '#' + colorList[colorIdx];
-        }
+                            if (selectedName === "All") {
+                                node.append("text")
+                                    .attr("dy", "-1em")
+                                    .style("text-anchor", "middle")
+                                    .style('font-family', 'Roboto')
+                                    .style('font-weight', 'bold')
+                                    .style('font-size', getFontSizeForItem)
+                                    .text(getName)
+                                    .style("fill", "#adadad")
+                                    .style('pointer-events', 'none');
+                            }
 
-        function getFontSizeForItem(d) {
-            return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
-        }
+                            node.append("text")
+                                .attr("dy", "0.2em")
+                                .style("text-anchor", "middle")
+                                .style('font-family', 'Roboto')
+                                .style('font-size', getFontSizeForItem)
+                                .text(getLabel)
+                                .style("fill", "#ffffff")
+                                .style('pointer-events', 'none');
 
-        function getLabel(d) {
-            return d.data.aktivitas;
-        }
+                            node.append("text")
+                                .attr("dy", "1.3em")
+                                .style("text-anchor", "middle")
+                                .style('font-family', 'Roboto')
+                                .style('font-weight', 'bold')
+                                .style('font-size', getFontSizeForItem)
+                                .text(getValueText)
+                                .style("fill", "black")
+                                .style('pointer-events', 'none');
 
-        function getValueText(d) {
-            return d.data.value;
-        }
-    }
-</script>
-                    <div class="d3-tip-outer n"
-                        style="position: absolute; top: 46.5208px; opacity: 0; pointer-events: none; box-sizing: border-box; left: 842.321px;">
-                        <div class="d3-tip" style="background-color: #992271">Mobile (22)</div>
-                        <div class="d3-stem" style="border-color: #992271 transparent transparent transparent"></div>
-                    </div>
+                            function getItemColor(item) {
+                                return getColor(idx++, filteredData.length);
+                            }
 
-                    <div class="d3-tip-outer n"
-                        style="position: absolute; top: 437.074px; opacity: 0; pointer-events: none; box-sizing: border-box; left: 524.154px;">
-                        <div class="d3-tip" style="background-color: #3B2671">Marketing (38)</div>
-                        <div class="d3-stem" style="border-color: #3B2671 transparent transparent transparent"></div>
-                    </div>
+                            function getColor(idx, total) {
+                                const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
+                                    '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
+                                    '1F539A'
+                                ];
+                                const colorIdx = idx % colorList.length;
+                                return '#' + colorList[colorIdx];
+                            }
+
+                            function getFontSizeForItem(d) {
+                                return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
+                            }
+
+                            function getName(d) {
+                                return d.data.name;
+                            }
+
+                            function getLabel(d) {
+                                return d.data.aktivitas;
+                            }
+
+                            function getValueText(d) {
+                                return d.data.value;
+                            }
+                        }
+                    </script>
+
+
+
+
 
                 </div>
                 <!-- /.container-fluid -->
