@@ -369,34 +369,22 @@
                             INTERACTIVE VISUALIZATIONS
                         </div>
                     </div>
-                    <div class="h3 mx-1">Employee </div>
+                    <div class="h3 mx-1">Min Employee / Activities </div>
 
                     <fieldset>
                         <legend>Graph Options</legend>
-                        <h3 class="first-h3">Employee Name</h3>
+                        <h3 class="first-h3">Number of Bubbles to show</h3>
                         <div>
                             <select id="limit">
-                                <option value="BRINDLE">BRINDLE</option>
-                                <option value="PLACE">PLACE</option>
-                                <option value="PRUVOST">PRUVOST</option>
-                                <option value="CAULIEZ">CAULIEZ</option>
-                                <option value="LE MEUR">LE MEUR</option>
-                                <option value="DEGAUGUE">DEGAUGUE</option>
-                                <option value="MILLER">MILLER</option>
-                                <option value="GARCON">GARCON</option>
-                                <option value="DUCAMP">DUCAMP</option>
-                                <option value="QUIROGA">QUIROGA</option>
-                                <option value="PREVEL">PREVEL</option>
-                                <option value="LEGALLIC">LEGALLIC</option>
-                                <option value="DRELON">DRELON</option>
-                                <option value="TAMPERE">TAMPERE</option>
+                                <option>Brindle</option>
+                                <option>Accompagnement renforcé EUNICE</option>
+                                <!-- Tambahkan nama-nama lainnya di sini -->
                             </select>
                         </div>
                         <h3>Order</h3>
                         <select id="shuffle">
                             <option value="0">Largest to smallest</option>
-                            <option value="1">Smallest to largest</option>
-                            <option value="2">Random</option>
+                            <option value="1">Random</option>
                         </select>
                         <h3>Bg Color</h3>
                         <select id="bg">
@@ -594,191 +582,165 @@
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.19.0/d3-legend.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
-<script>
-    var json = {
-        'children': [{
-                name: "BRINDLE",
-                aktivitas: "Représentation institutionelle",
-                value: 7
-            },
-            {
-                name: "BRINDLE",
-                aktivitas: "Accompagnement renforcé EUNICE",
-                value: 2
-            },
-            {
-                name: "LE MEUR",
-                aktivitas: "Représentation institutionelle",
-                value: 10
-            },
-            {
-                name: "LE MEUR",
-                aktivitas: "Contrôle financier de projet",
-                value: 10
-            }
-        ]
-    };
-
-    const defaultLimit = 20;
-    // setup controls
-    const limitSelect = document.querySelector('#limit');
-    const shuffleSelect = document.querySelector('#shuffle');
-    const bgSelect = document.querySelector('#bg');
-    bgSelect.selectedIndex = 0;
-
-    // Daftar nama yang disediakan dalam JSON
-    const namesFromJSON = ["BRINDLE", "PLACE", "PRUVOST", "CAULIEZ", "LE MEUR", "DEGAUGUE", "MILLER", "GARCON",
-        "DUCAMP", "QUIROGA", "PREVEL", "LEGALLIC", "DRELON", "TAMPERE"
-    ];
-
-    // Membuat sebuah Set untuk memastikan setiap nama hanya muncul sekali
-    const uniqueNamesSet = new Set(namesFromJSON);
-
-    // Mengonversi Set kembali menjadi array
-    const uniqueNamesArray = Array.from(uniqueNamesSet);
-
-    // Mengosongkan dropdown sebelum mengisi ulang
-    limitSelect.innerHTML = '';
-
-    // Mengisi dropdown dengan nama-nama unik
-    uniqueNamesArray.forEach(name => {
-        limitSelect.options[limitSelect.options.length] = new Option(name);
-    });
-
-    limitSelect.addEventListener('change', render);
-    shuffleSelect.addEventListener('change', render);
-    bgSelect.addEventListener('change', render);
-
-    render();
-
-    function render() {
-        let idx = 0;
-        const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
-        let filteredData = json.children.filter(item => item.name === selectedName);
-        const limit = filteredData.length;
-
-        const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-        const shuffleOption = shuffleSelect.selectedIndex; // Periksa nilai yang dipilih
-        document.querySelector('#chart').innerHTML = '';
-
-        // Terapkan pengurutan berdasarkan opsi yang dipilih
-        if (shuffleOption === 2) {
-            filteredData = _.shuffle(filteredData);
-        } else if (shuffleOption === 1) {
-            filteredData.sort((a, b) => a.value - b.value); // Urutkan dari kecil ke besar
-        } else {
-            filteredData.sort((a, b) => b.value - a.value); // Urutkan dari besar ke kecil
-        }
-
-        const values = filteredData.map(d => d.value);
-        const min = Math.min.apply(null, values);
-        const max = Math.max.apply(null, values);
-        const total = filteredData.length;
-
-        document.body.style.backgroundColor = bgColor;
-
-        var diameter = 600,
-            color = d3.scaleOrdinal(d3.schemeCategory20c);
-
-        var bubble = d3.pack()
-            .size([diameter, diameter])
-            .padding(0);
-
-        var tip = d3.tip()
-            .attr('class', 'd3-tip-outer')
-            .offset([-38, 0])
-            .html((d, i) => {
-                const item = filteredData[i];
-                const color = getColor(i, values.length);
-                return `<div class="d3-tip" style="background-color: ${color}">${item.aktivitas} (${item.value})</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
-            });
-
-        var margin = {
-            left: 25,
-            right: 25,
-            top: 25,
-            bottom: 25
+                        <script>
+        var json = {
+            'children': [{
+                    name: "Brindle",
+                    value: 30
+                },
+                {
+                    name: "Accompagnement renforcé EUNICE",
+                    value: 10
+                }
+            ]
         };
+        const defaultLimit = 20;
 
-        var svg = d3.select('#chart').append('svg')
-            .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
-            .attr('width', diameter + margin.right)
-            .attr('height', diameter)
-            .attr('class', 'chart-svg');
+        // setup controls
+        const limitSelect = document.querySelector('#limit');
+        const shuffleSelect = document.querySelector('#shuffle');
+        json.children.forEach((item, i) => limitSelect.options[i] = new Option(item.name));
+        limitSelect.selectedIndex = defaultLimit - 1;
+        const bgSelect = document.querySelector('#bg');
+        bgSelect.selectedIndex = 0;
+        limitSelect.addEventListener('change', function () {
+            render();
+        });
 
-        var root = d3.hierarchy({
+        bgSelect.addEventListener('change', render);
+        shuffleSelect.addEventListener('change', render);
+
+        render();
+
+        function render() {
+            let idx = 0;
+            const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
+            const selectedItem = json.children.find(item => item.name === selectedName);
+            const limit = selectedItem ? selectedItem.value : defaultLimit;
+
+            const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
+            const doShuffle = shuffleSelect.selectedIndex === 1;
+            document.querySelector('#chart').innerHTML = '';
+
+            let filteredData = json.children;
+            if (selectedItem) {
+                filteredData = [selectedItem];
+            }
+
+            if (doShuffle) {
+                filteredData = _.shuffle(filteredData);
+            }
+            const values = filteredData.map(d => d.value);
+            const min = Math.min.apply(null, values);
+            const max = Math.max.apply(null, values);
+            const total = filteredData.length;
+
+            document.body.style.backgroundColor = bgColor;
+
+            var diameter = 600,
+                color = d3.scaleOrdinal(d3.schemeCategory20c);
+
+            var bubble = d3.pack()
+                .size([diameter, diameter])
+                .padding(0);
+
+            var tip = d3.tip()
+                .attr('class', 'd3-tip-outer')
+                .offset([-38, 0])
+                .html((d, i) => {
+                    const item = filteredData[i];
+                    const color = getColor(i, values.length);
+                    return `<div class="d3-tip" style="background-color: ${color}">${item.name} (${item.value})</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                });
+
+
+            var margin = {
+                left: 25,
+                right: 25,
+                top: 25,
+                bottom: 25
+            };
+
+
+            var svg = d3.select('#chart').append('svg')
+                .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
+                .attr('width', diameter + margin.right)
+                .attr('height', diameter)
+                .attr('class', 'chart-svg');
+
+            var root = d3.hierarchy({
                 children: filteredData
             })
-            .sum(function(d) {
-                return d.value;
-            });
+                .sum(function (d) {
+                    return d.value;
+                });
+            // .sort(function(a, b) { return b.value - a.value; });
 
-        bubble(root);
+            bubble(root);
 
-        var node = svg.selectAll('.node')
-            .data(root.children)
-            .enter()
-            .append('g').attr('class', 'node')
-            .attr('transform', function(d) {
-                return 'translate(' + d.x + ' ' + d.y + ')';
-            })
-            .append('g').attr('class', 'graph');
+            var node = svg.selectAll('.node')
+                .data(root.children)
+                .enter()
+                .append('g').attr('class', 'node')
+                .attr('transform', function (d) {
+                    return 'translate(' + d.x + ' ' + d.y + ')';
+                })
+                .append('g').attr('class', 'graph');
 
-        node.append("circle")
-            .attr("r", function(d) {
-                return d.r;
-            })
-            .style("fill", getItemColor)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+            node.append("circle")
+                .attr("r", function (d) {
+                    return d.r;
+                })
+                .style("fill", getItemColor)
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
 
-        node.call(tip);
+            node.call(tip);
 
-        node.append("text")
-            .attr("dy", "0.2em")
-            .style("text-anchor", "middle")
-            .style('font-family', 'Roboto')
-            .style('font-size', getFontSizeForItem)
-            .text(getLabel)
-            .style("fill", "#ffffff")
-            .style('pointer-events', 'none');
+            node.append("text")
+                .attr("dy", "0.2em")
+                .style("text-anchor", "middle")
+                .style('font-family', 'Roboto')
+                .style('font-size', getFontSizeForItem)
+                .text(getLabel)
+                .style("fill", "#ffffff")
+                .style('pointer-events', 'none');
 
-        node.append("text")
-            .attr("dy", "1.3em")
-            .style("text-anchor", "middle")
-            .style('font-family', 'Roboto')
-            .style('font-weight', '100')
-            .style('font-size', getFontSizeForItem)
-            .text(getValueText)
-            .style("fill", "#ffffff")
-            .style('pointer-events', 'none');
+            node.append("text")
+                .attr("dy", "1.3em")
+                .style("text-anchor", "middle")
+                .style('font-family', 'Roboto')
+                .style('font-weight', '100')
+                .style('font-size', getFontSizeForItem)
+                .text(getValueText)
+                .style("fill", "#ffffff")
+                .style('pointer-events', 'none');
 
-        function getItemColor(item) {
-            return getColor(idx++, filteredData.length);
+            function getItemColor(item) {
+                return getColor(idx++, filteredData.length);
+            }
+
+            function getColor(idx, total) {
+                const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
+                    '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A', '1F539A'
+                ];
+                const colorIdx = idx % colorList.length;
+                return '#' + colorList[colorIdx];
+            }
+
+            function getFontSizeForItem(d) {
+                return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
+            }
+
+            function getLabel(d) {
+                return d.data.name;
+            }
+
+            function getValueText(d) {
+                return d.data.value;
+            }
         }
-
-        function getColor(idx, total) {
-            const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
-                '1F539A'
-            ];
-            const colorIdx = idx % colorList.length;
-            return '#' + colorList[colorIdx];
-        }
-
-        function getFontSizeForItem(d) {
-            return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
-        }
-
-        function getLabel(d) {
-            return d.data.aktivitas;
-        }
-
-        function getValueText(d) {
-            return d.data.value;
-        }
-    }
-</script>
+    </script>
                     <div class="d3-tip-outer n"
                         style="position: absolute; top: 46.5208px; opacity: 0; pointer-events: none; box-sizing: border-box; left: 842.321px;">
                         <div class="d3-tip" style="background-color: #992271">Mobile (22)</div>

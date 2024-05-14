@@ -55,15 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
 });
 
-
-
-
-
-
-
-
-
-
 // Navbar untuk Interaktif visualisasi dan employee
 Route::get('/a_percentage', function () {
     return view('a_percentage', [
@@ -85,6 +76,30 @@ Route::get('/i_activity', function () {
 
 Route::get('/i_employee', function () {
     return view('i_employee', [
+        'title' => 'Clarity'
+    ]);
+});
+
+Route::get('/i_sector', function () {
+    return view('i_sector', [
+        'title' => 'Clarity'
+    ]);
+});
+
+Route::get('/i_subsector', function () {
+    return view('i_subsector', [
+        'title' => 'Clarity'
+    ]);
+});
+
+Route::get('/i_MaxEmployee', function () {
+    return view('i_MaxEmployee', [
+        'title' => 'Clarity'
+    ]);
+});
+
+Route::get('/i_MinEmployee', function () {
+    return view('i_MinEmployee', [
         'title' => 'Clarity'
     ]);
 });

@@ -366,7 +366,7 @@
                             INTERACTIVE VISUALIZATIONS
                         </div>
                     </div>
-                    <div class="h3 mx-1">Overall Activity</div>
+                    <div class="h3 mx-1">Max Employee / Activities</div>
 
     <fieldset>
         <legend>Graph Options</legend>
@@ -547,7 +547,7 @@
 
             var json = {
                 'children': [{
-                        name: "Représentation institutionelle",
+                        name: "Brindle",
                         value: 30
                     },
                     {

@@ -366,7 +366,7 @@
                             INTERACTIVE VISUALIZATIONS
                         </div>
                     </div>
-                    <div class="h3 mx-1">Overall Activity</div>
+                    <div class="h3 mx-1">Sector</div>
 
     <fieldset>
         <legend>Graph Options</legend>
@@ -547,87 +547,7 @@
 
             var json = {
                 'children': [{
-                        name: "Représentation institutionelle",
-                        value: 30
-                    },
-                    {
-                        name: "Accompagnement renforcé EUNICE",
-                        value: 10
-                    },
-                    {
-                        name: "Collecte des indicateurs",
-                        value: 30
-                    },
-                    {
-                        name: "Contrôle financier de projet",
-                        value: 40
-                    },
-                    {
-                        name: "Gestion réunion 'Statut Projet'",
-                        value: 10
-                    },
-                    {
-                        name: "Représentation UPHF Board of Director EUNICE",
-                        value: 10
-                    },
-                    {
-                        name: "Conseil au pilotage des Projets Erasmus+ de l’UPHF",
-                        value: 20
-                    },
-                    {
-                        name: "Suivi du respect de la Charte Erasmus+",
-                        value: 40
-                    },
-                    {
-                        name: "Etablissement et suivi des budgets",
-                        value: 40
-                    },
-                    {
-                        name: "Etablissement des rapports, bilans et statistiques",
-                        value: 30
-                    },
-                    {
-                        name: "Encadrement d'agents",
-                        value: 30
-                    },
-                    {
-                        name: "Amélioration permanente du branding RI de l’UPHF",
-                        value: 20
-                    },
-                    {
-                        name: "Liaison entre la Cellule mobilité et la Cellule Projets et Partenariats",
-                        value: 40
-                    },
-                    {
-                        name: "Réponses aux sollicitations des partenaires et acteurs internes sur les accords",
-                        value: 50
-                    },
-                    {
-                        name: "Gestion personnel, chronotime",
-                        value: 20
-                    },
-                    {
-                        name: "Prospection des universités dans les pays anglophones BRIDGE",
-                        value: 10
-                    },
-                    {
-                        name: "Participation à la coordination et à l'organisation de l'accueil des délégations étrangères à l'université en lien avec la présidence",
-                        value: 30
-                    },
-                    {
-                        name: "Contribution aux partages de connaissances intra-service et intra-universitaire",
-                        value: 50
-                    },
-                    {
-                        name: "Accompagnement des enseignants et particulièrement les chargés de mission par zone géographique dans le développement et le suivi de leurs activités internationales",
-                        value: 20
-                    },
-                    {
-                        name: "Evaluation des partenariats en cours (fiches de synthèse, tableaux de bord, statistiques) et proposer des pistes d’amélioration",
-                        value: 20
-                    },
-                    {
-                        name: "Veille stratégique sur les opportunités de financement et sur les appels à projets en fonction de besoins identifiés (exemples non limitants ; Erasmus+, ADESFA, AUF, Ambassades, etc.)",
+                        name: "Brindle",
                         value: 30
                     }
                 ].

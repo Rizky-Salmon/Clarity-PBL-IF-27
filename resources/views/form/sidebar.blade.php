@@ -79,6 +79,10 @@
                 <a class="collapse-item" href="/i_activity">Overall Activity</a>
                 <a class="collapse-item" href="/i_percentage">Activity Percentage</a>
                 <a class="collapse-item" href="/i_employee">Employee</a>
+                <a class="collapse-item" href="/i_sector">Sector</a>
+                <a class="collapse-item" href="/i_subsector">Sub Sector</a>
+                <a class="collapse-item" href="/i_MinEmployee">Min Employee / Activities</a>
+                <a class="collapse-item" href="/i_MaxEmployee">Max Employee / Activities</a>
             </div>
         </div>
     </li>

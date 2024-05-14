@@ -366,7 +366,7 @@
                             INTERACTIVE VISUALIZATIONS
                         </div>
                     </div>
-                    <div class="h3 mx-1">Percentage</div>
+                    <div class="h3 mx-1">Overall Activity</div>
 
     <fieldset>
         <legend>Graph Options</legend>
