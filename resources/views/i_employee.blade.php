@@ -407,7 +407,8 @@
                         </select>
                     </fieldset>
 
-                    <div id="chart" class="chart"><svg viewBox="0 0 625 600" width="625" height="600"
+                    <div id="chart" class="chart">
+                        <svg viewBox="0 0 625 600" width="625" height="600"
                             class="chart-svg">
                             <g class="node" transform="translate(267.9683820554086 316.1031465225012)">
                                 <g class="graph">

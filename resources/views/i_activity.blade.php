@@ -795,15 +795,6 @@
         }
         //# sourceURL=pen.js
     </script>
-    <div class="d3-tip-outer n" style="position: absolute; top: 46.5208px; opacity: 0; pointer-events: none; box-sizing: border-box; left: 842.321px;">
-        <div class="d3-tip" style="background-color: #992271">Mobile (22)</div>
-        <div class="d3-stem" style="border-color: #992271 transparent transparent transparent"></div>
-    </div>
-
-    <div class="d3-tip-outer n" style="position: absolute; top: 437.074px; opacity: 0; pointer-events: none; box-sizing: border-box; left: 524.154px;">
-        <div class="d3-tip" style="background-color: #3B2671">Marketing (38)</div>
-        <div class="d3-stem" style="border-color: #3B2671 transparent transparent transparent"></div>
-    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -843,14 +834,6 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-lingkaran-demo.js"></script>
-    <script src="js/demo/chart-percentage-demo.js"></script>
 
 </body>
 
