@@ -671,7 +671,7 @@
                                 .html((d, i) => {
                                     const item = filteredData[i];
                                     const color = getColor(i, values.length);
-                                    const nameText = selectedLimit === "All" ? `<strong>Percentage:</strong> ${item.value} <br>` : "";
+                                    const nameText = selectedLimit === "All" ? `<strong>Percentage: </strong> ${item.value} % <br>` : "";
                                     return `<div class="d3-tip" style="background-color: ${color}; color: white;">
                                     ${nameText}
                                     <strong>Activity:</strong> ${item.aktivitas} <br>

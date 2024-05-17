@@ -48,15 +48,24 @@
                             <form>
                                 <div class="form-group">
                                     <label for="addSectorName">Sector Name</label>
-                                    <input type="text" class="form-control" id="addSectorName" required>
+                                    <select name="addSectorName" class="form-control" id="addSectorName"
+                                    selectedOption="{{ old('addSectorName') }}">
+                                        <option value="">- Select Sector -</option>
+                                        @forelse($sector as $key => $value)
+                                        <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
+                                        @empty
+                                        <option value="">No Sector</option>
+
+                                        @endforelse
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsectorName">Subsector Name</label>
-                                    <input type="text" class="form-control" id="addSubsectorName" required>
+                                    <input type="text" class="form-control" id="addSubsectorName" placeholder="Enter Subsector Name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSectorDescription">Description</label>
-                                    <textarea class="form-control" id="addSectorDescription" rows="3" required></textarea>
+                                    <textarea class="form-control" id="addSectorDescription" rows="3" placeholder="Enter Description" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Subsector</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -41,7 +41,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="employeeName">Name</label>
-                                <input type="text" class="form-control @error('add_employeeName') is-invalid @enderror" id="add_employeeName" name="add_employeeName" value="{{ old('add_employeeName') }}" required>
+                                <input type="text" class="form-control @error('add_employeeName') is-invalid @enderror" id="add_employeeName" name="add_employeeName" placeholder="Enter Employee Name" value="{{ old('add_employeeName') }}"  required>
                                 @error('add_employeeName')
                                 <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="employeeEmail">Email</label>
-                                <textarea class="form-control @error('add_employeeEmail') is-invalid @enderror" id="add_employeeEmail" rows="3" required name="add_employeeEmail">{{ old('add_employeeEmail') }}</textarea>
+                                <input class="form-control @error('add_employeeEmail') is-invalid @enderror" id="add_employeeEmail" rows="3" placeholder="Enter Employee Email" name="add_employeeEmail" required>{{ old('add_employeeEmail') }} </input>
                                 @error('add_employeeEmail')
                                 <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
@@ -112,7 +112,6 @@
                 data: 'id_employees'
                 , name: 'id_employees'
             }
-
 
             , {
                 data: 'name'

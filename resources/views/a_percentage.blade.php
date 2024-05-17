@@ -37,7 +37,7 @@
                             </div>
                             <!--Add activity button-->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivityModal">
-                                <i class="fas fa-plus"></i> Add Activity
+                                <i class="fas fa-plus"></i> Add Activity Percentage
                             </button>
                             <div class="modal fade" id="addActivityModal" tabindex="-1" role="dialog" aria-labelledby="addActivityModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">

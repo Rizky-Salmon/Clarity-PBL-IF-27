@@ -38,7 +38,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="addSectorName">Sector Name</label>
-                                <input type="text" class="form-control @error('add_sectorName') is-invalid @enderror" id="add_sectorName" name="add_sectorName" value="{{ old('add_sectorName') }}" required>
+                                <input type="text" class="form-control @error('add_sectorName') is-invalid @enderror" id="add_sectorName" name="add_sectorName" placeholder="Enter Sector Name" value="{{ old('add_sectorName') }}" required>
                                 @error('add_sectorName')
                                 <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
