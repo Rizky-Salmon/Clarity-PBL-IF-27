@@ -45,7 +45,9 @@ Route::middleware('auth')->group(function () {
 
     // Manage Sub Sector
     Route::get('/a_subsector/{id_subsector?}', [SubSectorController::class, 'index'])->name('ManageSubSector');
-
+    Route::post('subsector', [SubSectorController::class, 'store'])->name('subsector.store');
+    Route::put('subsector/{id_subsector}', [SubSectorController::class, 'update'])->name('subsector.update');
+    Route::delete('subsector/{id_subsector}', [SubSectorController::class, 'destroy'])->name('subsector.destroy');
 
 
     // Manage Activity

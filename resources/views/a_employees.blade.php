@@ -45,8 +45,8 @@
                                 @error('add_employeeName')
                                 <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
-
                             </div>
+                            
                             <div class="form-group">
                                 <label for="employeeEmail">Email</label>
                                 <input class="form-control @error('add_employeeEmail') is-invalid @enderror" id="add_employeeEmail" rows="3" placeholder="Enter Employee Email" name="add_employeeEmail" required>{{ old('add_employeeEmail') }} </input>

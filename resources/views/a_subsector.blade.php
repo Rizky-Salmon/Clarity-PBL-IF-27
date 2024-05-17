@@ -45,7 +45,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form action="{{ route('subsector.store') }}" method="POST">
+                            @csrf
                                 <div class="form-group">
                                     <label for="addSectorName">Sector Name</label>
                                     <select name="addSectorName" class="form-control" id="addSectorName"
@@ -55,17 +56,22 @@
                                         <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
                                         @empty
                                         <option value="">No Sector</option>
-
                                         @endforelse
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsectorName">Subsector Name</label>
-                                    <input type="text" class="form-control" id="addSubsectorName" placeholder="Enter Subsector Name" required>
+                                    <input type="text" class="form-control @error('add_SubsectorName') is-invalid @enderror" id="add_SubsectorName" placeholder="Enter Subsector Name" value="{{ old('add_SubsectorName') }}" required>
+                                    @error('add_SubsectorName')
+                                    <small class="invalid-feedback">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="addSectorDescription">Description</label>
-                                    <textarea class="form-control" id="addSectorDescription" rows="3" placeholder="Enter Description" required></textarea>
+                                    <label for="addSubsectorDescription">Description</label>
+                                    <textarea class="form-control @error('add_SubsectorDescription') is-invalid @enderror" id="add_SubsectorDescription" rows="3" placeholder="Enter Description" value="{{ old('add_SubsectorDescription') }}" required></textarea>
+                                    @error('add_SubsectorDescription')
+                                    <small class="invalid-feedback">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Subsector</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -113,7 +119,6 @@
 
         <div class="card-body">
             <div class="table-responsive">
-
                 <p>Showing filter for : <small id="textOption"><i class="fas fa-spin fa-spinner"></i></small></p>
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -127,79 +132,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        @forelse ( $subsector as $key => $value )
-                        <tr>
-                            <td>{{ $key++ }}.</td>
-                            <td>{{ $value->sectorData->sector_name }}</td>
-                            <td>{{ $value->subsector_name }}</td>
-                            <td>{{ $value->subsector_name }}</td>
-                            <th>
-                                <div class="edit-subsector-buttons">
-                                    <a href="#" data-toggle="modal" data-target="#editSubsectorModal">
-                                        <button type="button" class="btn btn-success btn-sm">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                    </a>
-                                    <a href="#" data-toggle="modal" data-target="#deleteSubsectorModal">
-                                        <button type="button" class="btn btn-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </a>
-                                </div>
-                            </th>
-
-                            <div class="modal fade" id="editSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="editSubsectorModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editSubsectorModalLabel">Update Subsector!</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="subsectorName">Subsector</label>
-                                                    <input type="text" class="form-control" id="subsectorName">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="subsectorDescription">Description</label>
-                                                    <textarea class="form-control" id="subsectorDescription" rows="3"></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="deleteSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="deleteSubsectorModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteSubsectorModalLabel">Delete Subsector</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this subsector?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </tr>
-                        @empty
-
-                        @endforelse
-
                     </tbody>
                 </table>
             </div>
@@ -215,7 +147,43 @@
 @push('footer-script')
 <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/js/demo/datatables-demo.js"></script>
+
+
+<script>
+    var datatable = $('#dataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        ajax: {
+            url: window.location.href
+        },
+        columns: [
+            {
+                data: 'id_subsector',
+                name: 'id_subsector'
+            },
+            {
+                data: 'sector_name',
+                name: 'sector_name'
+            },
+            {
+                data: 'subsector_name',
+                name: 'subsector_name'
+            },
+            {
+                data: 'description',
+                name: 'description'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searcable: false,
+                width: '15%'
+            }
+        ]
+    });
+</script>
 
 
 <script>
@@ -235,6 +203,16 @@
         // Tampilkan teks di dalam elemen dengan ID 'textOption'
         $('#textOption').text(selectedText);
     });
+</script>
+
+@if (session('openModal'))
+<script>
+    let modal = "{{ session('openModal') }}";
+    // Tunggu 2-3 detik sebelum menampilkan modal
+    setTimeout(function() {
+        $('#' + modal).modal('show');
+    }, 2000); // Jeda 2 detik
 
 </script>
+@endif
 @endpush

@@ -15,9 +15,9 @@ class CreateSubsectorTable extends Migration
         Schema::create('subsector', function (Blueprint $table) {
             $table->bigIncrements('id_subsector');
             $table->string('subsector_name', 255);
+            $table->text('description'); // Mengubah tipe kolom description menjadi text
             $table->unsignedBigInteger('id_sector');
             $table->foreign('id_sector')->references('id_sector')->on('sector');
-            
             $table->timestamps();
         });
     }

@@ -45,8 +45,6 @@ class ActivityController extends Controller
     {
         return view('a_activity.edit', compact('activity'));
     }
-
-    // Menyimpan perubahan pada kegiatan
     // Menyimpan perubahan pada kegiatan
     public function update(Request $request, $id_activity)
     {

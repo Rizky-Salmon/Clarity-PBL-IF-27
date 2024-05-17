@@ -24,9 +24,9 @@ class SectorController extends Controller
 
             return DataTables::of($query)
 
-            ->addcolumn('subsector', function ($item) {
-                return $item->subSectors->count(). " Subsector" ?? 0 . " Subsector";
-            })
+                ->addcolumn('subsector', function ($item) {
+                    return $item->subSectors->count() . " Subsector" ?? 0 . " Subsector";
+                })
                 ->addcolumn('action', function ($item) {
                     return '
                         <div class="edit-sector-buttons">
@@ -47,11 +47,7 @@ class SectorController extends Controller
                                 Manage SubSector
                             </button>
                         </a>
-
-
-                            
                         </div>
-
 
                         <div class="modal fade" id="editSectorModal' . $item->id_sector . '" tabindex="-1" role="dialog" aria-labelledby="editSectorModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -170,7 +166,6 @@ class SectorController extends Controller
     }
 
     // Menyimpan perubahan pada sector
-    // Menyimpan perubahan pada sector
     public function update(Request $request, $id_sector)
     {
         $rules = [
@@ -180,8 +175,6 @@ class SectorController extends Controller
         $customMessage = [
             'sector_name.required' => 'Sector name is required',
         ];
-
-
 
         $sector = Sector::where('id_sector', $id_sector); // Mengambil sector berdasarkan id_sector
 
@@ -197,10 +190,6 @@ class SectorController extends Controller
         return redirect()->route('sector.index')
             ->with('success', 'Sector successfully updated.');
     }
-
-
-
-
 
     // Menghapus sector
     public function destroy($id_sector)

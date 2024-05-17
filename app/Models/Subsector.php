@@ -16,9 +16,21 @@ class SubSector extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'id_sector';
+    protected $primaryKey = 'id_subsector';
 
-    public function sectorData() {
-        $this->belongsTo( Sector::class, 'id_sector', 'id_sector' );
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'subsector_name',
+        'description',
+        'id_sector',
+    ];
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'id_sector');
     }
 }
