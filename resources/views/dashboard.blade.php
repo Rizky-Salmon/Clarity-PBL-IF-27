@@ -48,7 +48,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count['sector'] }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-solid fa-map-marked-alt fa-2x text-gray-300"></i>
+                            <i class="icon fas fa-globe fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>

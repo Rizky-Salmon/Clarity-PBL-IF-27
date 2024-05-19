@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubSector extends Model
+class ActivityPercentage extends Model
 {
     use HasFactory;
 
-    protected $table = "subsector";
+    protected $table = "activity_percentage";
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'id_subsector';
+    protected $primaryKey = 'id_activity_percentage';
 
     /**
      * The attributes that are mass assignable.
@@ -24,13 +24,9 @@ class SubSector extends Model
      * @var array
      */
     protected $fillable = [
-        'id_sector',
-        'subsector_name',
-        'description'
+        'id_activity',
+        'id_employees',
+        'id_subsector',
+        'percentage'
     ];
-
-    public function sector()
-    {
-        return $this->belongsTo(Sector::class, 'id_sector');
-    }
 }

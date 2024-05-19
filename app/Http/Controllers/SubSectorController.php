@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Models\Sector;
 use App\Models\SubSector;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class SubSectorController extends Controller
@@ -125,8 +126,10 @@ class SubSectorController extends Controller
 
     public function store(Request $request)
     {
+
+
         $rules = [
-            'add_sectorName' => 'required|exists:sectors,id_sector',
+            'add_sectorName' => 'required|exists:sector,id_sector',
             'add_subsectorName' => 'required',
             'add_description' => 'required',
         ];
@@ -143,7 +146,7 @@ class SubSectorController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
-                ->with(['openModal' => 'addSectorModal'])
+                ->with(['openModal' => 'addSubsectorModal'])
                 ->withInput($request->all());
         }
 
@@ -156,7 +159,7 @@ class SubSectorController extends Controller
         SubSector::create($insert_data);
 
         Alert::success('Success', 'Subsector added successfully!');
-        return redirect()->route('subsector.index')->with('success', 'Subsector successfully added.');
+        return redirect()->route('ManageSubSector')->with('success', 'Subsector successfully added.');
     }
 
 

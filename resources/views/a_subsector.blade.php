@@ -4,17 +4,13 @@
 
 
 @push('head-script')
-<!-- Custom styles for this page -->
-<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <!-- Custom styles for this page -->
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
-
-    <!-- DataTales Example -->
+    <!-- DataTales Subsector -->
     <div class="card shadow mb-4">
 
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
@@ -24,7 +20,8 @@
             </div>
 
             <div class="float-right">
-                <button type="button" class="btn btn-primary" id="buttonSelectedFilter" data-toggle="modal" data-target="#filterSector">
+                <button type="button" class="btn btn-primary" id="buttonSelectedFilter" data-toggle="modal"
+                    data-target="#filterSector">
                     <i class="fas fa-filter"></i> Filter Sector
                 </button>
                 <!--Add subsector button-->
@@ -35,7 +32,8 @@
             </div>
 
 
-            <div class="modal fade" id="addSubsectorModal" tabindex="-1" role="dialog" aria-labelledby="addSubsectorModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addSubsectorModal" tabindex="-1" role="dialog"
+                aria-labelledby="addSubsectorModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -46,42 +44,49 @@
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('subsector.store') }}" method="POST">
-                            @csrf
+                                @csrf
                                 <div class="form-group">
                                     <label for="addSectorName">Sector Name</label>
-                                    <select name="addSectorName" class="form-control" id="addSectorName"
-                                    selectedOption="{{ old('addSectorName') }}">
-                                        <option value="">- Select Sector -</option>
+                                    <select name="add_sectorName" class="form-control" id="addSectorName"
+                                        selectedOption="{{ old('add_sectorName') }}">
+                                        <option value="">- Choose Sector -</option>
                                         @forelse($sector as $key => $value)
-                                        <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
+                                            <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
                                         @empty
-                                        <option value="">No Sector</option>
+                                            <option value="">- No Sector -</option>
                                         @endforelse
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsectorName">Subsector Name</label>
-                                    <input type="text" class="form-control @error('add_SubsectorName') is-invalid @enderror" id="add_SubsectorName" placeholder="Enter Subsector Name" value="{{ old('add_SubsectorName') }}" required>
-                                    @error('add_SubsectorName')
-                                    <small class="invalid-feedback">{{ $message }}</small>
+                                    <input type="text" name="add_subsectorName"
+                                        class="form-control @error('add_subsectorName') is-invalid @enderror"
+                                        id="addSubsectorName" placeholder="Masukkan Nama Subsektor"
+                                        value="{{ old('add_subsectorName') }}" required>
+                                    @error('add_subsectorName')
+                                        <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsectorDescription">Description</label>
-                                    <textarea class="form-control @error('add_SubsectorDescription') is-invalid @enderror" id="add_SubsectorDescription" rows="3" placeholder="Enter Description" value="{{ old('add_SubsectorDescription') }}" required></textarea>
-                                    @error('add_SubsectorDescription')
-                                    <small class="invalid-feedback">{{ $message }}</small>
+                                    <textarea name="add_description" class="form-control @error('add_description') is-invalid @enderror"
+                                        id="addSubsectorDescription" rows="3" placeholder="Masukkan Deskripsi" required>{{ old('add_description') }}</textarea>
+                                    @error('add_description')
+                                        <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Subsector</button>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
+                                    Subsektor</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="filterSector" tabindex="-1" role="dialog" aria-labelledby="addSubsectorModalLabel" aria-hidden="true">
+            <div class="modal fade" id="filterSector" tabindex="-1" role="dialog" aria-labelledby="addSubsectorModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -95,15 +100,15 @@
                                 <div class="form-group">
                                     <label for="addSectorName">Sector</label>
 
-                                    <select name="id_sector" class="form-control" id="id_sector" selectedOption="{{ $selectedSector ? $selectedSector : 'All' }}">
+                                    <select name="id_sector" class="form-control" id="id_sector"
+                                        selectedOption="{{ $selectedSector ? $selectedSector : 'All' }}">
                                         <option value="">- Select Sector -</option>
                                         <option value="All">All Sector</option>
 
                                         @forelse($sector as $key => $value)
-                                        <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
+                                            <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
                                         @empty
-                                        <option value="">No Sector</option>
-
+                                            <option value="">No Sector</option>
                                         @endforelse
                                     </select>
                                 </div>
@@ -139,14 +144,12 @@
         </div>
     </div>
 
-</div>
-<!-- /.container-fluid -->
 @endsection
 
 
 @push('footer-script')
-<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 
 <script>
@@ -157,10 +160,13 @@
         ajax: {
             url: window.location.href
         },
-        columns: [
-            {
-                data: 'id_subsector',
-                name: 'id_subsector'
+        columns: [{
+                data: null,
+                name: 'id_subsector', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                render: function(data, type, row, meta) {
+                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel
+                    return meta.row + 1;
+                }
             },
             {
                 data: 'sector_name',
@@ -178,7 +184,7 @@
                 data: 'action',
                 name: 'action',
                 orderable: false,
-                searcable: false,
+                searchable: false,
                 width: '15%'
             }
         ]
@@ -186,33 +192,33 @@
 </script>
 
 
-<script>
-    $(document).ready(function() {
-        var selectedValue = $('#id_sector').attr('selectedOption');
-        // var buttonFilter = $('#buttonSelectedFilter');
 
-        // Mengecek jika nilai adalah kosong atau 'All', dan mengatur nilainya di select
-        if (selectedValue === '' || selectedValue === 'All') {
-            $('#id_sector').val('All');
-        } else {
-            $('#id_sector').val(selectedValue);
-        }
+    <script>
+        $(document).ready(function() {
+            var selectedValue = $('#id_sector').attr('selectedOption');
+            // var buttonFilter = $('#buttonSelectedFilter');
 
-        var selectedText = $('#id_sector option:selected').text();
+            // Mengecek jika nilai adalah kosong atau 'All', dan mengatur nilainya di select
+            if (selectedValue === '' || selectedValue === 'All') {
+                $('#id_sector').val('All');
+            } else {
+                $('#id_sector').val(selectedValue);
+            }
 
-        // Tampilkan teks di dalam elemen dengan ID 'textOption'
-        $('#textOption').text(selectedText);
-    });
-</script>
+            var selectedText = $('#id_sector option:selected').text();
 
-@if (session('openModal'))
-<script>
-    let modal = "{{ session('openModal') }}";
-    // Tunggu 2-3 detik sebelum menampilkan modal
-    setTimeout(function() {
-        $('#' + modal).modal('show');
-    }, 2000); // Jeda 2 detik
+            // Tampilkan teks di dalam elemen dengan ID 'textOption'
+            $('#textOption').text(selectedText);
+        });
+    </script>
 
-</script>
-@endif
+    @if (session('openModal'))
+        <script>
+            let modal = "{{ session('openModal') }}";
+            // Tunggu 2-3 detik sebelum menampilkan modal
+            setTimeout(function() {
+                $('#' + modal).modal('show');
+            }, 2000); // Jeda 2 detik
+        </script>
+    @endif
 @endpush

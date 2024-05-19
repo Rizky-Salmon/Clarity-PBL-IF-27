@@ -90,7 +90,7 @@
                     <!-- Manage Sector -->
                     <li class="nav-item {{ Request::segment(1) === 'sector' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ asset('/sector') }}">
-                            <i class="fas fa-fw fa-table"></i>
+                            <i class="icon fas fa-globe"></i>
                             <span>Manage Sector</span>
                         </a>
                     </li>
@@ -98,7 +98,7 @@
                     <!-- Manage Sub Sector -->
                     <li class="nav-item {{ Request::segment(1) === 'a_subsector' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ asset('/a_subsector') }}">
-                            <i class="fas fa-fw fa-table"></i>
+                            <i class="fa-solid fa-sitemap"></i>
                             <span>Manage Sub Sector</span>
                         </a>
                     </li>
@@ -106,7 +106,7 @@
                     <!-- Manage Activity -->
                     <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ asset('/activity') }}">
-                            <i class="fas fa-fw fa-table"></i>
+                            <i class="fa-solid fa-clipboard-list"></i>
                             <span>Manage Activity</span>
                         </a>
                     </li>
@@ -129,15 +129,15 @@
                     <span>Data visualization</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-<div class="bg-white py-2 collapse-inner rounded">
-    <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
-    <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
-    <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
-    <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
-    <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
-    <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
-    <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a>
-</div>
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
+                        <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
+                        <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
+                        <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
+                        <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
+                        <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
+                        <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a>
+                    </div>
 
                 </div>
             </li>
@@ -167,7 +167,7 @@
             <!-- Main Content -->
             <div id="content">
 
-                <!-- Topbar -->
+                <!-- Navbar -->
                 <nav class="navbar navbar-expand navbar-dark topbar mb-4 static-top shadow"
                     style="background-color: #B7C9F2;">
 

@@ -1,34 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
-@include('form.head')
-</head>
+@section('title', 'Manage Sector')
 
-<body id="page-top">
+@push('head-script')
+<!-- Custom styles for this page -->
+<link href="\vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<!-- CSS DataTables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.8/css/jquery.dataTables.css">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+@endpush
 
-        <!-- Sidebar -->
-        @include('form.sidebar')
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                @include('form.navbar')
-
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- DataTales Example -->
+@section('content')
+                    <!-- DataTales Activity Percentage -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex align-items-center justify-content-between">
                             <div style="display: flex; align-items: center;">
@@ -99,66 +82,6 @@
                                             </th>
                                         </tr>
 
-                                        <tr>
-                                            <th style="text-align: center;">2.</th>
-                                            <th style="text-align: center;">Recording meeting results</th>
-                                            <th style="text-align: center;">40%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">3.</th>
-                                            <th style="text-align: center;">Vacation</th>
-                                            <th style="text-align: center;">5%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th style="text-align: center;">4.</th>
-                                            <th style="text-align: center;">Visiting England</th>
-                                            <th style="text-align: center;">50%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
-
                                         <div class="modal fade" id="editActivityModal" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -210,70 +133,55 @@
                             </div>
                         </div>
                     </div>
+@endsection
 
-                </div>
-                <!-- /.container-fluid -->
+@push('footer-script')
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-            </div>
-            <!-- End of Main Content -->
+<script>
+    var datatable = $('#dataTable').DataTable({
+        processing: true
+        , serverSide: true
+        , ordering: true
+        , ajax: {
+            url: window.location.href
+        }
+        , columns: [{
+                data: 'id_sector'
+                , name: 'id_sector'
+            }
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            , {
+                data: 'sector_name'
+                , name: 'sector_name'
+            }
+            , {
+                data: 'subsector'
+                , name: 'subsector'
+            }
 
-        </div>
-        <!-- End of Content Wrapper -->
+            , {
+                data: 'action'
+                , name: 'action'
+                , orderable: false
+                , searcable: false
+                , width: '15%'
+            }
+        , ]
+    })
 
-    </div>
-    <!-- End of Page Wrapper -->
+</script>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+@if (session('openModal'))
+<script>
+    let modal = "{{ session('openModal') }}";
+    // Tunggu 2-3 detik sebelum menampilkan modal
+    setTimeout(function() {
+        $('#' + modal).modal('show');
+    }, 2000); // Jeda 2 detik
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+</script>
+@endif
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-
-</body>
-
-</html>
+@endpush

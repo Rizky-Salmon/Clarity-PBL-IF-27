@@ -16,7 +16,7 @@
 
 @section('content')
 
-
+<!-- DataTales Employee -->
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex align-items-center justify-content-between">
         <div style="display: flex; align-items: center;">
@@ -46,7 +46,7 @@
                                 <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="employeeEmail">Email</label>
                                 <input class="form-control @error('add_employeeEmail') is-invalid @enderror" id="add_employeeEmail" rows="3" placeholder="Enter Employee Email" name="add_employeeEmail" required>{{ old('add_employeeEmail') }} </input>
@@ -109,11 +109,14 @@
             url: window.location.href
         }
         , columns: [{
-                data: 'id_employees'
-                , name: 'id_employees'
-            }
-
-            , {
+                data: null,
+                name: 'id_employees', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                render: function(data, type, row, meta) {
+                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel
+                    return meta.row + 1;
+                }
+            },
+            {
                 data: 'name'
                 , name: 'name'
             }
