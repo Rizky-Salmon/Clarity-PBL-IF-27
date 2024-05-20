@@ -62,25 +62,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th style="text-align: center;">1.</th>
-                                            <th style="text-align: center;">Make an agenda</th>
-                                            <th style="text-align: center;">100%</th>
-                                            <th>
-                                                <div class="edit-activity-buttons">
-                                                    <a href="#" data-toggle="modal" data-target="#editActivityModal">
-                                                        <button type="button" class="btn btn-success btn-sm">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal">
-                                                        <button type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </th>
-                                        </tr>
 
                                         <div class="modal fade" id="editActivityModal" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">

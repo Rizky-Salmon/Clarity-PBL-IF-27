@@ -10,6 +10,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\SubSectorController;
+use App\Http\Controllers\ActivityPercentageController;
 
 // Akses Tanpa Login
 Route::middleware('guest')->group(function () {
@@ -55,7 +56,18 @@ Route::middleware('auth')->group(function () {
     Route::post('activity', [ActivityController::class, 'store'])->name('activity.store');
     Route::put('activity/{id_activity}', [ActivityController::class, 'update'])->name('activity.update');
     Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
+
+    Route::get('activity_percentage', [ActivityPercentageController::class, 'index'])->name('activity_percentage.index');
+    Route::post('activity_percentage', [ActivityPercentageController::class, 'store'])->name('activity_percentage.store');
+    Route::get('/activity_percentage/{activityPercentage}', [ActivityPercentageController::class, 'show'])->name('activity_percentage.show');
+    Route::get('/activity_percentage/{activityPercentage}/edit', [ActivityPercentageController::class, 'edit'])->name('activity_percentage.edit');
+    Route::put('/activity_percentage/{id}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
+    Route::delete('/activity_percentage/{id}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
+
 });
+
+    // Manage Activity Percentage
+
 
 // Navbar untuk Interaktif visualisasi dan employee
 Route::get('/a_percentage', function () {

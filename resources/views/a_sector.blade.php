@@ -17,7 +17,7 @@
 
     <div class="card-header py-3 d-flex align-items-center justify-content-between">
         <div style="display: flex; align-items: center;">
-            
+
             <img src="/img/logoaneh.png" style="height: 60px; width: 60px; margin-right: 10px;">
             <h3 style="margin-top: 10px; font-weight: bold; color: black;">Sector</h3>
         </div>
@@ -89,11 +89,14 @@
             url: window.location.href
         }
         , columns: [{
-                data: 'id_sector'
-                , name: 'id_sector'
-            }
-
-            , {
+                data: null,
+                name: 'id_sector', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                render: function(data, type, row, meta) {
+                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel
+                    return meta.row + 1;
+                }
+            },
+            {
                 data: 'sector_name'
                 , name: 'sector_name'
             }

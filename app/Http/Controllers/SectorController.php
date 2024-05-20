@@ -124,7 +124,7 @@ class SectorController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'add_sectorName' => 'required|unique',
+            'add_sectorName' => 'required|unique:sector,sector_name',
         ];
 
         $customMessage = [
