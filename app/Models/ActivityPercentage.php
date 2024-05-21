@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ActivityPercentage extends Model
 {
@@ -26,7 +27,11 @@ class ActivityPercentage extends Model
     protected $fillable = [
         'id_activity',
         'id_employees',
-        'id_subsector',
         'percentage'
     ];
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class, 'id_activity');
+    }
 }

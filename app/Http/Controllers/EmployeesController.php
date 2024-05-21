@@ -23,6 +23,10 @@ class EmployeesController extends Controller
 
 
             return DataTables::of($query)
+
+                ->addcolumn('activity', function ($item) {
+                    return $item->activity->count() . " Activity" ?? 0 . " Activity";
+                })
                 ->addcolumn('action', function ($item) {
                     return '
 
@@ -36,7 +40,13 @@ class EmployeesController extends Controller
                                 <button type="button" class="btn btn-danger btn-sm">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                            </a> 
+                            </a>
+
+                            <a href="' . route('ManagePercentage', $item->id_employees) . '">
+                            <button type="button" class="btn btn-secondary btn-sm my-1 mx-1">
+                                Manage Activity
+                            </button>
+                            </a>
                         </div>
 
 

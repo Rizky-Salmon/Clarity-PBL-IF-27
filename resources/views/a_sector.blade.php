@@ -92,8 +92,9 @@
                 data: null,
                 name: 'id_sector', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
                 render: function(data, type, row, meta) {
-                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel
-                    return meta.row + 1;
+                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel,
+                    // termasuk nomor halaman dan jumlah entri per halaman
+                    return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
             {

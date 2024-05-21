@@ -52,29 +52,24 @@ Route::middleware('auth')->group(function () {
 
 
     // Manage Activity
-    Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+    Route::get('activity', [ActivityController::class, 'index'])->name('ManageActivity');
     Route::post('activity', [ActivityController::class, 'store'])->name('activity.store');
     Route::put('activity/{id_activity}', [ActivityController::class, 'update'])->name('activity.update');
     Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
 
-    Route::get('activity_percentage', [ActivityPercentageController::class, 'index'])->name('activity_percentage.index');
+    // Manage Activity Percentage
+    Route::get('/a_percentage/{id_activity_percentage?}', [ActivityPercentageController::class, 'index'])->name('ManagePercentage');
     Route::post('activity_percentage', [ActivityPercentageController::class, 'store'])->name('activity_percentage.store');
-    Route::get('/activity_percentage/{activityPercentage}', [ActivityPercentageController::class, 'show'])->name('activity_percentage.show');
-    Route::get('/activity_percentage/{activityPercentage}/edit', [ActivityPercentageController::class, 'edit'])->name('activity_percentage.edit');
-    Route::put('/activity_percentage/{id}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
-    Route::delete('/activity_percentage/{id}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
+    Route::put('activity_percentage/{id_activity_percentage}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
+    Route::delete('activity_percentage/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
 
 });
 
-    // Manage Activity Percentage
+
 
 
 // Navbar untuk Interaktif visualisasi dan employee
-Route::get('/a_percentage', function () {
-    return view('a_percentage', [
-        'title' => 'Clarity'
-    ]);
-});
+
 
 Route::get('/i_percentage', function () {
     return view('i_percentage', [

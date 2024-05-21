@@ -126,8 +126,6 @@ class SubSectorController extends Controller
 
     public function store(Request $request)
     {
-
-
         $rules = [
             'add_sectorName' => 'required|exists:sector,id_sector',
             'add_subsectorName' => 'required',

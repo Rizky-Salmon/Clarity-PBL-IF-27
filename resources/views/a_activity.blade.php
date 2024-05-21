@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Employee')
+@section('title', 'Manage Activity')
 
 @push('head-script')
     <!-- Custom styles for this page -->

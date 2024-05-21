@@ -72,6 +72,7 @@
                         <th style="text-align: center;" width="5%">No</th>
                         <th style="text-align: center;">Name</th>
                         <th style="text-align: center;">Email</th>
+                        <th style="text-align: center;">Activity</th>
                         <th style="text-align: center; width: 190px;">Action</th>
                     </tr>
                 </thead>
@@ -123,6 +124,10 @@
             , {
                 data: 'email'
                 , name: 'email'
+            }
+            , {
+                data: 'activity'
+                , name: 'activity'
             }
 
             , {

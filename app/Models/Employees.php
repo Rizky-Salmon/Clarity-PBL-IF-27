@@ -47,7 +47,7 @@ class Employees extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
 
     /**
      * The attributes that should be cast.
@@ -57,4 +57,9 @@ class Employees extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function activity()
+    {
+        return $this->hasMany(ActivityPercentage::class, 'id_employees', 'id_employees');
+    }
 }
