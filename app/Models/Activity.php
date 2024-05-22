@@ -16,7 +16,7 @@ class Activity extends Model
      *
      * @var string
      */
-    
+
     protected $primaryKey = 'id_activity';
 
     /**
@@ -25,5 +25,11 @@ class Activity extends Model
      * @var array
      */
     protected $fillable = ['activity_name'];
+
+    public function subsectors()
+    {
+        return $this->belongsToMany(SubSector::class, 'activity_subsector', 'id_activity', 'id_subsector');
+    }
+
 }
 
