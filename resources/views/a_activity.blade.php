@@ -140,16 +140,16 @@
                     name: 'activity_name'
                 },
                 {
-                    data: 'subsector_name',
+                    data: 'subsector_name.0',
                     name: 'subsector_name'
                 },
                 {
-                    data: 'subsector_name2',
-                    name: 'subsector_name2'
+                    data: 'subsector_name.1',
+                    name: 'subsector_name'
                 },
                 {
-                    data: 'subsector_name3',
-                    name: 'subsector_name3'
+                    data: 'subsector_name.2',
+                    name: 'subsector_name'
                 },
                 {
                     data: 'action',

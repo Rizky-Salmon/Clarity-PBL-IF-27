@@ -34,11 +34,28 @@ class ActivityController extends Controller
         if (request()->ajax()) {
             return DataTables::of($activities)
                 ->addColumn('subsector_name', function ($activity) {
-                    // Memeriksa apakah ada subsector terkait dan mengambil nama subsector
-                    return $activity->subsectors->isNotEmpty() ? $activity->subsectors->implode('subsector_name', ', ') : '-';
+                    
+                    $subsectorNames = [];
+                    $subsectors = $activity->subsectors;
+
+                    // Ambil maksimal 3 subsektor
+                    $subsectors = $subsectors->take(3);
+
+                    // Ambil nama-nama subsektor dan masukkan ke dalam array
+                    foreach ($subsectors as $subsector) {
+                        $subsectorNames[] = $subsector->subsector_name;
+                    }
+
+                    // Jika jumlah subsektor kurang dari 3, tambahkan 'NaN' hingga mencapai 3
+                    $missingCount = 3 - count($subsectorNames);
+                    for ($i = 0; $i < $missingCount; $i++) {
+                        $subsectorNames[] = '-';
+                    }
+
+                    return $subsectorNames;
                 })
-            ->addColumn('action', function ($item) {
-                return '
+                ->addColumn('action', function ($item) {
+                    return '
                     <div class="edit-activity-buttons">
                         <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
                             <button type="button" class="btn btn-success btn-sm my-1 mx-1">
@@ -100,8 +117,8 @@ class ActivityController extends Controller
                         </div>
                     </div>
                 ';
-            })
-                ->rawColumns(['action'])
+                })
+                ->rawColumns(['subsector_name2', 'subsector_name3', 'action'])
                 ->make();
         }
 
@@ -153,16 +170,37 @@ class ActivityController extends Controller
     // Menyimpan perubahan pada kegiatan
     public function update(Request $request, $id_activity)
     {
+        // $rules = [
+        //     'activity_name' => 'required',
+        //     'subsector_ids' => 'required|array',
+        //     'subsector_ids.*' => 'exists:subsectors,id_subsector',
+        // ];
+
+        // $customMessage = [
+        //     'activity_name.required' => 'Activity name is required',
+        //     'subsector_ids.required' => 'Subsectors are required',
+        //     'subsector_ids.*.exists' => 'Subsector does not exist',
+        // ];
+
+        // $validator = Validator::make($request->all(), $rules, $customMessage);
+
         $rules = [
             'activity_name' => 'required',
-            'subsector_ids' => 'required|array',
-            'subsector_ids.*' => 'exists:subsectors,id_subsector',
+            'subsector_ids' => 'array',
+            'subsector_ids.1' => 'nullable|different:subsector_ids.2,subsector_ids.3|exists:subsectors,id_subsector',
+            'subsector_ids.2' => 'nullable|different:subsector_ids.1,subsector_ids.3|exists:subsectors,id_subsector',
+            'subsector_ids.3' => 'nullable|different:subsector_ids.1,subsector_ids.2|exists:subsectors,id_subsector',
         ];
 
         $customMessage = [
             'activity_name.required' => 'Activity name is required',
-            'subsector_ids.required' => 'Subsectors are required',
-            'subsector_ids.*.exists' => 'Subsector does not exist',
+            'subsector_ids.array' => 'Subsectors must be an array',
+            'subsector_ids.1.exists' => 'Subsector 1 does not exist',
+            'subsector_ids.2.exists' => 'Subsector 2 does not exist',
+            'subsector_ids.3.exists' => 'Subsector 3 does not exist',
+            'subsector_ids.1.different' => 'Subsectors must have different values',
+            'subsector_ids.2.different' => 'Subsectors must have different values',
+            'subsector_ids.3.different' => 'Subsectors must have different values',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessage);
@@ -210,4 +248,3 @@ class ActivityController extends Controller
         }
     }
 }
-
