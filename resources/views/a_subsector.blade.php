@@ -96,7 +96,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/a_subsector" method="get">
+                            <form action="/a_subsector" method="GET" id="form_filter">
                                 <div class="form-group">
                                     <label for="addSectorName">Sector</label>
 
@@ -210,6 +210,16 @@
 
             // Tampilkan teks di dalam elemen dengan ID 'textOption'
             $('#textOption').text(selectedText);
+            $('#form_filter').submit(function(event) {
+            // Menghentikan perilaku default pengiriman formulir
+            event.preventDefault();
+
+            // Mendapatkan nilai ID sektor yang dipilih dari dropdown
+            var selectedSectorId = $('#id_sector').val();
+
+            // Mengarahkan pengguna ke halaman /a_subsector/{selectedSectorId}
+            window.location.href = '/a_subsector/' + selectedSectorId;
+        });
         });
     </script>
 

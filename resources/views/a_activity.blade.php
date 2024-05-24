@@ -46,11 +46,19 @@
                                     <select name="subsector_id1" class="form-control subsector-dropdown" id="addSubsector1"
                                         required>
                                         <option value="">- Choose Subsector -</option>
-                                        @forelse($subsector as $value)
-                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+
+                                        @forelse($sectors as $value1)
+                                        <optgroup label="Sector : {{ $value1->sector_name }}">
+                                            @forelse($value1->subSectors as $value)
+                                                <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                            @empty
+                                                <option value="">- No Subsector -</option>
+                                            @endforelse
+                                        </optgroup>
                                         @empty
-                                            <option value="">- No Subsector -</option>
+                                            <option value="">- No Sector -</option>
                                         @endforelse
+
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -141,10 +149,12 @@
                     data: 'subsector_name1',
                     name: 'subsector_name1'
                 },
+
                 {
                     data: 'subsector_name2',
                     name: 'subsector_name2'
                 },
+
                 {
                     data: 'subsector_name3',
                     name: 'subsector_name3'

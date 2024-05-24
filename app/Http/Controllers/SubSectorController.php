@@ -71,7 +71,7 @@ class SubSectorController extends Controller
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="subsectorName">Subsector</label>
-                                                                    <input type="text" class="form-control" id="sectorName" name="sectorName" value="' . old('subsectorName', $item->subsector_name) . '">
+                                                                    <input type="text" class="form-control" id="sectorName" name="subsectorName" value="' . old('subsectorName', $item->subsector_name) . '">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="subsectorDescription">Description</label>
@@ -206,7 +206,7 @@ class SubSectorController extends Controller
             'Subsector updated successfully!'
         );
 
-        return redirect()->route('subsector.index')->with('success', 'Subsector successfully updated.');
+        return redirect()->route('ManageSubSector')->with('success', 'Subsector successfully updated.');
     }
 
     public function destroy($id_subsector)

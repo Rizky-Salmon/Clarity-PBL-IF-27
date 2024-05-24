@@ -113,6 +113,13 @@
                 @endif
             @endauth
 
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Heading - Admin Menu -->
+            <div class="sidebar-heading">
+                Employee Menu
+            </div>
+
             <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ asset('/a_percentage') }}">
                     <i class="fas fa-fw fa-tasks"></i>
