@@ -82,7 +82,7 @@ class ActivityController extends Controller
                 ->addColumn('subsector_name3', function ($activity) {
                     return $activity->subsectors->count() > 2 ? $activity->subsectors[2]->subsector_name : '-';
                 })
-                ->addColumn('action', function ($item) use ($subsectors) {
+                ->addColumn('action', function ($item) use ($subsectors, $sectors) {
                 $subsector1Selected = $item->subsectors->isNotEmpty() ? $item->subsectors[0] : null;
                 $subsector2Selected = $item->subsectors->count() > 1 ? $item->subsectors[1] : null;
                 $subsector3Selected = $item->subsectors->count() > 2 ? $item->subsectors[2] : null;
@@ -91,19 +91,19 @@ class ActivityController extends Controller
                 // $subsector2Selected = $item->subsectors->count() > 1 ? $item->subsectors->where('pivot.priority', 2)->first() : null;
                 // $subsector3Selected = $item->subsectors->count() > 2 ? $item->subsectors->where('pivot.priority', 3)->first() : null;
                     $html = '
-            <div class="edit-activity-buttons">
-            <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
-                <button type="button" class="btn btn-success btn-sm my-1 mx-1">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-            </a>
-            <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity .
-                        '">
-                <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </a>
-            </div>
+                        <div class="edit-activity-buttons">
+                        <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
+                            <button type="button" class="btn btn-success btn-sm my-1 mx-1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </a>
+                        <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity .
+                                    '">
+                            <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </a>
+                        </div>
 
                         <div class="modal fade" id="editActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -120,51 +120,61 @@ class ActivityController extends Controller
                                             <input type="hidden" name="id_activity" value="' . $item->id_activity . '">
                                             <div class="form-group">
                                                 <label for="editActivityName">Activity Name</label>
-                                                <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) . '">
+                                                <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) .
+                                                '">
                                             </div>
                                             <div class="form-group">
-                                                <label for="editSubsector1">Subsector 1</label>
-                                                <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
-                                                    <option value="">- Choose Subsector -</option>';
-                                        foreach ($subsectors as $subsector) {
-                                            $selected = ($subsector1Selected && $subsector1Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
-                                            $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected . '>' . $subsector->subsector_name . '</option>';
+                                <label for="editSubsector1">Subsector 1</label>
+                                <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
+                                    <option value="">- Choose Subsector -</option>';
+                                        foreach ($sectors as $sector) {
+                                            $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
+                                            foreach ($sector->subSectors as $subsector) {
+                                                $selected = ($subsector1Selected && $subsector1Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
+                                                $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected . '>' . $subsector->subsector_name . '</option>';
+                                            }
+                                            $html .= '</optgroup>';
                                         }
                                         $html .= '
-                                                </select>
+                                                        </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="editSubsector2">Subsector 2</label>
                                                 <select name="subsector_id2" class="form-control subsector-dropdown" id="editSubsector2">
                                                     <option value="">- Choose Subsector -</option>';
-                                        foreach ($subsectors as $subsector) {
-                                            $selected = ($subsector2Selected &&
-                                                $subsector2Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
-                                            $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected . '>' . $subsector->subsector_name . '</option>';
-                                        }
-                                        $html .=
-                '
-                                    </select>
-                    </div>
-                    <div class="form-group">
-                    <label for="editSubsector3">Subsector 3</label>
-                    <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
-                    <option value="">- Choose Subsector -</option>';
-                    foreach ($subsectors as $subsector) {
-                        $selected = ($subsector3Selected && $subsector3Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
-
-                        $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected .  ' >' . $subsector->subsector_name . '</option>';
-                    }
-                    $html .= '
-                    </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </form>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
+                                                foreach ($sectors as $sector) {
+                                                    $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
+                                                    foreach ($sector->subSectors as $subsector) {
+                                                        $selected = ($subsector2Selected && $subsector2Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
+                                                        $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected . '>' . $subsector->subsector_name . '</option>';
+                                                    }
+                                                    $html .= '</optgroup>';
+                                                }
+                                                $html .= '
+                                                            </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="editSubsector3">Subsector 3</label>
+                                                    <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
+                                                <option value="">- Choose Subsector -</option>';
+                                                        foreach ($sectors as $sector) {
+                                                            $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
+                                                            foreach ($sector->subSectors as $subsector) {
+                                                                $selected = ($subsector3Selected && $subsector3Selected->id_subsector == $subsector->id_subsector) ? 'selected' : '';
+                                                                $html .= '<option value="' . $subsector->id_subsector . '" ' . $selected . '>' . $subsector->subsector_name . '</option>';
+                                                            }
+                                                            $html .= '</optgroup>';
+                                                        }
+                                                        $html .= '
+                                                </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                     <div class="modal fade" id="deleteActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">

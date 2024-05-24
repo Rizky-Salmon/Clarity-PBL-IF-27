@@ -48,13 +48,14 @@
                                         <option value="">- Choose Subsector -</option>
 
                                         @forelse($sectors as $value1)
-                                        <optgroup label="Sector : {{ $value1->sector_name }}">
-                                            @forelse($value1->subSectors as $value)
-                                                <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
-                                            @empty
-                                                <option value="">- No Subsector -</option>
-                                            @endforelse
-                                        </optgroup>
+                                            <optgroup label="Sector : {{ $value1->sector_name }}">
+                                                @forelse($value1->subSectors as $value)
+                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
+                                                    </option>
+                                                @empty
+                                                    <option value="">- No Subsector -</option>
+                                                @endforelse
+                                            </optgroup>
                                         @empty
                                             <option value="">- No Sector -</option>
                                         @endforelse
@@ -65,10 +66,17 @@
                                     <label for="addSubsector2">Subsector 2</label>
                                     <select name="subsector_id2" class="form-control subsector-dropdown" id="addSubsector2">
                                         <option value="">- Choose Subsector -</option>
-                                        @forelse($subsector as $value)
-                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                        @forelse($sectors as $value1)
+                                            <optgroup label="Sector : {{ $value1->sector_name }}">
+                                                @forelse($value1->subSectors as $value)
+                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
+                                                    </option>
+                                                @empty
+                                                    <option value="">- No Subsector -</option>
+                                                @endforelse
+                                            </optgroup>
                                         @empty
-                                            <option value="">- No Subsector -</option>
+                                            <option value="">- No Sector -</option>
                                         @endforelse
                                     </select>
                                 </div>
@@ -76,10 +84,17 @@
                                     <label for="addSubsector3">Subsector 3</label>
                                     <select name="subsector_id3" class="form-control subsector-dropdown" id="addSubsector3">
                                         <option value="">- Choose Subsector -</option>
-                                        @forelse($subsector as $value)
-                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                        @forelse($sectors as $value1)
+                                            <optgroup label="Sector : {{ $value1->sector_name }}">
+                                                @forelse($value1->subSectors as $value)
+                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
+                                                    </option>
+                                                @empty
+                                                    <option value="">- No Subsector -</option>
+                                                @endforelse
+                                            </optgroup>
                                         @empty
-                                            <option value="">- No Subsector -</option>
+                                            <option value="">- No Sector -</option>
                                         @endforelse
                                     </select>
                                 </div>

@@ -15,7 +15,7 @@
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
             <div style="display: flex; align-items: center;">
                 <img src="img/activity.png" style="height: 60px; width: 60px; margin-right: 10px;">
-                <h3 style="margin-top: 10px; font-weight: bold; color: black;">My Activity</h3>
+                <h3 style="margin-top: 10px; font-weight: bold; color: black;">My Activity Percentage</h3>
             </div>
 
             <!-- Add Percentage button -->
@@ -64,6 +64,7 @@
                         <tr>
                             <th style="text-align: center;">No</th>
                             <th style="text-align: center;">Activity</th>
+                            <th style="text-align: center;">Employee</th>
                             <th style="text-align: center;">Percentage</th>
                             <th style="text-align: center; width: 190px;">Action</th>
                         </tr>
@@ -96,7 +97,7 @@
                         return meta.row + 1;
                     }
                 },
-                
+
                 {
                     data: 'activity_name',
                     name: 'activity_name'
