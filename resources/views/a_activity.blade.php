@@ -41,49 +41,45 @@
                                     <textarea class="form-control" id="activityName" name="add_activityName" rows="3"
                                         placeholder="Enter The Activities Name" required></textarea>
                                 </div>
-                                    <div class="form-group">
-                                        <label for="addSubsector1">Subsector 1</label>
-                                        <select name="subsector_ids[]" class="form-control subsector-dropdown"
-                                            id="addSubsector1">
-                                            <option value="">- Choose Subsector -</option>
-                                            @forelse($subsector as $value)
-                                                <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                </option>
-                                            @empty
-                                                <option value="">- No Subsector -</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="addSubsector2">Subsector 2</label>
-                                        <select name="subsector_ids2[]" class="form-control subsector-dropdown"
-                                            id="addSubsector2">
-                                            <option value="">- Choose Subsector -</option>
-                                            @forelse($subsector as $value)
-                                                <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                </option>
-                                            @empty
-                                                <option value="">- No Subsector -</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="addSubsector3">Subsector 3</label>
-                                        <select name="subsector_ids3[]" class="form-control subsector-dropdown"
-                                            id="addSubsector3">
-                                            <option value="">- Choose Subsector -</option>
-                                            @forelse($subsector as $value)
-                                                <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                </option>
-                                            @empty
-                                                <option value="">- No Subsector -</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="addSubsector1">Subsector 1</label>
+                                    <select name="subsector_id1" class="form-control subsector-dropdown" id="addSubsector1"
+                                        required>
+                                        <option value="">- Choose Subsector -</option>
+                                        @forelse($subsector as $value)
+                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                        @empty
+                                            <option value="">- No Subsector -</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addSubsector2">Subsector 2</label>
+                                    <select name="subsector_id2" class="form-control subsector-dropdown" id="addSubsector2">
+                                        <option value="">- Choose Subsector -</option>
+                                        @forelse($subsector as $value)
+                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                        @empty
+                                            <option value="">- No Subsector -</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addSubsector3">Subsector 3</label>
+                                    <select name="subsector_id3" class="form-control subsector-dropdown" id="addSubsector3">
+                                        <option value="">- Choose Subsector -</option>
+                                        @forelse($subsector as $value)
+                                            <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}</option>
+                                        @empty
+                                            <option value="">- No Subsector -</option>
+                                        @endforelse
+                                    </select>
+                                </div>
                                 <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
                                     Activity</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -124,14 +120,16 @@
             serverSide: true,
             ordering: true,
             ajax: {
-                url: window.location.href
+                url: window.location.href,
+                dataSrc: function(json) {
+                    console.log(json);
+                    return json.data;
+                }
             },
             columns: [{
                     data: null,
-                    name: 'id_activity', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                    name: 'id_activity',
                     render: function(data, type, row, meta) {
-                        // Mengembalikan nomor urut berdasarkan posisi data dalam tabel,
-                        // termasuk nomor halaman dan jumlah entri per halaman
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
@@ -140,8 +138,13 @@
                     name: 'activity_name'
                 },
                 {
+<<<<<<< HEAD
                     data: 'subsector_name.0',
                     name: 'subsector_name'
+=======
+                    data: 'subsector_name1',
+                    name: 'subsector_name1'
+>>>>>>> 76273d22e578e1d5d3ddb94eb389b1735f270f3c
                 },
                 {
                     data: 'subsector_name.1',
@@ -161,6 +164,7 @@
             ]
         });
     </script>
+
 
     <script>
         $(document).ready(function() {
