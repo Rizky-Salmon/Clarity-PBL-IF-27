@@ -1024,7 +1024,732 @@
                                     {
                                         "name": "Accompagnement au recrutement des contrats étudiants",
                                         "value": 20
+                                    },
+                                    {
+                                        "name": "Réception et tri du courrier",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Classification et archive des documents administratifs et financiers",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Commandes de fourniture au magasin général UPHF et gestion des stocks",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réalisation de l'accueil physique et l'accueil téléphonique",
+                                        "value": 70
+                                    },
+                                    {
+                                        "name": "Gestion de la logistique pour les réunions",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Courses pour les événements organisés au PRI",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Recensement des besoins à l'année en heures des étudiants contrat région en accueil et informatique et assurer un suivi fin de la consommation à des fins de prospective",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Relevé des heures effectuées par les étudiants contrat région en accueil et informatique",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Demandes, réception des contrats étudiants et suivi des signatures avec la DRH",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Suivi des états de paiement des contractuels étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Tri des archives administratives, en lien avec le service des archives",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Gestion administrative des bourses Eiffel",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants étrangers conventionnés",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants sortants L M D UPHF et INSA",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Participation aux événements de l’université et du PRI : Cap Campus, Forum Demo, …",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Information sur les aspects financiers des mobilités sortantes",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Préparation des commissions d’attribution des financements de la mobilité internationale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion de la documentation liée à l’attribution des financements",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Promotion de la mobilité internationale et communication",
+                                        "value": 50
+                                    },
+                                    {
+                                        "name": "Mise à jour des documents de promotion, de Moodle et du site web IN et OUT",
+                                        "value": 50
+                                    },
+                                    {
+                                        "name": "Interface avec les partenaires extérieurs Ministère et Région quant aux financements de la mobilité internationale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi d'un mailchimp aux partenaires",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation aux actions de promotions des partenaires",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Reception des nominations",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi de la procédure de candidature aux étudiants nominés",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Traitement des candidatures",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Envoi des candidatures aux composantes",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion de la demande de visa pour les étudiants conventionnés sur la plateforme Etudes en France",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Revue dossier inscription et process avec scolarité",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi des dossiers d'inscription et suivi des étudiants ",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Vérification des dossiers d'inscription et transmission à la scolarité centrale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi des lettres d'acceptations",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion d’un contingent de logements CROUS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Gestion de la convention CROUS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation international academy",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Collecte des informations de rentrée des composantes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Complétion des attestations d'arrivée des étudiants Erasmus+",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Complétion des attestations de présence des étudiants Erasmus+",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation d'une session de préparation à l'arrivée",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réception des contrats pédagogiques et transmissions aux composantes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Renvoi des avenants aux composantes si PRI destinataire ",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Récolte des notes du semestre",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Edition des Relevés de notes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Mise en place calendrier promotionnel Etudes annuel (remontée par les composantes après sollicitation)",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Erasmus Days Préparation",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Erasmus Days Evénement",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "MAJ des ppt promotionnels Pourquoi partir,  Constituer son dossier, Canada",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Accompagnement au recrutement des contrats étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réception et tri du courrier",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Classification et archive des documents administratifs et financiers",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Commandes de fourniture au magasin général UPHF et gestion des stocks",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réalisation de l'accueil physique et l'accueil téléphonique",
+                                        "value": 70
+                                    },
+                                    {
+                                        "name": "Gestion de la logistique pour les réunions",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Courses pour les événements organisés au PRI",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Recensement des besoins à l'année en heures des étudiants contrat région en accueil et informatique et assurer un suivi fin de la consommation à des fins de prospective",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Relevé des heures effectuées par les étudiants contrat région en accueil et informatique",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Demandes, réception des contrats étudiants et suivi des signatures avec la DRH",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Suivi des états de paiement des contractuels étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Tri des archives administratives, en lien avec le service des archives",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Gestion administrative des bourses Eiffel",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants étrangers conventionnés",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants sortants L M D UPHF et INSA",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Participation aux événements de l’université et du PRI : Cap Campus, Forum Demo, …",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Information sur les aspects financiers des mobilités sortantes",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Préparation des commissions d’attribution des financements de la mobilité internationale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Accompagnement au recrutement des contrats étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réception et tri du courrier",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Classification et archive des documents administratifs et financiers",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Commandes de fourniture au magasin général UPHF et gestion des stocks",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réalisation de l'accueil physique et l'accueil téléphonique",
+                                        "value": 70
+                                    },
+                                    {
+                                        "name": "Gestion de la logistique pour les réunions",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Courses pour les événements organisés au PRI",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Recensement des besoins à l'année en heures des étudiants contrat région en accueil et informatique et assurer un suivi fin de la consommation à des fins de prospective",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Relevé des heures effectuées par les étudiants contrat région en accueil et informatique",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Demandes, réception des contrats étudiants et suivi des signatures avec la DRH",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Suivi des états de paiement des contractuels étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Tri des archives administratives, en lien avec le service des archives",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Gestion administrative des bourses Eiffel",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants étrangers conventionnés",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Accueil physique et accompagnement des étudiants sortants L M D UPHF et INSA",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Participation aux événements de l’université et du PRI : Cap Campus, Forum Demo, …",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Information sur les aspects financiers des mobilités sortantes",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Préparation des commissions d’attribution des financements de la mobilité internationale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion de la documentation liée à l’attribution des financements",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Promotion de la mobilité internationale et communication",
+                                        "value": 50
+                                    },
+                                    {
+                                        "name": "Mise à jour des documents de promotion, de Moodle et du site web IN et OUT",
+                                        "value": 50
+                                    },
+                                    {
+                                        "name": "Interface avec les partenaires extérieurs Ministère et Région quant aux financements de la mobilité internationale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi d'un mailchimp aux partenaires",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation aux actions de promotions des partenaires",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Reception des nominations",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi de la procédure de candidature aux étudiants nominés",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Traitement des candidatures",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Envoi des candidatures aux composantes",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion de la demande de visa pour les étudiants conventionnés sur la plateforme Etudes en France",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Revue dossier inscription et process avec scolarité",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi des dossiers d'inscription et suivi des étudiants",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Vérification des dossiers d'inscription et transmission à la scolarité centrale",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi des lettres d'acceptations",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion d’un contingent de logements CROUS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Gestion de la convention CROUS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation international academy",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Collecte des informations de rentrée des composantes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Complétion des attestations d'arrivée des étudiants Erasmus+",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Complétion des attestations de présence des étudiants Erasmus+",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation d'une session de préparation à l'arrivée",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Réception des contrats pédagogiques et transmissions aux composantes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Renvoi des avenants aux composantes si PRI destinataire",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Récolte des notes du semestre",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Edition des Relevés de notes",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Mise en place calendrier promotionnel Etudes annuel (remontée par les composantes après sollicitation)",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Erasmus Days Préparation",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Erasmus Days Evénement",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "MAJ des ppt promotionnels Pourquoi partir, Constituer son dossier, Canada",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Maj info Canada (immigration, BCI",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "MAJ site web (financements, étapes…)",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "MAJ des todolist Etudes et stages",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "MAJ des documents financements: contrats de mobilité, contrats pédagogiques hors europe et SMT, formulaires allocations SMS SMT, attestation arrivée et présence",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Gestion des procédures et de leur suivi auprès des étudiants sortants UPHF et INSA",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Nomination auprès des partenaires",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Gestion plateforme BCI du programme PQEE",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Team JEKI formulaires publicateur back office moveon",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Gestion des mobilité dans moveon: fiches séjours, suivi et MAJ",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Edition contrats de mobilité",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Sessions préparation au départ pour les études et le stage",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Canada-Québec: Protocoles d'entente RAMQ AMELI",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Récolter les lettres d'admission ou courriels d'admission",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Conseils et orientation des étudiants tout au long du processus",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Suivi des contrats pédagogiques et de leurs avenants et des OLA des étudiants LMD UPHF et INSA",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Récolter les relevés de notes des étudiants après la mobilité sortante",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Envoi attestation d'arrivée aux étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Récolte attestations d'arrivée",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Envoi attestation de présence aux étudiants",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Récolte attestations de présence d'arrivée",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Rapport de mobilité E+: envoi message aux étudiants et action plateforme",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Reporting Mobility Tool",
+                                        "value": 10
+                                    },
+                                    {
+                                        "name": "Financements: national AMI bilan financier + enquête annuelle",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Financements: région MERMOZ bilan financier + enquête annuelle",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Prise de contact avec les universités et participer à la formalisation des accords BRIDGE",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation des appels à candidatures pour les étudiants sortants et les stages entrants BRIDGE",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Organisation des réunions d'informations auprès des enseignants-chercheurs et/ou d'étudiants BRIDGE",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Accueil des stagiaires entrants BRIDGE",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Organisation et planification des formations MoveOn pour les utilisateurs en lien avec les référents MoveOn de l’établissement",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Suivi les actualités et les nouvelles fonctionnalités MoveOn",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Organisation des réunions avec les utilisateurs MoveOn",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Paramétrage de la base Moveon INSA HdF en fonction des besoins",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Encadrement de contrat région dont les missions sont reliées à MoveOn",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Faire le lien entre le support et la base MoveOn INSA",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Production de documentation pour aider les utilisateurs Moveon",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Contribution à la sous-équipe PRI en charge du développement et des problématiques liées à MoveOn",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Suivi la ligne budgétaire du soutien organisationnel KA131 INSA",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Déclaration des mobilités sur le Beneficiary Module KA131 INSA",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Rédaction des rapports intermédiaires et finaux KA131 INSA",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Représentation de l’université lors de rencontres avec des partenaires et des bailleurs",
+                                        "value": 40
+                                    },
+                                    {
+                                        "name": "Conseils aux porteurs de projets dans la définition et l’écriture de projets en lien avec le Royaume-Uni",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Faire la liaison avec la Cellule Mobilité sur les partenariats comprenant des volets de mobilité",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Développement et le suivi des partenariats, principalement hors Europe",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Pilotage des activités d’animation et de communication du PRI pour sensibiliser aux questions de coopération internationale",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Faire le montage et le suivi des accords de collaboration avec les universités partenaires hors Europe",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Contribution au développement de nouveaux modèles de partenariat pour des coopérations innovantes, en cohérence avec la politique de l'établissement",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Conseil aux porteurs de projets dans la définition et l’écriture de projets européens et internationaux",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation à l'exécution des projets en gestion au PRI : IUMEME",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation à l'exécution des projets en gestion au PRI : EFEU",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation à l'exécution des projets en gestion au PRI : SCALENEO",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation à l'exécution des projets en gestion au PRI : EUNICE4U",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Création de documents visant à améliorer la productivité du PRI",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Intervention ponctuellement sur tout type de projet en soutien",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Coordination du projet : IUMEME",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Accompagnement des doctorants et enseignants-chercheurs étrangers pour toutes questions d’ordre administratif et pratique relatives à la préparation de leur séjour et de leur installation à Valenciennes EURAXESS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Travail en étroite collaboration avec l’OFII et la Préfecture pour les demandes de titres de séjour EURAXESS",
+                                        "value": 10
+                                    },
+                                    {
+                                        "name": "Coordination des activités du projet EUNICE4U à l’UPHF et au niveau de la Project Management Team de l’alliance EUNICE",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Coordination des acteurs et des comités du projet en interne : cellule EUNICE, groupes opérationnels, comité de qualité, comités de conseil et de pilotage, etc.",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Mise en oeuvre et suivi des indicateurs en lien avec le pilote du projet EUNICE au sein de l’UPHF",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Participation à la rédaction des livrables et des rapports d’activité trimestriels, à leur vérification et dépôt",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Transmettre les sollicitations du personnel et des étudiants concernant les opportunités EUNICE",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Soutien autres groupes de travail du projet EUNICE4U",
+                                        "value": 30
+                                    },
+                                    {
+                                        "name": "Participation à l’organisation d’événements à l’UPHF",
+                                        "value": 60
+                                    },
+                                    {
+                                        "name": "Co-organisation de la semaine internationale de l'IAE",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Organisation d'activités et programmes visant à l’accompagnement des publics EURAXESS",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Participation aux événements et groupes de travail mis en place par EURAXESS France",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Mise en place d'une communication relative au Centre EURAXESS de l’UPHF",
+                                        "value": 20
+                                    },
+                                    {
+                                        "name": "Accompagnement des doctorants et enseignants-chercheurs étrangers",
+                                        "value": 10
                                     }
+
                                 ].
                                 slice(0, limit)
                             };
@@ -1121,8 +1846,12 @@
                             }
 
                             function getColor(idx, total) {
-                                const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                                    '952480', '90278E', '7A2A8F', '652D90', '502980', '3B2671', '262261', '27286D', '292D78', '2A3384',
+                                const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60',
+                                    '9E1F63',
+                                    '992271',
+                                    '952480', '90278E', '7A2A8F', '652D90', '502980', '3B2671', '262261', '27286D',
+                                    '292D78',
+                                    '2A3384',
                                     '2B388F', '2A4F9F', '2965AF', '277CC0', '2692D0', '25A9E0'
                                 ];
                                 const colorLookup = [
@@ -1130,7 +1859,9 @@
                                     [0, 3, 6, 9, 11, 13, 15, 18, 20, 24],
                                     [0, 3, 4, 6, 7, 9, 11, 13, 14, 15, 17, 18, 20, 22, 24],
                                     [0, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24],
-                                    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+                                    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+                                        23, 24
+                                    ]
                                 ];
 
                                 for (const idxList of colorLookup) {
