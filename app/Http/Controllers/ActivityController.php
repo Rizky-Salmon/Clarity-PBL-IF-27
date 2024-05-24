@@ -44,7 +44,7 @@ class ActivityController extends Controller
                     return $activity->subsectors->count() > 2 ? $activity->subsectors[2]->subsector_name : '-';
                 })
                 ->addColumn('action', function ($item) use ($subsectors) {
-                    $subsector1Selected = $item->subsectors->where('pivot.priority', 1)->first();
+                $subsector1Selected = $item->subsectors->where('pivot.priority', 1)->first();
                 $subsector2Selected = $item->subsectors->count() > 1 ? $item->subsectors->where('pivot.priority', 2)->first() : null;
                 $subsector3Selected = $item->subsectors->count() > 2 ? $item->subsectors->where('pivot.priority', 3)->first() : null;
                     $html = '
@@ -211,29 +211,55 @@ class ActivityController extends Controller
     // Menyimpan perubahan pada kegiatan
     public function update(Request $request, $id_activity)
     {
-        dd($request->all());
         $rules = [
             'activity_name' => 'required',
-            'subsector_id1' => 'required|exists:subsector,id_subsector',
-            'subsector_id2' => 'nullable|exists:subsector,id_subsector',
-            'subsector_id3' => 'nullable|exists:subsector,id_subsector',
+            'subsector_ids' => 'array',
+            'subsector_ids.1' => 'nullable|different:subsector_ids.2,subsector_ids.3|exists:subsectors,id_subsector',
+            'subsector_ids.2' => 'nullable|different:subsector_ids.1,subsector_ids.3|exists:subsectors,id_subsector',
+            'subsector_ids.3' => 'nullable|different:subsector_ids.1,subsector_ids.2|exists:subsectors,id_subsector',
         ];
 
-        $customMessages = [
+        $customMessage = [
             'activity_name.required' => 'Activity name is required',
-            'subsector_id1.required' => 'Subsector 1 is required',
-            'subsector_id1.exists' => 'Subsector 1 does not exist',
-            'subsector_id2.exists' => 'Subsector 2 does not exist',
-            'subsector_id3.exists' => 'Subsector 3 does not exist',
+            'subsector_ids.array' => 'Subsectors must be an array',
+            'subsector_ids.1.exists' => 'Subsector 1 does not exist',
+            'subsector_ids.2.exists' => 'Subsector 2 does not exist',
+            'subsector_ids.3.exists' => 'Subsector 3 does not exist',
+            'subsector_ids.1.different' => 'Subsectors must have different values',
+            'subsector_ids.2.different' => 'Subsectors must have different values',
+            'subsector_ids.3.different' => 'Subsectors must have different values',
         ];
 
-        $validator = Validator::make($request->all(), $rules, $customMessages);
+        $validator = Validator::make($request->all(), $rules, $customMessage);
 
         if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors($validator)
-                ->withInput($request->all());
+            ->withErrors($validator)
+            ->withInput($request->all());
         }
+        // dd($request->all());
+        // $rules = [
+        //     'activity_name' => 'required',
+        //     'subsector_id1' => 'required|exists:subsector,id_subsector',
+        //     'subsector_id2' => 'nullable|exists:subsector,id_subsector',
+        //     'subsector_id3' => 'nullable|exists:subsector,id_subsector',
+        // ];
+
+        // $customMessages = [
+        //     'activity_name.required' => 'Activity name is required',
+        //     'subsector_id1.required' => 'Subsector 1 is required',
+        //     'subsector_id1.exists' => 'Subsector 1 does not exist',
+        //     'subsector_id2.exists' => 'Subsector 2 does not exist',
+        //     'subsector_id3.exists' => 'Subsector 3 does not exist',
+        // ];
+
+        // $validator = Validator::make($request->all(), $rules, $customMessages);
+
+        // if ($validator->fails()) {
+        //     return redirect()->back()
+        //         ->withErrors($validator)
+        //         ->withInput($request->all());
+        // }
 
         $activity = Activity::findOrFail($id_activity);
         $activity->update([

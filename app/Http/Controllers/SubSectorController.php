@@ -175,15 +175,15 @@ class SubSectorController extends Controller
     public function update(Request $request, $id_subsector)
     {
         $rules = [
-            'sector_name' => 'required',
-            'subsector_name' => 'required',
-            'description' => 'required',
+            'sectorName' => 'required',
+            'subsectorName' => 'required',
+            'subsectorDescription' => 'required',
         ];
 
         $customMessage = [
-            'sector_name.required' => 'Sector name is required',
-            'subsector_name.required' => 'Subsector name is required',
-            'description.required' => 'Description is required',
+            'sectorName.required' => 'Nama sektor wajib diisi',
+            'subsectorName.required' => 'Nama subsektor wajib diisi',
+            'subsectorDescription.required' => 'Deskripsi wajib diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessage);
@@ -197,9 +197,8 @@ class SubSectorController extends Controller
         $subsector = SubSector::findOrFail($id_subsector); // Mengambil subsector berdasarkan id_subsector
 
         $subsector->update([
-            'id_sector' => $request->input('sector_name'), // Memperbarui id_sektor
-            'subsector_name' => $request->input('subsector_name'), // Memperbarui nama subsector
-            'description' => $request->input('description')
+            'subsector_name' => $request->input('subsectorName'), // Memperbarui nama subsector
+            'description' => $request->input('subsectorDescription'), // Memperbarui deskripsi
         ]);
 
         Alert::success(
