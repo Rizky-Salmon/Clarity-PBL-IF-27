@@ -40,8 +40,6 @@ class SectorController extends Controller
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </a>
-
-
                             <a href="' . route('ManageSubSector', $item->id_sector) . '">
                             <button type="button" class="btn btn-secondary btn-sm my-1 mx-1">
                                 Manage SubSector

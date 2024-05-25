@@ -34,4 +34,9 @@ class ActivityPercentage extends Model
     {
         return $this->belongsTo(Activity::class, 'id_activity');
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employees::class, 'id_employees', 'id_employees');
+    }
 }

@@ -28,9 +28,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSubsectorModal">
                     <i class="fas fa-plus"></i> Add Sub Sector
                 </button>
-
             </div>
-
 
             <div class="modal fade" id="addSubsectorModal" tabindex="-1" role="dialog"
                 aria-labelledby="addSubsectorModalLabel" aria-hidden="true">
@@ -79,7 +77,6 @@
                                     Subsector</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -151,47 +148,45 @@
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 
-<script>
-    var datatable = $('#dataTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ordering: true,
-        ajax: {
-            url: window.location.href
-        },
-        columns: [{
-                data: null,
-                name: 'id_subsector', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
-                render: function(data, type, row, meta) {
-                    // Mengembalikan nomor urut berdasarkan posisi data dalam tabel,
-                    // termasuk nomor halaman dan jumlah entri per halaman
-                    return meta.row + meta.settings._iDisplayStart + 1;
+    <script>
+        var datatable = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: window.location.href
+            },
+            columns: [{
+                    data: null,
+                    name: 'id_subsector', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                    render: function(data, type, row, meta) {
+                        // Mengembalikan nomor urut berdasarkan posisi data dalam tabel,
+                        // termasuk nomor halaman dan jumlah entri per halaman
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'sector_name',
+                    name: 'sector_name'
+                },
+                {
+                    data: 'subsector_name',
+                    name: 'subsector_name'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    width: '15%'
                 }
-            },
-            {
-                data: 'sector_name',
-                name: 'sector_name'
-            },
-            {
-                data: 'subsector_name',
-                name: 'subsector_name'
-            },
-            {
-                data: 'description',
-                name: 'description'
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false,
-                width: '15%'
-            }
-        ]
-    });
-</script>
-
-
+            ]
+        });
+    </script>
 
 
     <script>
@@ -211,15 +206,15 @@
             // Tampilkan teks di dalam elemen dengan ID 'textOption'
             $('#textOption').text(selectedText);
             $('#form_filter').submit(function(event) {
-            // Menghentikan perilaku default pengiriman formulir
-            event.preventDefault();
+                // Menghentikan perilaku default pengiriman formulir
+                event.preventDefault();
 
-            // Mendapatkan nilai ID sektor yang dipilih dari dropdown
-            var selectedSectorId = $('#id_sector').val();
+                // Mendapatkan nilai ID sektor yang dipilih dari dropdown
+                var selectedSectorId = $('#id_sector').val();
 
-            // Mengarahkan pengguna ke halaman /a_subsector/{selectedSectorId}
-            window.location.href = '/a_subsector/' + selectedSectorId;
-        });
+                // Mengarahkan pengguna ke halaman /a_subsector/{selectedSectorId}
+                window.location.href = '/a_subsector/' + selectedSectorId;
+            });
         });
     </script>
 

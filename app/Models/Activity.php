@@ -31,5 +31,10 @@ class Activity extends Model
         return $this->belongsToMany(SubSector::class, 'activity_subsector', 'id_activity', 'id_subsector');
     }
 
+    public function percentage()
+    {
+        return $this->hasMany(ActivityPercentage::class, 'id_activity', 'id_activity');
+    }
+
 }
 

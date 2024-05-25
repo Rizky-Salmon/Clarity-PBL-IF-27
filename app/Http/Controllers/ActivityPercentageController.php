@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Employees;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
@@ -12,16 +13,28 @@ use Illuminate\Support\Facades\Validator;
 
 class ActivityPercentageController extends Controller
 {
-    public function index()
+    public function index($id_employees = null)
     {
         $activity = Activity::all();
+        $employees = Employees::all();
 
-        $query = ActivityPercentage::query()->with('activity')->get();
+        $query = ActivityPercentage::query()->with(['activity', 'employee'])->get();
+
+        // Jika ID karyawan diberikan, tambahkan kriteria where
+        if ($id_employees) {
+            $query->where('id_employees', $id_employees);
+        }
 
         if (request()->ajax()) {
             return DataTables::of($query)
                 ->addColumn('activity_name', function ($percentage) {
                     return $percentage->activity->activity_name;
+                })
+                ->addColumn('employee_name', function ($percentage) {
+                    return $percentage->employee->name;
+                })
+                ->addColumn('percentage', function ($percentage) {
+                    return $percentage->percentage . '%';
                 })
                 ->addColumn('action', function ($item) {
                     return '
@@ -49,16 +62,22 @@ class ActivityPercentageController extends Controller
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="' . route('percentage.update', $item->id_activity_percentage) . '" method="POST">
+                                    <form action="' . route('activity_percentage.update', $item->id_activity_percentage) . '" method="POST">
                                         ' . csrf_field() . method_field("PUT") . '
                                         <div class="form-group">
                                             <label for="activityName">Activity</label>
                                             <input type="text" class="form-control" id="activityName" value="' . $item->activity->activity_name . '" readonly>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="percentageValue">Percentage (1-100)</label>
-                                            <input type="number" class="form-control" id="percentageValue" name="percentageValue" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
+                                            <label for="employeeName">Employee</label>
+                                            <input type="text" class="form-control" id="employeeName" value="' . $item->employee->name . '" readonly>
                                         </div>
+
+                                        <div class="form-group">
+                                        <label for="percentageValue">Percentage (1-100)</label>
+                                        <input type="number" class="form-control" id="percentageValue" name="percentageValue" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
+                                    </div>
                                         <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </form>
@@ -81,7 +100,7 @@ class ActivityPercentageController extends Controller
                                     <p>Are you sure you want to delete this activity percentage?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <form action="' . route("percentage.destroy", $item->id_activity_percentage) . '" method="POST">
+                                    <form action="' . route("activity_percentage.destroy", $item->id_activity_percentage) . '" method="POST">
                                         ' . csrf_field() . method_field("DELETE") . '
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
@@ -98,26 +117,31 @@ class ActivityPercentageController extends Controller
 
         return view('a_percentage', [
             'activity' => $activity,
+            'employees' => $employees,
+            'selectedEmployees' => $id_employees,
         ]);
     }
 
-
     public function create()
     {
-        return view('activity_percentage.create');
+        $activities = Activity::all();
+        $employees = Employees::all();
+        return view('activity_percentage.create', compact('activities', 'employees'));
     }
 
-    // Store a new percentage
     public function store(Request $request)
     {
         $rules = [
-            'activity_name' => 'required|exists:activity,activity_name',
+            'add_activityName' => 'required|exists:activity,id_activity',
+            'add_employeeName' => 'required|exists:employees,id_employees',
             'percentage' => 'required|integer|min:0|max:100',
         ];
 
         $customMessage = [
-            'activity_name.required' => 'Activity name is required',
-            'activity_name.exists' => 'Activity name does not exist',
+            'add_activityName.required' => 'Activity is required',
+            'add_activityName.exists' => 'Activity does not exist',
+            'add_employeeName.required' => 'Employee is required',
+            'add_employeeName.exists' => 'Employee does not exist',
             'percentage.required' => 'Percentage is required',
             'percentage.integer' => 'Percentage must be a number',
             'percentage.min' => 'Percentage must be at least 0',
@@ -134,44 +158,41 @@ class ActivityPercentageController extends Controller
         }
 
         $insert_data = [
-            'activity_name' => $request->input('activity_name'),
+            'id_activity' => $request->input('add_activityName'),
+            'id_employees' => $request->input('add_employeeName'),
             'percentage' => $request->input('percentage'),
         ];
 
         ActivityPercentage::create($insert_data);
 
-        Alert::success('Success', 'Subsector added successfully!');
+        Alert::success('Success', 'Activity percentage added successfully!');
         return redirect()->route('ManagePercentage')
-        ->with('success', 'Activity percentage successfully added.');
+            ->with('success', 'Activity percentage successfully added.');
     }
 
-
-    // Show the details of a percentage
     public function show(ActivityPercentage $activityPercentage)
     {
         return view('a_percentage.show', compact('activityPercentage'));
     }
 
-    // Show the form for editing a percentage
     public function edit(ActivityPercentage $activityPercentage)
     {
-        return view('a_percentage.edit', compact('activityPercentage'));
+        $activities = Activity::all();
+        $employees = Employees::all();
+        return view('a_percentage.edit', compact('activityPercentage', 'activities', 'employees'));
     }
 
-    // Update an existing percentage
     public function update(Request $request, $id_activity_percentage)
     {
         $rules = [
-            'activity_name' => 'required',
-            'percentage' => 'required|integer|min:0|max:100',
+            'percentageValue' => 'required|integer|min:0|max:100',
         ];
 
         $customMessage = [
-            'activity_name.required' => 'Activity name is required',
-            'percentage.required' => 'Percentage is required',
-            'percentage.integer' => 'Percentage must be a number',
-            'percentage.min' => 'Percentage must be at least 0',
-            'percentage.max' => 'Percentage must be at most 100',
+            'percentageValue.required' => 'Percentage is required',
+            'percentageValue.integer' => 'Percentage must be a number',
+            'percentageValue.min' => 'Percentage must be at least 0',
+            'percentageValue.max' => 'Percentage must be at most 100',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessage);
@@ -182,33 +203,37 @@ class ActivityPercentageController extends Controller
                 ->withInput($request->all());
         }
 
-        $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
+        // Ubah input 'percentageValue' sesuai dengan field yang diperlukan pada ActivityPercentage
+        $update_data = [
+            'percentage' => $request->input('percentageValue'),
+        ];
 
-        $activityPercentage->update([
-            'activity_name' => $request->input('activity_name'),
-            'percentage' => $request->input('percentage'),
-        ]);
+        try {
+            // Ubah bagian ini untuk mencari entitas ActivityPercentage dengan id yang sesuai
+            $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
 
-        Alert::success(
-            'Success',
-            'Percentage updated successfully!'
-        );
+            // Perbarui entitas dengan data yang diperbarui
+            $activityPercentage->update($update_data);
 
-        return redirect()->route('activity_percentage.index')
-        ->with('success', 'Activity percentage successfully updated.');
+            Alert::success('Success', 'Activity percentage updated successfully!');
+            return redirect()->route('ManagePercentage')
+            ->with('success', 'Activity percentage successfully updated.');
+        } catch (\Exception $e) {
+            // Tambahkan penanganan kesalahan untuk menangani kesalahan yang mungkin terjadi saat menyimpan
+            return redirect()->back()
+                ->with('error', 'Failed to update activity percentage: ' . $e->getMessage());
+        }
     }
 
 
-    // Delete a percentage
     public function destroy($id_activity_percentage)
     {
         $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
 
-        Alert::success('Success', 'Activity percentage deleted successfully!');
-
         if ($activityPercentage->delete()) {
+            Alert::success('Success', 'Activity percentage deleted successfully!');
             return redirect()->route('ManagePercentage')
-            ->with('success', 'Activity percentage deleted successfully.');
+                ->with('success', 'Activity percentage deleted successfully.');
         } else {
             return redirect()->back()
                 ->with('error', 'Failed to delete activity percentage.');

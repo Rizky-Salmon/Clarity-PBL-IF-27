@@ -58,7 +58,7 @@ class Employees extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function activity()
+    public function ActivitY()
     {
         return $this->hasMany(ActivityPercentage::class, 'id_employees', 'id_employees');
     }

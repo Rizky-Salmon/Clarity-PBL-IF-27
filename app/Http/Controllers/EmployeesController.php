@@ -25,7 +25,7 @@ class EmployeesController extends Controller
             return DataTables::of($query)
 
                 ->addcolumn('activity', function ($item) {
-                    return $item->activity->count() . " Activity" ?? 0 . " Activity";
+                    return $item->ActivitY->count() . " Activity" ?? 0 . " Activity";
                 })
                 ->addcolumn('action', function ($item) {
                     return '

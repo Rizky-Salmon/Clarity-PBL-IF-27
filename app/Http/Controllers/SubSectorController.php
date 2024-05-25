@@ -55,7 +55,6 @@ class SubSectorController extends Controller
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
-                                                            </button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <form action="' . route('subsector.update', $item->id_subsector) . '" method="POST">
@@ -181,9 +180,9 @@ class SubSectorController extends Controller
         ];
 
         $customMessage = [
-            'sectorName.required' => 'Nama sektor wajib diisi',
-            'subsectorName.required' => 'Nama subsektor wajib diisi',
-            'subsectorDescription.required' => 'Deskripsi wajib diisi',
+            'sectorName.required' => 'Sector name is required',
+            'subsectorName.required' => 'Subsector name is required',
+            'subsectorDescription.required' => 'Description is required',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessage);
