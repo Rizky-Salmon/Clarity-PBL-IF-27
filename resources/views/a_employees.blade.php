@@ -125,7 +125,7 @@
                     data: null,
                     name: 'id_employees',
                     render: function(data, type, row, meta) {
-                        return meta.row + 1;
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
                 {
