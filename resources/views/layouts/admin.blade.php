@@ -120,13 +120,6 @@
                 Employee Menu
             </div>
 
-            <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ asset('/a_percentage') }}">
-                    <i class="fas fa-fw fa-tasks"></i>
-                    <span>Manage Activity Percentage</span>
-                </a>
-            </li>
-
             <!-- Data visualization -->
             <li
                 class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' ? 'active' : '' }}">
@@ -149,6 +142,12 @@
                 </div>
             </li>
 
+            <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/a_percentage') }}">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Manage Activity Percentage</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">

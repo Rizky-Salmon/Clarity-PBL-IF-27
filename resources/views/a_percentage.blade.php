@@ -53,6 +53,12 @@
                                         @endforelse
                                     </select>
                                 </div>
+
+                                @php
+                                    $user = auth()->user();
+                                @endphp
+
+                                @if($user->role === 'admin')
                                 <div class="form-group">
                                     <label for="addEmployeeName">Employee Name</label>
                                     <select name="add_employeeName" class="form-control" id="addEmployeeName"
@@ -65,6 +71,14 @@
                                         @endforelse
                                     </select>
                                 </div>
+                                @else
+                                <div class="form-group">
+                                    <label for="addEmployeeName">Employee Name</label>
+                                    <input type="text" name="employee_name" class="form-control" id="employeeName" value="{{ $user->name }}" readonly>
+                                    <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}">
+                                </div>
+                                @endif
+
                                 <div class="form-group">
                                     <label for="percentage">Percentage (0-100)</label>
                                     <input type="number" name="percentage"

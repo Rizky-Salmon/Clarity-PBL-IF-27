@@ -18,7 +18,7 @@ class ActivityPercentageController extends Controller
         $activity = Activity::all();
         $employees = Employees::all();
 
-        $query = ActivityPercentage::query()->with(['activity', 'employee'])->get();
+        $query = ActivityPercentage::query()->with(['activity', 'employee']);
 
         // Jika ID karyawan diberikan, tambahkan kriteria where
         if ($id_employees) {
@@ -37,79 +37,82 @@ class ActivityPercentageController extends Controller
                     return $percentage->percentage . '%';
                 })
                 ->addColumn('action', function ($item) {
+                    $role = auth()->user()->role;
+                    $editButton = '<a href="#" data-toggle="modal" data-target="#editPercentageModal' . $item->id_activity_percentage . '">
+                                <button type="button" class="btn btn-success btn-sm">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                               </a>';
+                    $deleteButton = '<a href="#" data-toggle="modal" data-target="#deletePercentageModal' . $item->id_activity_percentage  . '">
+                                <button type="button" class="btn btn-danger btn-sm">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                              </a>';
+
                     return '
-                    <div class="edit-percentage-buttons">
-                        <a href="#" data-toggle="modal" data-target="#editPercentageModal' . $item->id_activity_percentage . '">
-                            <button type="button" class="btn btn-success btn-sm">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                        </a>
-                        <a href="#" data-toggle="modal" data-target="#deletePercentageModal' . $item->id_activity_percentage  . '">
-                            <button type="button" class="btn btn-danger btn-sm">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </a>
-                    </div>
+                <div class="edit-percentage-buttons">
+                    ' . $editButton . $deleteButton . '
+                </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="editPercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="editPercentageModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editPercentageModalLabel">Update Activity Percentage</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="' . route('activity_percentage.update', $item->id_activity_percentage) . '" method="POST">
-                                        ' . csrf_field() . method_field("PUT") . '
-                                        <div class="form-group">
-                                            <label for="activityName">Activity</label>
-                                            <input type="text" class="form-control" id="activityName" value="' . $item->activity->activity_name . '" readonly>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="employeeName">Employee</label>
-                                            <input type="text" class="form-control" id="employeeName" value="' . $item->employee->name . '" readonly>
-                                        </div>
-
-                                        <div class="form-group">
-                                        <label for="percentageValue">Percentage (1-100)</label>
-                                        <input type="number" class="form-control" id="percentageValue" name="percentageValue" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
+                <!-- Modal Edit -->
+                <div class="modal fade" id="editPercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="editPercentageModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editPercentageModalLabel">Update Activity Percentage</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="' . route('activity_percentage.update', $item->id_activity_percentage) . '" method="POST">
+                                    ' . csrf_field() . method_field("PUT") . '
+                                    <div class="form-group">
+                                        <label for="activityName">Activity</label>
+                                        <input type="text" class="form-control" id="activityName" name="activity_name" value="' . $item->activity->activity_name . '" ' . ($role == 'admin' ? '' : 'readonly') . '>
                                     </div>
-                                        <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="deletePercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="deletePercentageModalLabel' . $item->id_activity_percentage . '" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Delete Activity Percentage</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Are you sure you want to delete this activity percentage?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form action="' . route("activity_percentage.destroy", $item->id_activity_percentage) . '" method="POST">
-                                        ' . csrf_field() . method_field("DELETE") . '
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                                </div>
+                                    <div class="form-group">
+                                        <label for="employeeName">Employee</label>
+                                        <input type="text" class="form-control" id="employeeName" name="employee_name" value="' . $item->employee->name . '" ' . ($role == 'admin' ? '' : 'readonly') . '>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="percentageValue">Percentage (1-100)</label>
+                                        <input type="number" class="form-control" id="percentageValue" name="percentage" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                ';
+                </div>
+
+                <!-- Modal Delete -->
+                <div class="modal fade" id="deletePercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="deletePercentageModalLabel' . $item->id_activity_percentage . '" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Activity Percentage</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this activity percentage?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="' . route("activity_percentage.destroy", $item->id_activity_percentage) . '" method="POST">
+                                    ' . csrf_field() . method_field("DELETE") . '
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ';
                 })
                 ->rawColumns(['action'])
                 ->make();
@@ -121,6 +124,9 @@ class ActivityPercentageController extends Controller
             'selectedEmployees' => $id_employees,
         ]);
     }
+
+
+
 
     public function create()
     {
