@@ -10,9 +10,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    function index()
+    public function index()
     {
-
         // Count Activity
         $count['activity'] = Activity::count();
 
@@ -21,10 +20,14 @@ class AdminController extends Controller
 
         // Count SubSector
         $count['sub_sector'] = SubSector::count();
+
         // Count Employee
         $count['employee'] = Employees::count();
 
-        return view('dashboard', ['count' => $count]);
+        // Fetch Employee Data
+        $employee = Employees::first(); // Assuming you just need one employee data for now
+
+        return view('dashboard', ['count' => $count, 'employee' => $employee]);
     }
     function employees()
     {
