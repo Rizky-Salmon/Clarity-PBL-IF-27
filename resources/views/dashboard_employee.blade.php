@@ -57,7 +57,7 @@
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">My Activity</h6>
-                                
+
                             </div>
 
                             <div class="card-body">
@@ -157,7 +157,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST">
-                                                
+
 
                                                 <div class="form-group">
                                                     <label for="editEmployeePSubSector">Activity</label>
@@ -215,6 +215,53 @@
                         </div>
                         <!-- End of Main Content -->
 
+                        <div class="card" style="font-family: Roboto, sans-serif;">
+                            <div class="row no-gutters">
+                                <div class="col-md-3 mt-5 ml-5 my-5">
+                                    <img src="img/undraw_profile.svg" class="card-img rounded"
+                                        alt="Sorry, its Empty.">
+                                </div>
+                                <div class="col-md-7 mt-5 ml-5">
+                                    <h5 class="card-title"><b>
+                                            <center> PROFILE</center>
+                                        </b></h5>
+                                    <hr>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>:&nbsp;&nbsp;</td>
+                                                <td>{{ $employee->name }}</td>
+                                                <td><a href="#profile-edit" class="edit-profile-link"
+                                                        data-toggle="tab" role="tab"
+                                                        style="text-align: right;"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>:&nbsp;&nbsp;</td>
+                                                <td>{{ $employee->email }}</td>
+                                                <td><a href="#profile-edit" class="edit-profile-link"
+                                                        data-toggle="tab" role="tab"
+                                                        style="text-align: right;"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td>:&nbsp;&nbsp;</td>
+                                                <td>{{ $employee->password }}</td>
+                                                <td><a href="#profile-edit" class="edit-profile-link"
+                                                        data-toggle="tab" role="tab"
+                                                        style="text-align: right;"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- End of Content Wrapper -->
                     <!-- Footer -->

@@ -25,12 +25,14 @@ class AdminController extends Controller
         $count['employee'] = Employees::count();
 
         // Fetch Employee Data
-        $employee = Employees::first(); // Assuming you just need one employee data for now
+        $user_id = auth()->user()->id_employees; // Assuming you have `id` column in your `employees` table
+        $employee = Employees::where('id_employees', $user_id)->first();
 
         return view('dashboard', ['count' => $count, 'employee' => $employee]);
     }
     function employees()
     {
-        return view('dashboard_employee');
+        $employee = Employees::first(); // Assuming you just need one employee data for now
+        return view('dashboard_employee', ['employee' => $employee]);
     }
 }
