@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index']);
 
+    // Dashboard Admin
+    Route::post('/update-name/{id_employee}', [AdminController::class, 'updateName'])->name('update.name');
+    Route::post('/update-email/{id_employee}', [AdminController::class, 'updateEmail'])->name('update.email');
+    Route::post('/update-password/{id_employee}', [AdminController::class, 'updatePassword'])->name('update.password');
 
     // Manage Employees
     Route::get('employees', [EmployeesController::class, 'index'])->name('employees.index');

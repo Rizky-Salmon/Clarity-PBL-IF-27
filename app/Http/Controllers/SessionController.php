@@ -36,6 +36,7 @@ class SessionController extends Controller
                 Alert::success('Success', 'Welcome to Clarity !');
                 return redirect('admin');
             } elseif (auth()->user()->role == 'employees') {
+                Alert::success('Success', 'Welcome to Clarity !');
                 return redirect('employees');
             }
         } else {
