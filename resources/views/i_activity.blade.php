@@ -355,33 +355,16 @@
         <fieldset>
             <legend>Graph Options</legend>
             <h3 class="first-h3">Number of Bubbles to show</h3>
-            <div><select id="limit">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
+            <div>
+                <select id="limit">
+                    <option value="ALL">ALL</option>
                     <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                    <option>13</option>
-                    <option>14</option>
-                    <option>15</option>
-                    <option>16</option>
-                    <option>17</option>
-                    <option>18</option>
-                    <option>19</option>
-                    <option>20</option>
-                    <option>21</option>
-                    <option>22</option>
-                    <option>23</option>
-                    <option>24</option>
                     <option>25</option>
-                </select></div>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>200</option>
+                </select>
+            </div>
             <h3>Order</h3>
             <select id="shuffle">
                 <option value="0">Largest to smallest</option>
@@ -562,21 +545,23 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.19.0/d3-legend.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
-        <script id="rendered-js">
 
+
+        <script id="rendered-js">
             var activityData = JSON.parse(@json($datavisual));
 
-            const defaultLimit = 20;
+            function getColor(idx, total) {
+                // Generate color based on the index and total number of items
+                const hue = (360 * idx / total) % 360;
+                return `hsl(${hue}, 70%, 50%)`;
+            }
 
             // setup controls
-            const satInput = document.querySelector('#sat');
-            const lumInput = document.querySelector('#lum');
             const limitSelect = document.querySelector('#limit');
             const shuffleSelect = document.querySelector('#shuffle');
-            const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-            options.forEach((val, i) => limitSelect.options[i] = new Option(val));
-            limitSelect.selectedIndex = defaultLimit - 1;
             const bgSelect = document.querySelector('#bg');
+
+            limitSelect.selectedIndex = 0;
             bgSelect.selectedIndex = 0;
             limitSelect.addEventListener('change', render);
             bgSelect.addEventListener('change', render);
@@ -586,7 +571,8 @@
 
             function render() {
                 let idx = 0;
-                const limit = limitSelect.selectedIndex + 1;
+                const limitValue = limitSelect.options[limitSelect.selectedIndex].value;
+                const limit = limitValue === "ALL" ? activityData.length : parseInt(limitValue);
                 const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
                 const doShuffle = shuffleSelect.selectedIndex === 1;
                 document.querySelector('#chart').innerHTML = '';
@@ -608,18 +594,18 @@
                 var diameter = 600,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
 
-                var bubble = d3.pack().
-                size([diameter, diameter]).
-                padding(0);
+                var bubble = d3.pack().size([diameter, diameter]).padding(0);
 
-                var tip = d3.tip().
-                attr('class', 'd3-tip-outer').
-                offset([-38, 0]).
-                html((d, i) => {
-                    const item = json.children[i];
-                    const color = getColor(i, values.length);
-                    return `<div class="d3-tip" style="background-color: ${color}">${item.name} (${item.value})</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
-                });
+                var tip = d3.tip()
+                    .attr('class', 'd3-tip-outer')
+                    .offset([-38, 0])
+                    .html((d, i) => {
+                        const item = json.children[i];
+                        const color = getColor(i, total);
+                        return `<div class="d3-tip" style="background-color: ${color}"><strong>Activity:</strong>
+                            ${item.name} <br> <strong>${item.value}</strong> employee</div>
+                            <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                    });
 
 
                 var margin = {
@@ -629,104 +615,61 @@
                     bottom: 25
                 };
 
+                var svg = d3.select('#chart').append('svg')
+                    .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
+                    .attr('width', diameter + margin.right)
+                    .attr('height', diameter)
+                    .attr('class', 'chart-svg');
 
-                var svg = d3.select('#chart').append('svg').
-                attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter).
-                attr('width', diameter + margin.right).
-                attr('height', diameter).
-                attr('class', 'chart-svg');
-
-                var root = d3.hierarchy(json).
-                sum(function(d) {
-                    return d.value;
-                });
-                // .sort(function(a, b) { return b.value - a.value; });
+                var root = d3.hierarchy(json)
+                    .sum(function(d) {
+                        return d.value;
+                    });
 
                 bubble(root);
 
-                var node = svg.selectAll('.node').
-                data(root.children).
-                enter().
-                append('g').attr('class', 'node').
-                attr('transform', function(d) {
-                    return 'translate(' + d.x + ' ' + d.y + ')';
-                }).
-                append('g').attr('class', 'graph');
+                var node = svg.selectAll('.node')
+                    .data(root.children)
+                    .enter()
+                    .append('g').attr('class', 'node')
+                    .attr('transform', function(d) {
+                        return 'translate(' + d.x + ' ' + d.y + ')';
+                    })
+                    .append('g').attr('class', 'graph');
 
-                node.append("circle").
-                attr("r", function(d) {
-                    return d.r;
-                }).
-                style("fill", getItemColor).
-                on('mouseover', tip.show).
-                on('mouseout', tip.hide);
+                node.append("circle")
+                    .attr("r", function(d) {
+                        return d.r;
+                    })
+                    .style("fill", getItemColor)
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
 
                 node.call(tip);
 
-                node.append("text").
-                attr("dy", "0.2em").
-                style("text-anchor", "middle").
-                style('font-family', 'Roboto').
-                style('font-size', getFontSizeForItem).
-                text(getLabel).
-                style("fill", "#ffffff").
-                style('pointer-events', 'none');
+                node.append("text")
+                    .attr("dy", "0.2em")
+                    .style("text-anchor", "middle")
+                    .style('font-family', 'Roboto')
+                    .style('font-size', '14px')
+                    .text(getLabel)
+                    .style("fill", "#ffffff")
+                    .style('pointer-events', 'none');
 
-                node.append("text").
-                attr("dy", "1.3em").
-                style("text-anchor", "middle").
-                style('font-family', 'Roboto').
-                style('font-weight', '100').
-                style('font-size', getFontSizeForItem).
-                text(getValueText).
-                style("fill", "#ffffff").
-                style('pointer-events', 'none');
+                node.append("text")
+                    .attr("dy", "1.3em")
+                    .style("text-anchor", "middle")
+                    .style('font-family', 'Roboto')
+                    .style('font-weight', 'bold')
+                    .style('font-size', getFontSizeForItem)
+                    .text(getValueText)
+                    .style("fill", "black")
+                    .style('pointer-events', 'none');
 
                 function getItemColor(item) {
-                    return getColor(idx++, json.children.length);
+                    return getColor(idx++, total);
                 }
 
-                function getColor(idx, total) {
-                    const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60',
-                        '9E1F63',
-                        '992271',
-                        '952480', '90278E', '7A2A8F', '652D90', '502980', '3B2671', '262261', '27286D',
-                        '292D78',
-                        '2A3384',
-                        '2B388F', '2A4F9F', '2965AF', '277CC0', '2692D0', '25A9E0'
-                    ];
-                    const colorLookup = [
-                        [0, 4, 10, 18, 24],
-                        [0, 3, 6, 9, 11, 13, 15, 18, 20, 24],
-                        [0, 3, 4, 6, 7, 9, 11, 13, 14, 15, 17, 18, 20, 22, 24],
-                        [0, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24],
-                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-                            23, 24
-                        ]
-                    ];
-
-                    for (const idxList of colorLookup) {
-                        if (idxList.length >= total) {
-                            return '#' + colorList[idxList[idx]];
-                        }
-                    }
-                }
-
-
-
-                // function getColor(idx, total) {
-                //   const start = 14;
-                //   const end = 210;
-                //   const interval = Math.min(18, (end - start) / total);
-                //   let hue = start - Math.round(interval * idx);
-                //   if (hue > 360) {
-                //     hue -= 360;
-                //   }
-                //   if (hue < 0) {
-                //     hue += 360;
-                //   }
-                //   return `hsl(${hue},${sat}%,${lum}%)`;
-                // }
                 function getLabel(item) {
                     if (item.data.value < max / 3.3) {
                         return '';
@@ -763,13 +706,12 @@
                     return `${size}px`;
                 }
             }
-            //# sourceURL=pen.js
         </script>
 
     </div>
     <!-- /.container-fluid -->
 
-   @if (session('openModal'))
+    @if (session('openModal'))
         <script>
             let modal = "{{ session('openModal') }}";
             setTimeout(function() {

@@ -358,11 +358,7 @@
             <div>
                 <select id="limit-select">
                     <option value="All">All</option>
-                    <script>
-                        for (let i = 1; i <= 100; i++) {
-                            document.write(`<option value="${i}">${i}%</option>`);
-                        }
-                    </script>
+                    <!-- Options will be generated dynamically using JavaScript -->
                 </select>
             </div>
             <h3>Bg Color</h3>
@@ -372,6 +368,7 @@
                 <option value="#111111">Dark</option>
             </select>
         </fieldset>
+
 
         <div id="chart" class="chart">
             <svg viewBox="0 0 625 600" width="625" height="600" class="chart-svg">
@@ -544,102 +541,57 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
 
         <script>
-            var json = {
-                'children': [{
-                        name: "BRINDLE",
-                        aktivitas: "Représentation institutionelle",
-                        value: 7
-                    },
-                    {
-                        name: "DEGAUGUE",
-                        aktivitas: "Représentation institutionelle",
-                        value: 1
-                    },
-                    {
-                        name: "LE MEUR",
-                        aktivitas: "Représentation institutionelle",
-                        value: 1
-                    },
-                    {
-                        name: "BRINDLE",
-                        aktivitas: "Accompagnement renforcé EUNICE",
-                        value: 2
-                    },
-                    {
-                        name: "BRINDLE",
-                        aktivitas: "Collecte des indicateurs ",
-                        value: 2
-                    },
-                    {
-                        name: "PRUVOST",
-                        aktivitas: "Collecte des indicateurs ",
-                        value: 1
-                    },
-                    {
-                        name: "TAMPERE",
-                        aktivitas: "Collecte des indicateurs ",
-                        value: 1
-                    },
-                    {
-                        name: "BRINDLE",
-                        aktivitas: "Contrôle financier de projet",
-                        value: 2
-                    },
-                    {
-                        name: "LE MEUR",
-                        aktivitas: "Contrôle financier de projet",
-                        value: 1
-                    },
-                    {
-                        name: "DEGAUGUE",
-                        aktivitas: "Collecte des indicateurs ",
-                        value: 3
-                    },
-                    {
-                        name: "DRELON",
-                        aktivitas: "Collecte des indicateurs ",
-                        value: 5
-                    }
-                ]
-            };
-
-            const limitSelect = document.querySelector('#limit-select');
+            var activityData = {!! $datavisual !!};
+            let limit = 'All'; // Default limit
             const bgSelect = document.querySelector('#bg');
+            const limitSelect = document.querySelector('#limit-select');
 
-            limitSelect.addEventListener('change', render);
+            // Mengumpulkan nilai persentase unik dari data
+            const uniquePercentages = [...new Set(activityData.map(item => item.value))];
+
+            // Menambahkan opsi persentase berdasarkan nilai persentase unik
+            uniquePercentages.forEach(percentage => {
+                const option = document.createElement('option');
+                option.value = percentage;
+                option.textContent = percentage + '%';
+                limitSelect.appendChild(option);
+            });
+
+            limitSelect.addEventListener('change', () => {
+                limit = limitSelect.value;
+                render();
+            });
             bgSelect.addEventListener('change', render);
 
-            render();
-
             function render() {
-                const selectedLimit = limitSelect.value;
-                let filteredData = selectedLimit === "All" ? json.children : json.children.filter(item => item.value ==
-                    selectedLimit);
+                let filteredData;
+
+                if (limit === 'All') {
+                    filteredData = activityData;
+                } else {
+                    // Mencari item dalam data yang memiliki nilai persentase sesuai dengan yang dipilih
+                    filteredData = activityData.filter(item => item.value === parseInt(limit));
+                }
+
                 const bgColor = bgSelect.value;
                 document.querySelector('#chart').innerHTML = '';
 
-                const values = filteredData.map(d => d.value);
                 const diameter = 600;
-                const color = d3.scaleOrdinal(d3.schemeCategory20c);
 
-                const bubble = d3.pack()
-                    .size([diameter, diameter])
-                    .padding(0);
+                const bubble = d3.pack().size([diameter, diameter]).padding(0);
 
                 const tip = d3.tip()
                     .attr('class', 'd3-tip-outer')
                     .offset([-38, 0])
                     .html((d, i) => {
                         const item = filteredData[i];
-                        const color = getColor(i, values.length);
-                        const nameText = selectedLimit === "All" ? `<strong>Percentage: </strong> ${item.value} % <br>` :
-                        "";
+                        const color = getColor(i, filteredData.length);
                         return `<div class="d3-tip" style="background-color: ${color}; color: white;">
-                                    ${nameText}
-                                    <strong>Activity:</strong> ${item.aktivitas} <br>
-                                    <strong>Name:</strong> ${item.name}
-                                    </div>
-                                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                    <strong>Activity:</strong> ${item.aktivitas} <br>
+                    <strong>Name:</strong> ${item.name} <br>
+                    <strong>Percentage:</strong> ${item.value}%
+                </div>
+                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
 
                 document.body.style.backgroundColor = bgColor;
@@ -651,9 +603,8 @@
                     .attr('class', 'chart-svg');
 
                 const root = d3.hierarchy({
-                        children: filteredData
-                    })
-                    .sum(d => d.value);
+                    children: filteredData
+                }).sum(d => d.value);
 
                 bubble(root);
 
@@ -672,50 +623,54 @@
 
                 node.call(tip);
 
-                if (selectedLimit === "All") {
-                    node.append("text")
-                        .attr("dy", "1.3em")
-                        .style("text-anchor", "middle")
-                        .style('font-family', 'Roboto')
-                        .style('font-weight', 'bold')
-                        .style('font-size', getFontSizeForItem)
-                        .text(d => d.data.value || "None")
-                        .style("fill", "black")
-                        .style('pointer-events', 'none');
-                }
-
                 node.append("text")
                     .attr("dy", "-1em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
-                    .style('font-size', getFontSizeForItem)
+                    .style('font-size', '10px')
                     .text(d => d.data.name)
                     .style("fill", "#adadad")
                     .style('pointer-events', 'none');
+
+                function truncate(label) {
+                    const max = 10;
+                    if (label.length > max) {
+                        label = label.slice(0, max) + '...';
+                    }
+                    return label;
+                }
 
                 node.append("text")
                     .attr("dy", "0.2em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
-                    .style('font-size', getFontSizeForItem)
-                    .text(d => d.data.aktivitas)
+                    .style('font-size', '14px')
+                    .text(d => truncate(d.data.aktivitas)) // Menggunakan fungsi truncate untuk memotong teks
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
 
-                function getColor(idx, total) {
-                    const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                        '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
-                        '1F539A'
-                    ];
-                    return `#${colorList[idx % colorList.length]}`;
-                }
-
-                function getFontSizeForItem(d) {
-                    return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
-                }
+                node.append("text")
+                    .attr("dy", "1.3em")
+                    .style("text-anchor", "middle")
+                    .style('font-family', 'Roboto')
+                    .style('font-weight', 'bold')
+                    .style('font-size', '10px')
+                    .text(d => `${d.data.value}%`)
+                    .style("fill", "black")
+                    .style('pointer-events', 'none');
             }
+
+            function getColor(idx, total) {
+                // Generate color based on the index and total number of items
+                const hue = (360 * idx / total) % 360;
+                return `hsl(${hue}, 70%, 50%)`;
+            }
+
+            // Initial rendering
+            render();
         </script>
+
 
     </div>
     <!-- /.container-fluid -->

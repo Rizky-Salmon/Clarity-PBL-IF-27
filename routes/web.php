@@ -74,14 +74,11 @@ Route::middleware('auth')->group(function () {
 
 
 // Navbar untuk Interaktif visualisasi dan employee
-
-Route::get('/i_percentage', function () {
-    return view('i_percentage', [
-        'title' => 'Clarity'
-    ]);
-});
-
 Route::get('/i_activity', [VisusalisasiController::class, 'OverallActivity']);
+Route::get('/i_percentage', [VisusalisasiController::class, 'ActivityPercentage']);
+
+
+
 
 Route::get('/i_employee', function () {
     return view('i_employee', [

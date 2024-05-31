@@ -16,7 +16,7 @@ class CreateActivitySubsectorTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_activity'); // foreign key to activity table
             $table->unsignedBigInteger('id_subsector'); // foreign key to subsector table
-            $table->integer('priority'); // Tambahkan kolom priority
+            $table->integer('priority')->default(1); // Tambahkan kolom priority dengan default 1
             $table->timestamps();
             // Add foreign key constraints
             $table->foreign('id_activity')->references('id_activity')->on('activity')->onDelete('cascade');
@@ -25,7 +25,7 @@ class CreateActivitySubsectorTable extends Migration
     }
 
     public function down()
-    {   
+    {
         Schema::dropIfExists('activity_subsector');
     }
 }
