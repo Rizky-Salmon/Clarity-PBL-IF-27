@@ -37,7 +37,7 @@ class SessionController extends Controller
                 return redirect('admin');
             } elseif (auth()->user()->role == 'employees') {
                 Alert::success('Success', 'Welcome to Clarity !');
-                return redirect('employees');
+                return redirect('employee');
             }
         } else {
             return redirect()->back()->withErrors(['password' => 'Password did not match our records.'])->withInput();
@@ -50,6 +50,7 @@ class SessionController extends Controller
     function logout()
     {
         auth::logout();
+        Alert::success('Success', 'Logout Success !');
         return redirect('');
     }
 }

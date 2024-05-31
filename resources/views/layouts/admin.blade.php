@@ -57,7 +57,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                @else
+                @elseif (Auth::user()->role == 'employees')
                     <!-- Nav Item - Dashboard -->
                     <li class="nav-item {{ Request::is('employee') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ asset('/employee') }}">
@@ -66,10 +66,7 @@
                         </a>
                     </li>
                 @endif
-            @endauth
 
-
-            @auth
                 @if (Auth::user()->role == 'admin')
                     <!-- Divider -->
                     <hr class="sidebar-divider">
@@ -111,46 +108,49 @@
                         </a>
                     </li>
                 @endif
+
+                @if (Auth::user()->role == 'employees' || Auth::user()->role == 'admin')
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
+
+                    <!-- Heading - Employee Menu -->
+                    <div class="sidebar-heading">
+                        Employee Menu
+                    </div>
+
+                    <!-- Data visualization -->
+                    <li
+                        class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' ? 'active' : '' }}">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Data visualization</span>
+                        </a>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
+                                <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
+                                <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
+                                <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
+                                <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
+                                <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
+                                <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ asset('/a_percentage') }}">
+                            <i class="fas fa-fw fa-tasks"></i>
+                            <span>Manage Activity Percentage</span>
+                        </a>
+                    </li>
+                @endif
             @endauth
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-            <!-- Heading - Admin Menu -->
-            <div class="sidebar-heading">
-                Employee Menu
-            </div>
 
-            <!-- Data visualization -->
-            <li
-                class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' ? 'active' : '' }}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="false" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Data visualization</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
-                        <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
-                        <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
-                        <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
-                        <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
-                        <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
-                        <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a>
-                    </div>
-
-                </div>
-            </li>
-
-            <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ asset('/a_percentage') }}">
-                    <i class="fas fa-fw fa-tasks"></i>
-                    <span>Manage Activity Percentage</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Sidebar Toggle Button -->
             <div class="text-center d-none d-md-inline">

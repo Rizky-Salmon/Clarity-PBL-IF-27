@@ -27,13 +27,13 @@
                 </button>
             </div>
 
-            <!-- Add Percentage Modal -->
+            <!-- Modal Tambah Persentase -->
             <div class="modal fade" id="addPercentageModal" tabindex="-1" role="dialog"
                 aria-labelledby="addPercentageModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addPercentageModalLabel">Add Percentage</h5>
+                            <h5 class="modal-title" id="addPercentageModalLabel">Add Activity Percentage</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -45,7 +45,7 @@
                                     <label for="addActivityName">Activity</label>
                                     <select name="add_activityName" class="form-control" id="addActivityName"
                                         selectedOption="{{ old('add_activityName') }}">
-                                        <option value="">- Choose Activity -</option>
+                                        <option value="">- Select Activity -</option>
                                         @forelse($activity as $key => $value)
                                             <option value="{{ $value->id_activity }}">{{ $value->activity_name }}</option>
                                         @empty
@@ -58,25 +58,26 @@
                                     $user = auth()->user();
                                 @endphp
 
-                                @if($user->role === 'admin')
-                                <div class="form-group">
-                                    <label for="addEmployeeName">Employee Name</label>
-                                    <select name="add_employeeName" class="form-control" id="addEmployeeName"
-                                        selectedOption="{{ old('add_employeeName') }}">
-                                        <option value="">- Choose Employee -</option>
-                                        @forelse($employees as $key => $value)
-                                            <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
-                                        @empty
-                                            <option value="">- No Employee -</option>
-                                        @endforelse
-                                    </select>
-                                </div>
+                                @if ($user->role === 'admin')
+                                    <div class="form-group">
+                                        <label for="addEmployeeName">Employee Name</label>
+                                        <select name="add_employeeName" class="form-control" id="addEmployeeName"
+                                            selectedOption="{{ old('add_employeeName') }}">
+                                            <option value="">- Select Employee -</option>
+                                            @forelse($employees as $key => $value)
+                                                <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
+                                            @empty
+                                                <option value="">- No Employee -</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
                                 @else
-                                <div class="form-group">
-                                    <label for="addEmployeeName">Employee Name</label>
-                                    <input type="text" name="employee_name" class="form-control" id="employeeName" value="{{ $user->name }}" readonly>
-                                    <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}">
-                                </div>
+                                    <div class="form-group">
+                                        <label for="addEmployeeName">Employee Name</label>
+                                        <input type="text" name="employee_name" class="form-control" id="employeeName"
+                                            value="{{ $user->name }}" readonly>
+                                        <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}">
+                                    </div>
                                 @endif
 
                                 <div class="form-group">
@@ -84,13 +85,12 @@
                                     <input type="number" name="percentage"
                                         class="form-control @error('percentage') is-invalid @enderror" id="percentage"
                                         min="0" max="100" placeholder="Enter Percentage"
-                                        value="{{ old('percentage') }}"required>
+                                        value="{{ old('percentage') }}" required>
                                     @error('percentage')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
-                                    Activity Percentage</button>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Activity Percentage</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
                         </div>
@@ -98,6 +98,7 @@
                 </div>
             </div>
 
+            <!-- Modal Filter Employee -->
             <div class="modal fade" id="filterEmployees" tabindex="-1" role="dialog"
                 aria-labelledby="addPercentageModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,12 +113,10 @@
                             <form action="/a_percentage" method="GET" id="form_filter">
                                 <div class="form-group">
                                     <label for="addEmployeeName">Employee</label>
-
                                     <select name="id_employees" class="form-control" id="id_employees"
                                         selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}">
                                         <option value="">- Select Employee -</option>
-                                        <option value="All">All Employee</option>
-
+                                        <option value="All">All Employees</option>
                                         @forelse($employees as $key => $value)
                                             <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
                                         @empty
@@ -125,14 +124,15 @@
                                         @endforelse
                                     </select>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Apply</button>
+                                <button type="submit" class="btn btn-primary"
+                                    style="margin-left: 140px;">Apply</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="card-body">

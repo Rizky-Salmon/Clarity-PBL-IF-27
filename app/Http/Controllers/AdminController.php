@@ -36,7 +36,8 @@ class AdminController extends Controller
 
     public function employees()
     {
-        $employee = Employees::first(); // Assuming you just need one employee data for now
+        $user_id = auth()->user()->id_employees; // Assuming you have `id` column in your `employees` table
+        $employee = Employees::where('id_employees', $user_id)->first();
         return view('dashboard_employee', ['employee' => $employee]);
     }
 

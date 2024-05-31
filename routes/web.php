@@ -11,6 +11,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\SubSectorController;
 use App\Http\Controllers\ActivityPercentageController;
+use App\Http\Controllers\VisusalisasiController;
 
 // Akses Tanpa Login
 Route::middleware('guest')->group(function () {
@@ -74,18 +75,13 @@ Route::middleware('auth')->group(function () {
 
 // Navbar untuk Interaktif visualisasi dan employee
 
-
 Route::get('/i_percentage', function () {
     return view('i_percentage', [
         'title' => 'Clarity'
     ]);
 });
 
-Route::get('/i_activity', function () {
-    return view('i_activity', [
-        'title' => 'Clarity'
-    ]);
-});
+Route::get('/i_activity', [VisusalisasiController::class, 'OverallActivity']);
 
 Route::get('/i_employee', function () {
     return view('i_employee', [

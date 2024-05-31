@@ -12,7 +12,7 @@ class EmployeesSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    
+
     public function run(): void
     {
         // Data pengguna untuk disisipkan ke dalam tabel employees
@@ -24,47 +24,89 @@ class EmployeesSeeder extends Seeder
                 'role' => 'admin'
             ],
             [
-                'name' => 'Employees',
-                'email' => 'employees@gmail.com',
-                'password' => bcrypt('employees'),
-                'role' => 'employees'
-            ],
-            [
                 'name' => 'BRINDLE',
-                'email' => 'brindle@example.com',
-                'password' => bcrypt('brindlepassword'),
+                'email' => 'brindle@gmail.com',
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [
                 'name' => 'PLACE',
-                'email' => 'place@example.com',
-                'password' => bcrypt('placepassword'),
+                'email' => 'place@gmail.com',
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [
                 'name' => 'PRUVOST',
-                'email' => 'pruvost@example.com',
-                'password' => bcrypt('pruvostpassword'),
+                'email' => 'pruvost@gmail.com',
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [
                 'name' => 'CAULIEZ',
-                'email' => 'cauliez@example.com',
-                'password' => bcrypt('cauliezpassword'),
+                'email' => 'cauliez@gmail.com',
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [
                 'name' => 'LE MEUR',
-                'email' => 'lemur@example.com',
-                'password' => bcrypt('lemurpassword'),
+                'email' => 'lemur@gmail.com',
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [
                 'name' => 'DEGAUGUE',
-                'email' => 'degaugue@example.com',
+                'email' => 'degaugue@gmail.com',
                 'password' => bcrypt('degauguepassword'),
                 'role' => 'employees'
             ],
+            [
+                'name' => 'MILLER',
+                'email' => 'miller@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'GARCON',
+                'email' => 'garcon@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'DUCAMP',
+                'email' => 'ducamp@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'QUIROGA',
+                'email' => 'quiroga@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'PREVEL',
+                'email' => 'prevel@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'LEGALLIC',
+                'email' => 'legallic@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'DRELLON',
+                'email' => 'drellon@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ],
+            [
+                'name' => 'TAMPERE',
+                'email' => 'tampere@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'employees'
+            ]
         ];
 
         // Memeriksa dan menyisipkan data pengguna ke dalam tabel employees

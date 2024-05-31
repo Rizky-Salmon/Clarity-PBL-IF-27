@@ -1,46 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin')
 
-<head>
+@section('title', 'Employee Dashboard')
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+@section('content')
 
-    <title>Clarity</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        @include('form.sidebar')
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                @include('form.navbar')
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
@@ -56,12 +19,11 @@
                         <div class="card" style="font-family: Roboto, sans-serif;">
                             <div class="row no-gutters">
                                 <div class="col-md-3 mt-5 ml-5 my-5">
-                                    <img src="img/undraw_profile.svg" class="card-img rounded"
-                                        alt="Sorry, its Empty.">
+                                    <img src="img/undraw_profile.svg" class="card-img rounded" alt="Sorry, it's Empty.">
                                 </div>
                                 <div class="col-md-7 mt-5 ml-5">
                                     <h5 class="card-title"><b>
-                                            <center> PROFILE</center>
+                                            <center>PROFILE</center>
                                         </b></h5>
                                     <hr>
                                     <table>
@@ -70,74 +32,191 @@
                                                 <td>Name</td>
                                                 <td>:&nbsp;&nbsp;</td>
                                                 <td>{{ $employee->name }}</td>
-                                                <td><a href="#profile-edit" class="edit-profile-link"
-                                                        data-toggle="tab" role="tab"
-                                                        style="text-align: right;"><i
+                                                <td><a href="#editNameModal" class="edit-profile-link"
+                                                        data-toggle="modal"><i
                                                             class="fa-solid fa-pen-to-square"></i></a></td>
                                             </tr>
                                             <tr>
                                                 <td>Email</td>
                                                 <td>:&nbsp;&nbsp;</td>
                                                 <td>{{ $employee->email }}</td>
-                                                <td><a href="#profile-edit" class="edit-profile-link"
-                                                        data-toggle="tab" role="tab"
-                                                        style="text-align: right;"><i
+                                                <td><a href="#editEmailModal" class="edit-profile-link"
+                                                        data-toggle="modal"><i
                                                             class="fa-solid fa-pen-to-square"></i></a></td>
                                             </tr>
                                             <tr>
                                                 <td>Password</td>
                                                 <td>:&nbsp;&nbsp;</td>
-                                                <td>{{ $employee->password }}</td>
-                                                <td><a href="#profile-edit" class="edit-profile-link"
-                                                        data-toggle="tab" role="tab"
-                                                        style="text-align: right;"><i
+                                                <td>********</td>
+                                                <td><a href="#editPasswordModal" class="edit-profile-link"
+                                                        data-toggle="modal"><i
                                                             class="fa-solid fa-pen-to-square"></i></a></td>
                                             </tr>
-
-
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End of Content Wrapper -->
-                    <!-- Footer -->
-                    <footer class="sticky-footer bg-white" style="position: fixed; bottom: 0; width: 100%;">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12 text-center copyright">
-                                    <p class="text-muted">Copyright &copy; Your Website 2021</p>
+
+                        <!-- Edit Name Modal -->
+                        <div class="modal fade" id="editNameModal" tabindex="-1" role="dialog"
+                            aria-labelledby="editNameModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editNameModalLabel">Edit Name</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form
+                                        action="{{ route('update.name', ['id_employee' => $employee->id_employees]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="{{ $employee->name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </footer>
-                    <!-- End of Footer -->
-                </div>
-                <!-- End of Page Wrapper -->
 
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
+                        <!-- Edit Email Modal -->
+                        <div class="modal fade" id="editEmailModal" tabindex="-1" role="dialog"
+                            aria-labelledby="editEmailModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editEmailModalLabel">Edit Email</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form
+                                        action="{{ route('update.email', ['id_employee' => $employee->id_employees]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email"
+                                                    name="email" value="{{ $employee->email }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                        <!-- Edit Password Modal -->
+                        <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog"
+                            aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editPasswordModalLabel">Change Password</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form
+                                        action="{{ route('update.password', ['id_employee' => $employee->id_employees]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label style="font-weight: bold;" for="current-password">Current
+                                                    Password</label>
+                                                <input type="password" class="form-control" id="current-password"
+                                                    name="current_password" placeholder="Enter Your Current Password"
+                                                    required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="font-weight: bold;" for="new-password">New
+                                                    Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="new-password"
+                                                        name="new_password" placeholder="Enter Your New Password"
+                                                        required>
+                                                    <div class="input-group-append">
+                                                        <button style="font-weight: bold;"
+                                                            class="btn btn-outline-secondary" type="button"
+                                                            onclick="togglePassword(this,'new-password')">
+                                                            <span class="fa fa-eye-slash"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label style="font-weight: bold;" for="confirm-password">Confirm New
+                                                    Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="confirm-password"
+                                                        name="new_password_confirmation"
+                                                        placeholder="Confirm Your New Password" required>
+                                                    <div class="input-group-append">
+                                                        <button style="font-weight: bold;"
+                                                            class="btn btn-outline-secondary" type="button"
+                                                            onclick="togglePassword(this,'confirm-password')">
+                                                            <span class="fa fa-eye-slash"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Content Wrapper -->
 
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
+                 <script>
+        function togglePassword(e, inputId) {
+            var input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                e.querySelector('span').classList.remove('fa-eye-slash');
+                e.querySelector('span').classList.add('fa-eye');
+            } else {
+                input.type = "password";
+                e.querySelector('span').classList.remove('fa-eye');
+                e.querySelector('span').classList.add('fa-eye-slash');
+            }
+        }
+    </script>
 
-                <!-- Page level plugins -->
-                <script src="vendor/chart.js/Chart.min.js"></script>
+    @if (session('openModal'))
+        <script>
+            let modal = "{{ session('openModal') }}";
+            setTimeout(function() {
+                $('#' + modal).modal('show');
+            }, 2000);
+        </script>
+    @endif
 
-                <!-- Page level custom scripts -->
-                <script src="js/demo/chart-area-demo.js"></script>
-                <script src="js/demo/chart-pie-demo.js"></script>
-
-</body>
+@endsection
 
 </html>
