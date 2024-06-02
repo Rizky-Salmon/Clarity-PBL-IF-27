@@ -358,20 +358,6 @@
             <div>
                 <select id="limit">
                     <option value="All">All</option>
-                    <option value="BRINDLE">BRINDLE</option>
-                    <option value="PLACE">PLACE</option>
-                    <option value="PRUVOST">PRUVOST</option>
-                    <option value="CAULIEZ">CAULIEZ</option>
-                    <option value="LE MEUR">LE MEUR</option>
-                    <option value="DEGAUGUE">DEGAUGUE</option>
-                    <option value="MILLER">MILLER</option>
-                    <option value="GARCON">GARCON</option>
-                    <option value="DUCAMP">DUCAMP</option>
-                    <option value="QUIROGA">QUIROGA</option>
-                    <option value="PREVEL">PREVEL</option>
-                    <option value="LEGALLIC">LEGALLIC</option>
-                    <option value="DRELON">DRELON</option>
-                    <option value="TAMPERE">TAMPERE</option>
                 </select>
             </div>
             <h3>Order</h3>
@@ -560,58 +546,23 @@
 
 
         <script>
-            var json = {
-                'children': [{
-                        name: "BRINDLE",
-                        aktivitas: "Représentation institutionelle",
-                        value: 7
-                    },
-                    {
-                        name: "BRINDLE",
-                        aktivitas: "Accompagnement renforcé EUNICE",
-                        value: 2
-                    },
-                    {
-                        name: "LE MEUR",
-                        aktivitas: "Représentation institutionelle",
-                        value: 10
-                    },
-                    {
-                        name: "LE MEUR",
-                        aktivitas: "Contrôle financier de projet",
-                        value: 10
-                    }
-                ]
-            };
+            var activityData = {!! $datavisual !!};
 
-            const defaultLimit = 20;
-            // setup controls
+            // Get unique names from the data
+            const uniqueNamesArray = [...new Set(activityData.map(item => item.name))];
+
+            // Populate the employee name dropdown
             const limitSelect = document.querySelector('#limit');
+            uniqueNamesArray.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.text = name;
+                limitSelect.appendChild(option);
+            });
+
             const shuffleSelect = document.querySelector('#shuffle');
             const bgSelect = document.querySelector('#bg');
             bgSelect.selectedIndex = 0;
-
-            // Daftar nama yang disediakan dalam JSON
-            const namesFromJSON = ["BRINDLE", "PLACE", "PRUVOST", "CAULIEZ", "LE MEUR", "DEGAUGUE", "MILLER", "GARCON",
-                "DUCAMP", "QUIROGA", "PREVEL", "LEGALLIC", "DRELON", "TAMPERE"
-            ];
-
-            // Membuat sebuah Set untuk memastikan setiap nama hanya muncul sekali
-            const uniqueNamesSet = new Set(namesFromJSON);
-
-            // Mengonversi Set kembali menjadi array
-            const uniqueNamesArray = Array.from(uniqueNamesSet);
-
-            // Mengosongkan dropdown sebelum mengisi ulang
-            limitSelect.innerHTML = '';
-
-            // Menambahkan opsi "All" pada dropdown
-            limitSelect.options[limitSelect.options.length] = new Option("All");
-
-            // Mengisi dropdown dengan nama-nama unik
-            uniqueNamesArray.forEach(name => {
-                limitSelect.options[limitSelect.options.length] = new Option(name);
-            });
 
             limitSelect.addEventListener('change', render);
             shuffleSelect.addEventListener('change', render);
@@ -622,27 +573,24 @@
             function render() {
                 let idx = 0;
                 const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
-                let filteredData = selectedName === "All" ? json.children : json.children.filter(item => item.name ===
+                let filteredData = selectedName === "All" ? activityData : activityData.filter(item => item.name ===
                     selectedName);
-                const limit = filteredData.length;
 
                 const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-                const shuffleOption = shuffleSelect.selectedIndex; // Periksa nilai yang dipilih
+                const shuffleOption = shuffleSelect.selectedIndex;
                 document.querySelector('#chart').innerHTML = '';
 
-                // Terapkan pengurutan berdasarkan opsi yang dipilih
                 if (shuffleOption === 2) {
                     filteredData = _.shuffle(filteredData);
                 } else if (shuffleOption === 1) {
-                    filteredData.sort((a, b) => a.value - b.value); // Urutkan dari kecil ke besar
+                    filteredData.sort((a, b) => a.value - b.value);
                 } else {
-                    filteredData.sort((a, b) => b.value - a.value); // Urutkan dari besar ke kecil
+                    filteredData.sort((a, b) => b.value - a.value);
                 }
 
                 const values = filteredData.map(d => d.value);
                 const min = Math.min.apply(null, values);
                 const max = Math.max.apply(null, values);
-                const total = filteredData.length;
 
                 document.body.style.backgroundColor = bgColor;
 
@@ -659,15 +607,13 @@
                     .html((d, i) => {
                         const item = filteredData[i];
                         const color = getColor(i, values.length);
-                        const selectedName = limitSelect.options[limitSelect.selectedIndex].value;
-                        // Menambahkan nama hanya saat opsi "All" dipilih
                         const nameText = selectedName === "All" ? `<strong>Name:</strong> ${item.name} <br>` : "";
                         return `<div class="d3-tip" style="background-color: ${color}; color: white;">
-                                ${nameText}
-                                <strong>Activity:</strong> ${item.aktivitas} <br>
-                                <strong>Percentage:</strong> ${item.value} %
-                                </div>
-                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        ${nameText}
+                        <strong>Activity:</strong> ${item.aktivitas} <br>
+                        <strong>Percentage:</strong> ${item.value} %
+                        </div>
+                        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
 
                 var margin = {
@@ -717,7 +663,7 @@
                         .style("text-anchor", "middle")
                         .style('font-family', 'Roboto')
                         .style('font-weight', 'bold')
-                        .style('font-size', getFontSizeForItem)
+                        .style('font-size', '10px')
                         .text(getName)
                         .style("fill", "#adadad")
                         .style('pointer-events', 'none');
@@ -728,7 +674,7 @@
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-size', getFontSizeForItem)
-                    .text(getLabel)
+                    .text(d => truncate(getLabel(d)))
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
 
@@ -747,12 +693,9 @@
                 }
 
                 function getColor(idx, total) {
-                    const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                        '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
-                        '1F539A'
-                    ];
-                    const colorIdx = idx % colorList.length;
-                    return '#' + colorList[colorIdx];
+                    // Generate color based on the index and total number of items
+                    const hue = (360 * idx / total) % 360;
+                    return `hsl(${hue}, 70%, 50%)`;
                 }
 
                 function getFontSizeForItem(d) {
@@ -768,7 +711,15 @@
                 }
 
                 function getValueText(d) {
-                    return d.data.value;
+                    return d.data.value + '%';
+                }
+
+                function truncate(label) {
+                    const max = 10;
+                    if (label.length > max) {
+                        label = label.slice(0, max) + '...';
+                    }
+                    return label;
                 }
             }
         </script>

@@ -546,10 +546,10 @@
             const bgSelect = document.querySelector('#bg');
             const limitSelect = document.querySelector('#limit-select');
 
-            // Mengumpulkan nilai persentase unik dari data
-            const uniquePercentages = [...new Set(activityData.map(item => item.value))];
+            // Mengumpulkan nilai persentase unik dari data dan mengurutkannya
+            const uniquePercentages = [...new Set(activityData.map(item => item.value))].sort((a, b) => a - b);
 
-            // Menambahkan opsi persentase berdasarkan nilai persentase unik
+            // Menambahkan opsi persentase berdasarkan nilai persentase unik yang sudah diurutkan
             uniquePercentages.forEach(percentage => {
                 const option = document.createElement('option');
                 option.value = percentage;
@@ -623,6 +623,7 @@
 
                 node.call(tip);
 
+
                 node.append("text")
                     .attr("dy", "-1em")
                     .style("text-anchor", "middle")
@@ -630,8 +631,9 @@
                     .style('font-weight', 'bold')
                     .style('font-size', '10px')
                     .text(d => d.data.name)
-                    .style("fill", "#adadad")
+                    .style("fill", "black")
                     .style('pointer-events', 'none');
+
 
                 function truncate(label) {
                     const max = 10;
@@ -650,6 +652,7 @@
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
 
+                    if (limit === "All") {
                 node.append("text")
                     .attr("dy", "1.3em")
                     .style("text-anchor", "middle")
@@ -659,6 +662,7 @@
                     .text(d => `${d.data.value}%`)
                     .style("fill", "black")
                     .style('pointer-events', 'none');
+                    }
             }
 
             function getColor(idx, total) {

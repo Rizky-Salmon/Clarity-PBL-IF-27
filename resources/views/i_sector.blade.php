@@ -358,12 +358,6 @@
             <div>
                 <select id="limit">
                     <option value="All">All</option>
-                    <option value="mobilité">mobilité</option>
-                    <option value="pilotage">pilotage</option>
-                    <option value="finance">finance</option>
-                    <option value="internationalisation">internationalisation</option>
-                    <option value="projet">projet</option>
-                    <option value="contractualisation">contractualisation</option>
                 </select>
             </div>
             <h3>Bg Color</h3>
@@ -548,37 +542,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
 
         <script>
-            var json = {
-                'children': [{
-                        sector: "mobilité",
-                        subsector: "entrant_mobilite",
-                        deskripsi: "tout type de mobilité entrante",
-                        value: 7
-                    },
-                    {
-                        sector: "mobilité",
-                        subsector: "sortant_mobilite",
-                        deskripsi: "tout type de mobilité sortante",
-                        value: 7
-                    },
-                    {
-                        sector: "finance",
-                        subsector: "budgetisation_finance",
-                        deskripsi: "planification budgetaire PRI925, conseil et budget dans le montage de projet",
-                        value: 7
-                    },
-                    {
-                        sector: "internationalisation",
-                        subsector: "frontdesk_internationalisation",
-                        deskripsi: "1er niveau d'information avant dispatck en interne et externe",
-                        value: 7
-                    }
-                ]
-            };
+            var activityData = {!! $datavisual !!};
+            let limit = 'All'; // Default limit
 
             const limitSelect = document.querySelector('#limit');
             const bgSelect = document.querySelector('#bg');
             bgSelect.selectedIndex = 0;
+
+            // Populate dropdown with sector names
+            const sectorNames = [...new Set(activityData.map(item => item.sector))]; // Get unique sector names
+            sectorNames.forEach(sector => {
+                const option = document.createElement('option');
+                option.value = sector;
+                option.textContent = sector;
+                limitSelect.appendChild(option);
+            });
 
             limitSelect.addEventListener('change', render);
             bgSelect.addEventListener('change', render);
@@ -587,7 +565,7 @@
 
             function render() {
                 const selectedSector = limitSelect.options[limitSelect.selectedIndex].value;
-                let filteredData = selectedSector === "All" ? json.children : json.children.filter(item => item.sector ===
+                let filteredData = selectedSector === "All" ? activityData : activityData.filter(item => item.sector ===
                     selectedSector);
 
                 const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
@@ -605,6 +583,7 @@
                     .size([diameter, diameter])
                     .padding(0);
 
+
                 var tip = d3.tip()
                     .attr('class', 'd3-tip-outer')
                     .offset([-38, 0])
@@ -615,8 +594,6 @@
                         const sectorText = selectedSector === "All" ? `<strong>Sector:</strong> ${item.sector}<br>` : "";
                         return `<div class="d3-tip" style="background-color: ${color}">${sectorText}<strong>Subsector:</strong> ${item.subsector}<br><strong>Description:</strong> ${item.deskripsi}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
-
-
 
                 var svg = d3.select('#chart').append('svg')
                     .attr('viewBox', '0 0 ' + diameter + ' ' + diameter)
@@ -672,7 +649,7 @@
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
                     .style('font-size', getFontSizeForItem)
-                    .text(getLabel)
+                    .text(d => truncate(getLabel(d)))
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 
@@ -681,22 +658,26 @@
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-size', getFontSizeForItem)
-                    .text(getDeskripsi)
+                    .text(d => truncate(getDeskripsi(d)))
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
 
+                    function truncate(label) {
+                    const max = 15;
+                    if (label.length > max) {
+                        label = label.slice(0, max) + '...';
+                    }
+                    return label;
+                }
 
                 function getColor(idx, total) {
-                    const colorList = ['F05A24', 'EF4E4A', 'EE3F65', 'EC297B', 'E3236C', 'D91C5C', 'BC1E60', '9E1F63', '992271',
-                        '952480', '90278E', '7A2A8F', '673391', '5B3991', '463D94', '3A4196', '2D4798', '294B9A', '254D9A',
-                        '1F539A'
-                    ];
-                    const colorIdx = idx % colorList.length;
-                    return '#' + colorList[colorIdx];
+                    // Generate color based on the index and total number of items
+                    const hue = (360 * idx / total) % 360;
+                    return `hsl(${hue}, 70%, 50%)`;
                 }
 
                 function getFontSizeForItem(d) {
-                    return Math.max(12, Math.min(24, 24 * d.r / diameter)) + 'px';
+                    return Math.max(11, Math.min(24, 24 * d.r / diameter)) + 'px';
                 }
 
                 function getSectorText(d) {
