@@ -160,31 +160,40 @@ GROUP BY activity.activity_name, employees.name;
     }
 
 
-
-
-
-
-
-
     public function MaxEmployee()
     {
-        $datavisual = DB::select('SELECT activity.activity_name AS activity ,
-    employees.name AS name
-    FROM activity_percentage
-    JOIN activity ON activity.id_activity = activity_percentage.id_activity
-    JOIN employees ON employees.id_employees = activity_percentage.id_employees;');
+        $activityCounts = DB::select('SELECT activity.activity_name AS activity, employees.name AS name, COUNT(employees.id_employees) AS employee_count
+        FROM activity_percentage
+        JOIN activity ON activity.id_activity = activity_percentage.id_activity
+        JOIN employees ON employees.id_employees = activity_percentage.id_employees
+        WHERE activity_percentage.id_activity IN (
+            SELECT id_activity
+            FROM activity_percentage
+            GROUP BY id_activity
+            HAVING COUNT(id_employees) = (
+                SELECT COUNT(id_employees) AS max_employee_count
+                FROM activity_percentage
+                GROUP BY id_activity
+                ORDER BY max_employee_count DESC
+                LIMIT 1
+            )
+        )
+        GROUP BY activity.activity_name, employees.name;');
 
-        // Mengonversi data menjadi array asosiatif
-        $datavisualArray = [];
-        foreach ($datavisual as $data) {
-            $datavisualArray[] = [
-                'name' => $data->name,
-                'activity' => $data->activity,
-            ];
+        // Menentukan jumlah karyawan paling banyak
+        $maxEmployeeCount = $activityCounts[0]->employee_count;
+
+        // Mengambil semua aktivitas yang memiliki jumlah karyawan paling banyak
+        $maxEmployeeActivities = [];
+        foreach ($activityCounts as $activityCount) {
+            if ($activityCount->employee_count == $maxEmployeeCount) {
+                $maxEmployeeActivities[] = $activityCount->activity;
+            } // Tidak ada else di sini, biarkan loop terus berjalan untuk menangani aktivitas dengan jumlah karyawan yang sama
         }
 
         return view('i_MaxEmployee', [
-            'datavisual' => json_encode($datavisualArray),
+            'activities' => json_encode($maxEmployeeActivities),
+            'activityData' => json_encode($activityCounts), // Mengirimkan data aktivitas lengkap, termasuk nama karyawan, ke tampilan
         ]);
     }
 }
