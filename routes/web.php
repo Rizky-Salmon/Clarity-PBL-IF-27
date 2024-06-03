@@ -71,34 +71,15 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
 // Navbar untuk Interaktif visualisasi dan employee
 Route::get('/i_activity', [VisusalisasiController::class, 'OverallActivity']);
 Route::get('/i_percentage', [VisusalisasiController::class, 'ActivityPercentage']);
 Route::get('/i_employee', [VisusalisasiController::class, 'EmployeeActivity']);
 Route::get('/i_sector', [VisusalisasiController::class, 'Sector']);
+Route::get('/i_subsector', [VisusalisasiController::class, 'SubSector']);
+Route::get('/i_MinEmployee', [VisusalisasiController::class, 'MinEmployee']);
+Route::get('/i_MaxEmployee', [VisusalisasiController::class, 'MaxEmployee']);
 
-
-
-
-Route::get('/i_subsector', function () {
-    return view('i_subsector', [
-        'title' => 'Clarity'
-    ]);
-});
-
-Route::get('/i_MaxEmployee', function () {
-    return view('i_MaxEmployee', [
-        'title' => 'Clarity'
-    ]);
-});
-
-Route::get('/i_MinEmployee', function () {
-    return view('i_MinEmployee', [
-        'title' => 'Clarity'
-    ]);
-});
 
 // profile
 Route::get('/profile', function () {

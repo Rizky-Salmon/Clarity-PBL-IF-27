@@ -694,9 +694,6 @@
             }
         </script>
 
-
-
-
     </div>
     <!-- /.container-fluid -->
 
