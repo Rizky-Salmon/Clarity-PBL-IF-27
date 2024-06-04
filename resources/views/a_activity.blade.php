@@ -19,7 +19,6 @@
                 <img src="img/activity.png" style="height: 60px; width: 60px; margin-right: 10px;">
                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Activity Data</h3>
             </div>
-            <!--Add activity button-->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivityModal">
                 <i class="fas fa-plus"></i> Add Activity
             </button>
@@ -46,63 +45,48 @@
                                     <select name="subsector_id1" class="form-control subsector-dropdown" id="addSubsector1"
                                         required>
                                         <option value="">- Choose Subsector -</option>
-
-                                        @forelse($sectors as $value1)
-                                            <optgroup label="Sector : {{ $value1->sector_name }}">
-                                                @forelse($value1->subSectors as $value)
-                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                    </option>
-                                                @empty
-                                                    <option value="">- No Subsector -</option>
-                                                @endforelse
+                                        @foreach ($sectors as $sector)
+                                            <optgroup label="Sector: {{ $sector->sector_name }}">
+                                                @foreach ($sector->subSectors as $subsector)
+                                                    <option value="{{ $subsector->id_subsector }}">
+                                                        {{ $subsector->subsector_name }}</option>
+                                                @endforeach
                                             </optgroup>
-                                        @empty
-                                            <option value="">- No Sector -</option>
-                                        @endforelse
-
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsector2">Subsector 2</label>
                                     <select name="subsector_id2" class="form-control subsector-dropdown" id="addSubsector2">
                                         <option value="">- Choose Subsector -</option>
-                                        @forelse($sectors as $value1)
-                                            <optgroup label="Sector : {{ $value1->sector_name }}">
-                                                @forelse($value1->subSectors as $value)
-                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                    </option>
-                                                @empty
-                                                    <option value="">- No Subsector -</option>
-                                                @endforelse
+                                        @foreach ($sectors as $sector)
+                                            <optgroup label="Sector: {{ $sector->sector_name }}">
+                                                @foreach ($sector->subSectors as $subsector)
+                                                    <option value="{{ $subsector->id_subsector }}">
+                                                        {{ $subsector->subsector_name }}</option>
+                                                @endforeach
                                             </optgroup>
-                                        @empty
-                                            <option value="">- No Sector -</option>
-                                        @endforelse
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsector3">Subsector 3</label>
                                     <select name="subsector_id3" class="form-control subsector-dropdown" id="addSubsector3">
                                         <option value="">- Choose Subsector -</option>
-                                        @forelse($sectors as $value1)
-                                            <optgroup label="Sector : {{ $value1->sector_name }}">
-                                                @forelse($value1->subSectors as $value)
-                                                    <option value="{{ $value->id_subsector }}">{{ $value->subsector_name }}
-                                                    </option>
-                                                @empty
-                                                    <option value="">- No Subsector -</option>
-                                                @endforelse
+                                        @foreach ($sectors as $sector)
+                                            <optgroup label="Sector: {{ $sector->sector_name }}">
+                                                @foreach ($sector->subSectors as $subsector)
+                                                    <option value="{{ $subsector->id_subsector }}">
+                                                        {{ $subsector->subsector_name }}</option>
+                                                @endforeach
                                             </optgroup>
-                                        @empty
-                                            <option value="">- No Sector -</option>
-                                        @endforelse
+                                        @endforeach
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
                                     Activity</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -122,9 +106,7 @@
                             <th style="text-align: center; width: 190px;">Action</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -164,12 +146,10 @@
                     data: 'subsector_name1',
                     name: 'subsector_name1'
                 },
-
                 {
                     data: 'subsector_name2',
                     name: 'subsector_name2'
                 },
-
                 {
                     data: 'subsector_name3',
                     name: 'subsector_name3'
