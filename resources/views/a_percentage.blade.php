@@ -17,10 +17,12 @@
             </div>
 
             <div class="float-right">
-                <button type="button" class="btn btn-primary" id="buttonSelectedFilter" data-toggle="modal"
-                    data-target="#filterEmployees">
-                    <i class="fas fa-filter"></i> Filter employee
-                </button>
+                @if (Auth::user()->role == 'admin')
+                    <button type="button" class="btn btn-primary" id="buttonSelectedFilter" data-toggle="modal"
+                        data-target="#filterEmployees">
+                        <i class="fas fa-filter"></i> Filter employee
+                    </button>
+                @endif
                 <!-- Add Percentage button -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPercentageModal">
                     <i class="fas fa-plus"></i> Add Activity Percentage
@@ -73,7 +75,7 @@
                                     </div>
                                 @else
                                     <div class="form-group">
-                                        <label for="addEmployeeName">Employee Name</label>
+                                        <label for="employeeName">Employee Name</label>
                                         <input type="text" name="employee_name" class="form-control" id="employeeName"
                                             value="{{ $user->name }}" readonly>
                                         <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}">
@@ -90,7 +92,8 @@
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Activity Percentage</button>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add Activity
+                                    Percentage</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </form>
                         </div>
@@ -99,45 +102,49 @@
             </div>
 
             <!-- Modal Filter Employee -->
-            <div class="modal fade" id="filterEmployees" tabindex="-1" role="dialog"
-                aria-labelledby="addPercentageModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addPercentageModalLabel">Filter Employee</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/a_percentage" method="GET" id="form_filter">
-                                <div class="form-group">
-                                    <label for="addEmployeeName">Employee</label>
-                                    <select name="id_employees" class="form-control" id="id_employees"
-                                        selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}">
-                                        <option value="">- Select Employee -</option>
-                                        <option value="All">All Employees</option>
-                                        @forelse($employees as $key => $value)
-                                            <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
-                                        @empty
-                                            <option value="">No Employee</option>
-                                        @endforelse
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary"
-                                    style="margin-left: 140px;">Apply</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </form>
+            @if (Auth::user()->role == 'admin')
+                <div class="modal fade" id="filterEmployees" tabindex="-1" role="dialog"
+                    aria-labelledby="addPercentageModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPercentageModalLabel">Filter Employee</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('ManagePercentage') }}" method="GET" id="form_filter">
+                                    <div class="form-group">
+                                        <label for="id_employees">Employee</label>
+                                        <select name="id_employees" class="form-control" id="id_employees"
+                                            selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}">
+                                            <option value="">- Select Employee -</option>
+                                            <option value="All">All Employees</option>
+                                            @forelse($employees as $key => $value)
+                                                <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
+                                            @empty
+                                                <option value="">No Employee</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"
+                                        style="margin-left: 140px;">Apply</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
         </div>
 
         <div class="card-body">
             <div class="table-responsive">
+                @if (Auth::user()->role == 'admin')
                 <p>Showing filter for : <small id="textOption"><i class="fas fa-spin fa-spinner"></i></small></p>
+                 @endif
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -171,13 +178,11 @@
             },
             columns: [{
                     data: null,
-                    name: 'id_activity_percentage', // Sesuaikan dengan kolom yang digunakan sebagai identitas unik
+                    name: 'id_activity_percentage',
                     render: function(data, type, row, meta) {
-                        // Mengembalikan nomor urut berdasarkan posisi data dalam tabel
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-
                 {
                     data: 'activity_name',
                     name: 'activity_name'
@@ -186,7 +191,6 @@
                     data: 'employee_name',
                     name: 'employee_name'
                 },
-
                 {
                     data: 'percentage',
                     name: 'percentage'
@@ -200,14 +204,9 @@
                 }
             ]
         });
-    </script>
 
-    <script>
         $(document).ready(function() {
             var selectedValue = $('#id_employees').attr('selectedOption');
-            // var buttonFilter = $('#buttonSelectedFilter');
-
-            // Mengecek jika nilai adalah kosong atau 'All', dan mengatur nilainya di select
             if (selectedValue === '' || selectedValue === 'All') {
                 $('#id_employees').val('All');
             } else {
@@ -215,18 +214,13 @@
             }
 
             var selectedText = $('#id_employees option:selected').text();
-
-            // Tampilkan teks di dalam elemen dengan ID 'textOption'
             $('#textOption').text(selectedText);
+
             $('#form_filter').submit(function(event) {
-                // Menghentikan perilaku default pengiriman formulir
                 event.preventDefault();
-
-                // Mendapatkan nilai ID employee yang dipilih dari dropdown
                 var selectedEmployeesId = $('#id_employees').val();
-
-                // Mengarahkan pengguna ke halaman /a_subsector/{selectedSectorId}
-                window.location.href = '/a_percentage/' + selectedEmployeesId;
+                window.location.href = '{{ route('ManagePercentage') }}?id_employees=' +
+                    selectedEmployeesId;
             });
         });
     </script>
@@ -234,10 +228,9 @@
     @if (session('openModal'))
         <script>
             let modal = "{{ session('openModal') }}";
-            // Tunggu 2-3 detik sebelum menampilkan modal
             setTimeout(function() {
                 $('#' + modal).modal('show');
-            }, 2000); // Jeda 2 detik
+            }, 2000);
         </script>
     @endif
 @endpush

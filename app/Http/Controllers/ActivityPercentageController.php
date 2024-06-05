@@ -1,31 +1,42 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Employees;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Yajra\DataTables\DataTables;
 use App\Models\ActivityPercentage;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class ActivityPercentageController extends Controller
 {
-    public function index($id_employees = null)
+    public function index(Request $request, $id_employees = null)
     {
         $activity = Activity::all();
-        $employees = Employees::all();
+        $user = auth()->user();
+
+        // Jika role adalah employees, batasi karyawan yang dapat diakses hanya ke data mereka sendiri
+        if ($user->role === 'employees') {
+            $employees = Employees::where('id_employees', $user->id_employees)->get();
+        } else {
+            $employees = Employees::all();
+        }
 
         $query = ActivityPercentage::query()->with(['activity', 'employee']);
 
         // Jika ID karyawan diberikan, tambahkan kriteria where
-        if ($id_employees) {
+        if ($id_employees && $id_employees !== 'All') {
             $query->where('id_employees', $id_employees);
         }
 
-        if (request()->ajax()) {
+        // Jika role adalah employees, batasi data yang ditampilkan hanya untuk karyawan tersebut
+        if ($user->role === 'employees') {
+            $query->where('id_employees', $user->id_employees);
+        }
+
+        if ($request->ajax()) {
             return DataTables::of($query)
                 ->addColumn('activity_name', function ($percentage) {
                     return $percentage->activity->activity_name;
@@ -36,86 +47,111 @@ class ActivityPercentageController extends Controller
                 ->addColumn('percentage', function ($percentage) {
                     return $percentage->percentage . '%';
                 })
-                ->addColumn('action', function ($item) {
+                ->addColumn('action', function ($item) use ($activity, $employees) {
                     $role = auth()->user()->role;
+
+                    $editForm = '<form action="' . route('activity_percentage.update', $item->id_activity_percentage) . '" method="POST">
+                    ' . csrf_field() . method_field("PUT") . '
+                    <div class="form-group">
+                        <label for="activityName">Activity</label>
+                        <select class="form-control" id="activityName" name="activity_name">
+                            <option value="' . $item->activity->id_activity . '">' . $item->activity->activity_name . '</option>';
+                    foreach ($activity as $value) {
+                        $editForm .= '<option value="' . $value->id_activity . '">' . $value->activity_name . '</option>';
+                    }
+                    $editForm .= '</select>
+                    </div>';
+
+                    if ($role == 'admin') {
+                        $editForm .= '<div class="form-group">
+                          <label for="employeeName">Employee</label>
+                          <select class="form-control" id="employeeName" name="employee_name">';
+                        foreach ($employees as $value) {
+                            $editForm .= '<option value="' . $value->id_employees . '"';
+                            if ($value->id_employees == $item->employee->id_employees) {
+                                $editForm .= ' selected';
+                            }
+                            $editForm .= '>' . $value->name . '</option>';
+                        }
+                        $editForm .= '</select>
+                      </div>';
+                    } else {
+                        $editForm .= '<div class="form-group">
+                          <label for="employeeName">Employee</label>
+                          <input type="text" class="form-control" id="employeeName" name="employee_name" value="' . $item->employee->name . '" readonly>
+                          <input type="hidden" name="employee_name" value="' . $item->employee->id_employees . '">
+                      </div>';
+                    }
+
+                    $editForm .= '<div class="form-group">
+                      <label for="percentageValue">Percentage (1-100)</label>
+                      <input type="number" class="form-control" id="percentageValue" name="percentage" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>';
+
                     $editButton = '<a href="#" data-toggle="modal" data-target="#editPercentageModal' . $item->id_activity_percentage . '">
-                                <button type="button" class="btn btn-success btn-sm">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                               </a>';
+                    <button type="button" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                   </a>';
+
                     $deleteButton = '<a href="#" data-toggle="modal" data-target="#deletePercentageModal' . $item->id_activity_percentage  . '">
-                                <button type="button" class="btn btn-danger btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                              </a>';
+                      <button type="button" class="btn btn-danger btn-sm">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </a>';
 
                     return '
-                <div class="edit-percentage-buttons">
-                    ' . $editButton . $deleteButton . '
-                </div>
+        <div class="edit-percentage-buttons">
+            ' . $editButton . $deleteButton . '
+        </div>
 
-                <!-- Modal Edit -->
-                <div class="modal fade" id="editPercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="editPercentageModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editPercentageModalLabel">Update Activity Percentage</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="' . route('activity_percentage.update', $item->id_activity_percentage) . '" method="POST">
-                                    ' . csrf_field() . method_field("PUT") . '
-                                    <div class="form-group">
-                                        <label for="activityName">Activity</label>
-                                        <input type="text" class="form-control" id="activityName" name="activity_name" value="' . $item->activity->activity_name . '" ' . ($role == 'admin' ? '' : 'readonly') . '>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="employeeName">Employee</label>
-                                        <input type="text" class="form-control" id="employeeName" name="employee_name" value="' . $item->employee->name . '" ' . ($role == 'admin' ? '' : 'readonly') . '>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="percentageValue">Percentage (1-100)</label>
-                                        <input type="number" class="form-control" id="percentageValue" name="percentage" min="0" max="100" placeholder="0" value="' . $item->percentage . '" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                        </div>
+        <!-- Modal Edit -->
+        <div class="modal fade" id="editPercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="editPercentageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPercentageModalLabel">Update Activity Percentage</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ' . $editForm . '
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Modal Delete -->
-                <div class="modal fade" id="deletePercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="deletePercentageModalLabel' . $item->id_activity_percentage . '" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Delete Activity Percentage</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete this activity percentage?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <form action="' . route("activity_percentage.destroy", $item->id_activity_percentage) . '" method="POST">
-                                    ' . csrf_field() . method_field("DELETE") . '
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </div>
+        <!-- Modal Delete -->
+        <div class="modal fade" id="deletePercentageModal' . $item->id_activity_percentage . '" tabindex="-1" role="dialog" aria-labelledby="deletePercentageModalLabel' . $item->id_activity_percentage . '" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Activity Percentage</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this activity percentage?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="' . route("activity_percentage.destroy", $item->id_activity_percentage) . '" method="POST">
+                            ' . csrf_field() . method_field("DELETE") . '
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
-            ';
+            </div>
+        </div>
+    ';
                 })
                 ->rawColumns(['action'])
-                ->make();
+                ->make(true);
         }
 
         return view('a_percentage', [
@@ -123,16 +159,6 @@ class ActivityPercentageController extends Controller
             'employees' => $employees,
             'selectedEmployees' => $id_employees,
         ]);
-    }
-
-
-
-
-    public function create()
-    {
-        $activities = Activity::all();
-        $employees = Employees::all();
-        return view('activity_percentage.create', compact('activities', 'employees'));
     }
 
     public function store(Request $request)
@@ -176,29 +202,24 @@ class ActivityPercentageController extends Controller
             ->with('success', 'Activity percentage successfully added.');
     }
 
-    public function show(ActivityPercentage $activityPercentage)
-    {
-        return view('a_percentage.show', compact('activityPercentage'));
-    }
-
-    public function edit(ActivityPercentage $activityPercentage)
-    {
-        $activities = Activity::all();
-        $employees = Employees::all();
-        return view('a_percentage.edit', compact('activityPercentage', 'activities', 'employees'));
-    }
 
     public function update(Request $request, $id_activity_percentage)
     {
         $rules = [
-            'percentageValue' => 'required|integer|min:0|max:100',
+            'activity_name' => 'required|exists:activity,id_activity',
+            'employee_name' => 'required|exists:employees,id_employees',
+            'percentage' => 'required|integer|min:0|max:100',
         ];
 
         $customMessage = [
-            'percentageValue.required' => 'Percentage is required',
-            'percentageValue.integer' => 'Percentage must be a number',
-            'percentageValue.min' => 'Percentage must be at least 0',
-            'percentageValue.max' => 'Percentage must be at most 100',
+            'activity_name.required' => 'Activity is required',
+            'activity_name.exists' => 'Activity does not exist',
+            'employee_name.required' => 'Employee is required',
+            'employee_name.exists' => 'Employee does not exist',
+            'percentage.required' => 'Percentage is required',
+            'percentage.integer' => 'Percentage must be a number',
+            'percentage.min' => 'Percentage must be at least 0',
+            'percentage.max' => 'Percentage must be at most 100',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessage);
@@ -209,23 +230,20 @@ class ActivityPercentageController extends Controller
                 ->withInput($request->all());
         }
 
-        // Ubah input 'percentageValue' sesuai dengan field yang diperlukan pada ActivityPercentage
         $update_data = [
-            'percentage' => $request->input('percentageValue'),
+            'id_activity' => $request->input('activity_name'),
+            'id_employees' => $request->input('employee_name'),
+            'percentage' => $request->input('percentage'),
         ];
 
         try {
-            // Ubah bagian ini untuk mencari entitas ActivityPercentage dengan id yang sesuai
             $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
-
-            // Perbarui entitas dengan data yang diperbarui
             $activityPercentage->update($update_data);
 
             Alert::success('Success', 'Activity percentage updated successfully!');
             return redirect()->route('ManagePercentage')
-            ->with('success', 'Activity percentage successfully updated.');
+                ->with('success', 'Activity percentage successfully updated.');
         } catch (\Exception $e) {
-            // Tambahkan penanganan kesalahan untuk menangani kesalahan yang mungkin terjadi saat menyimpan
             return redirect()->back()
                 ->with('error', 'Failed to update activity percentage: ' . $e->getMessage());
         }
@@ -234,15 +252,37 @@ class ActivityPercentageController extends Controller
 
     public function destroy($id_activity_percentage)
     {
-        $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
+        try {
+            $activityPercentage = ActivityPercentage::findOrFail($id_activity_percentage);
+            $activityPercentage->delete();
 
-        if ($activityPercentage->delete()) {
             Alert::success('Success', 'Activity percentage deleted successfully!');
             return redirect()->route('ManagePercentage')
-                ->with('success', 'Activity percentage deleted successfully.');
-        } else {
+                ->with('success', 'Activity percentage successfully deleted.');
+        } catch (\Exception $e) {
             return redirect()->back()
-                ->with('error', 'Failed to delete activity percentage.');
+                ->with('error', 'Failed to delete activity percentage: ' . $e->getMessage());
         }
+    }
+
+
+    public function create()
+    {
+        $activities = Activity::all();
+        $employees = Employees::all();
+        return view('activity_percentage.create', compact('activities', 'employees'));
+    }
+
+
+    public function show(ActivityPercentage $activityPercentage)
+    {
+        return view('a_percentage.show', compact('activityPercentage'));
+    }
+
+    public function edit(ActivityPercentage $activityPercentage)
+    {
+        $activities = Activity::all();
+        $employees = Employees::all();
+        return view('a_percentage.edit', compact('activityPercentage', 'activities', 'employees'));
     }
 }

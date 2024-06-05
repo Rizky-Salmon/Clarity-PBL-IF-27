@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> @yield('title' ?? 'Dashboard') | {{ env('APP_NAME') }}</title>
+    <title> @yield('title' ?? 'Dashboard') | {{ config('app.name') }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -100,7 +100,7 @@
                         </a>
                     </li>
 
-                    <!-- Manage Activity -->
+                    <!-- Manage Activity Percentage -->
                     <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ asset('/activity') }}">
                             <i class="fa-solid fa-clipboard-list"></i>
@@ -124,7 +124,7 @@
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                             aria-expanded="false" aria-controls="collapseTwo">
                             <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Data visualization</span>
+                            <span>Data Visualization</span>
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
@@ -176,16 +176,17 @@
                     </button>
 
                     <div style="display: flex; align-items: center;">
-                        <img src="img/CLAIRVOYANT.png" alt=""
-                            style="max-width: 70px; height: auto; margin-top: 30px;">
-                        <div style="margin-left: 10px; font-weight: bold; font-size: 22px;">CLARITY</div>
+                        <img src="img/undraw_male.svg" alt=""
+                            class="img-fluid rounded-circle" style="max-width: 50px;">
+                        <div style="margin-left: 10px; font-weight: bold; font-size: 22px;">Welcome ,
+                            {{ Auth::user()->name }}</div>
                     </div>
 
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        {{-- <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -207,9 +208,9 @@
                                     </div>
                                 </form>
                             </div>
-                        </li>
+                        </li> --}}
 
-                        <!-- Nav Item - Alerts -->
+                        {{-- <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -325,21 +326,27 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More
                                     Messages</a>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal"
+                            style="color: rgb(20, 20, 20);text-decoration: none;font-weight: bold; cursor: pointer;"
+                            onmouseover="this.style.color='white'" onmouseout="this.style.color='rgb(20, 20, 20)'">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2" style="color: rgb(20, 20, 20);"></i>
+                            Logout
+                        </a>
+                        {{-- <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+
+                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                            </a>
+                            </a> -
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/profile">
+                                 <a class="dropdown-item" href="/profile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -358,7 +365,7 @@
                                     Logout
                                 </a>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <!-- Logout Modal-->
                         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
@@ -398,7 +405,6 @@
                 <!-- End of Page Wrapper -->
             </div>
 
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -408,8 +414,6 @@
                 </div>
             </footer>
             <!-- End of Footer -->
-
-
 
         </div>
     </div>

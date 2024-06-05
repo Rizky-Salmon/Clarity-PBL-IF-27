@@ -37,7 +37,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="add_activityName">Activities</label>
-                                    <textarea class="form-control" id="activityName" name="add_activityName" rows="3"
+                                    <textarea class="form-control" id="add_activityName" name="add_activityName" rows="3"
                                         placeholder="Enter The Activities Name" required></textarea>
                                 </div>
                                 <div class="form-group">

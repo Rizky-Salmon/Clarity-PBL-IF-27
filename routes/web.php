@@ -63,11 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
 
     // Manage Activity Percentage
-    Route::get('/a_percentage/{id_activity_percentage?}', [ActivityPercentageController::class, 'index'])->name('ManagePercentage');
-    Route::post('activity_percentage', [ActivityPercentageController::class, 'store'])->name('activity_percentage.store');
-    Route::put('activity_percentage/{id_activity_percentage}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
-    Route::delete('activity_percentage/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
-
+    Route::get('/a_percentage/{id_employees?}', [ActivityPercentageController::class, 'index'])->name('ManagePercentage');
+    Route::post('/activity_percentage/store', [ActivityPercentageController::class, 'store'])->name('activity_percentage.store');
+    Route::put('/activity_percentage/update/{id_activity_percentage}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
+    Route::delete('/activity_percentage/destroy/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
 });
 
 

@@ -97,8 +97,7 @@
 
         .chart {
             margin: 0 auto;
-            max-width: 675px;
-            max-height: 675px;
+            max-width: 700px;
         }
 
         .chart-svg {
@@ -344,24 +343,28 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <div class="h3">
-                <i class="fa-solid fa-globe-europe fa-lg"></i>
-                INTERACTIVE VISUALIZATIONS
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0" style="font-weight: 600;">
+                <i class="fa-solid fa-users-cog  fa-lg me-2"></i>
+                Max Employee / Activities
+            </h4>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-fw fa-chart-area"></i>
+                Data Visualization
+            </h1>
         </div>
-        <div class="h3 mx-1">Max Employee / Activities</div>
 
-        <fieldset>
+
+        <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Max Employee</h3>
-            <div>
-                <select id="limit">
+            <div style="display: flex; flex-direction: column; ">
+                <select id="limit" style="width: 100%; max-width: 170px;">
                     <!-- Pilihan aktivitas akan diisi di sini -->
                 </select>
             </div>
             <h3>Bg Color</h3>
-            <select id="bg">
+            <select id="bg" style="width: 100%;">
                 <option value="#e0e0e0">Gray</option>
                 <option value="#eeeeee">Gray 2</option>
                 <option value="#111111">Dark</option>
@@ -376,8 +379,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.19.0/d3-legend.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
-
-
 
         <script>
             var activities = {!! $activities !!};

@@ -38,7 +38,7 @@
                         <form action="{{ route('sector.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="addSectorName">Sector Name</label>
+                                <label for="add_sectorName">Sector Name</label>
                                 <input type="text" class="form-control @error('add_sectorName') is-invalid @enderror" id="add_sectorName" name="add_sectorName" placeholder="Enter Sector Name" value="{{ old('add_sectorName') }}" required>
                                 @error('add_sectorName')
                                 <small class="invalid-feedback">{{ $message }}</small>

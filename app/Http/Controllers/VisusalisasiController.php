@@ -8,18 +8,30 @@ use Illuminate\Support\Facades\DB;
 class VisusalisasiController extends Controller
 {
     // Visulasasi Overall Activity
-    function OverallActivity()
+    public function OverallActivity()
     {
         $datavisual = DB::select('SELECT activity.activity_name AS name,
-        COUNT(activity_percentage.id_activity) AS value FROM  activity
+        COUNT(activity_percentage.id_activity) AS value FROM activity
         JOIN activity_percentage ON activity_percentage.id_activity = activity.id_activity
         GROUP BY activity_percentage.id_activity, activity.activity_name');
-        $datavisual = json_encode($datavisual);
+
+        // Mengonversi data menjadi array asosiatif
+        $datavisualArray = [];
+        foreach ($datavisual as $data) {
+            $datavisualArray[] = [
+                'name' => $data->name,
+                'value' => $data->value
+            ];
+        }
 
         return view('i_activity', [
-            'datavisual' => $datavisual,
+            'datavisual' => json_encode($datavisualArray),
+            'activities' => $datavisualArray, // Add this
         ]);
     }
+
+
+
 
     // Visualisasi Activity Percentage
     public function ActivityPercentage()

@@ -9,7 +9,7 @@
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <div class="h3">
+            <div class="h3" style="font-weight: bold">
                 <i class="fa-solid fa-tachometer-alt fa-lg"></i>
                 Dashboard
             </div>
@@ -96,15 +96,15 @@
 
         <div class="card" style="font-family: Roboto, sans-serif;">
             <div class="row no-gutters">
-                <div class="col-md-3 mt-5 ml-5 my-5">
-                    <img src="img/undraw_profile.svg" class="card-img rounded" alt="Sorry, it's Empty.">
+                <div class="col-12 col-md-3 mt-5 ml-5 my-5 text-center">
+                    <img src="img/profile.svg" class="card-img rounded" alt="Sorry, it's Empty.">
                 </div>
-                <div class="col-md-7 mt-5 ml-5">
+                <div class="col-12 col-md-7 mt-5 ml-5">
                     <h5 class="card-title"><b>
                             <center>PROFILE</center>
                         </b></h5>
                     <hr>
-                    <table>
+                    <table class="table table-responsive">
                         <tbody>
                             <tr>
                                 <td>Name</td>
@@ -197,7 +197,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editPasswordModalLabel" >Change Password</h5>
+                        <h5 class="modal-title" id="editPasswordModalLabel">Change Password</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -214,11 +214,11 @@
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="new-password">New Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="new-password" name="new_password" placeholder="Enter Your New Password"
-                                        required>
+                                    <input type="password" class="form-control" id="new-password" name="new_password"
+                                        placeholder="Enter Your New Password" required>
                                     <div class="input-group-append">
-                                        <button style="font-weight: bold;" class="btn btn-outline-secondary" type="button"
-                                            onclick="togglePassword(this,'new-password')">
+                                        <button style="font-weight: bold;" class="btn btn-outline-secondary"
+                                            type="button" onclick="togglePassword(this,'new-password')">
                                             <span class="fa fa-eye-slash"></span>
                                         </button>
                                     </div>
@@ -230,8 +230,8 @@
                                     <input type="password" class="form-control" id="confirm-password"
                                         name="new_password_confirmation" placeholder="Confirm Your New Password" required>
                                     <div class="input-group-append">
-                                        <button style="font-weight: bold;" class="btn btn-outline-secondary" type="button"
-                                            onclick="togglePassword(this,'confirm-password')">
+                                        <button style="font-weight: bold;" class="btn btn-outline-secondary"
+                                            type="button" onclick="togglePassword(this,'confirm-password')">
                                             <span class="fa fa-eye-slash"></span>
                                         </button>
                                     </div>

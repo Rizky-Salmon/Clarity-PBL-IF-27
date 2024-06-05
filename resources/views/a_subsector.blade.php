@@ -44,8 +44,8 @@
                             <form action="{{ route('subsector.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="addSectorName">Sector Name</label>
-                                    <select name="add_sectorName" class="form-control" id="addSectorName"
+                                    <label for="add_sectorName">Sector Name</label>
+                                    <select name="add_sectorName" class="form-control" id="add_sectorName"
                                         selectedOption="{{ old('add_sectorName') }}">
                                         <option value="">- Choose Sector -</option>
                                         @forelse($sector as $key => $value)
@@ -95,8 +95,7 @@
                         <div class="modal-body">
                             <form action="/a_subsector" method="GET" id="form_filter">
                                 <div class="form-group">
-                                    <label for="addSectorName">Sector</label>
-
+                                    <label for="id_sector">Sector</label>
                                     <select name="id_sector" class="form-control" id="id_sector"
                                         selectedOption="{{ $selectedSector ? $selectedSector : 'All' }}">
                                         <option value="">- Select Sector -</option>

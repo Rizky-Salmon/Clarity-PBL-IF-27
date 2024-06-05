@@ -97,8 +97,7 @@
 
         .chart {
             margin: 0 auto;
-            max-width: 675px;
-            max-height: 675px;
+            max-width: 700px;
         }
 
         .chart-svg {
@@ -344,19 +343,22 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <div class="h3">
-                <i class="fa-solid fa-globe-europe fa-lg"></i>
-                INTERACTIVE VISUALIZATIONS
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0" style="font-weight: 600;">
+                <i class="fa-solid fas fa-globe  fa-lg me-2"></i>
+                Sector
+            </h4>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-fw fa-chart-area"></i>
+                Data Visualization
+            </h1>
         </div>
-        <div class="h3 mx-1">Sector </div>
 
-        <fieldset>
+        <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Sector Name</h3>
-            <div>
-                <select id="limit">
+            <div style="display: flex; flex-direction: column; ">
+                <select id="limit" style="width: 100%; max-width: 170px;">
                     <option value="All">All</option>
                 </select>
             </div>
@@ -369,7 +371,8 @@
         </fieldset>
 
 
-        <div id="chart" class="chart"><svg viewBox="0 0 625 600" width="625" height="600" class="chart-svg">
+        <div id="chart" class="chart">
+            {{-- <svg viewBox="0 0 625 600" width="625" height="600" class="chart-svg">
                 <g class="node" transform="translate(267.9683820554086 316.1031465225012)">
                     <g class="graph">
                         <circle r="29.14688745340708" style="fill: rgb(240, 90, 36);"></circle><text dy="0.2em"
@@ -530,7 +533,7 @@
                             style="text-anchor: middle; font-family: Roboto; font-weight: 100; font-size: 11px; fill: rgb(255, 255, 255); pointer-events: none;"></text>
                     </g>
                 </g>
-            </svg>
+            </svg> --}}
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
         <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
