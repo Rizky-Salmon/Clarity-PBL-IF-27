@@ -42,7 +42,6 @@ class AdminController extends Controller
     }
 
     // Update name
-    // Update name
     public function updateName(Request $request)
     {
         $request->validate([
@@ -88,7 +87,10 @@ class AdminController extends Controller
         }
 
         $employee->password = Hash::make($request->new_password);
+        $employee->default_password = 0;
         $employee->save();
+
+        Alert::success('Success', 'Password updated successfully');
 
         return redirect()->back()->with('success', 'Password updated successfully')->with('openModal', 'editPasswordModal');
     }

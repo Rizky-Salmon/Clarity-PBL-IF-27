@@ -12,7 +12,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
             <div style="display: flex; align-items: center;">
-                <img src="img/activity.png" style="height: 60px; width: 60px; margin-right: 10px;">
+                <img src="{{ asset('img/activity.png') }}" style="height: 60px; width: 60px; margin-right: 10px;">
                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">My Activity Percentage</h3>
             </div>
 
@@ -114,7 +114,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('ManagePercentage') }}" method="GET" id="form_filter">
+                                <form action="/a_percentage" method="GET" id="form_filter">
                                     <div class="form-group">
                                         <label for="id_employees">Employee</label>
                                         <select name="id_employees" class="form-control" id="id_employees"
@@ -143,8 +143,8 @@
         <div class="card-body">
             <div class="table-responsive">
                 @if (Auth::user()->role == 'admin')
-                <p>Showing filter for : <small id="textOption"><i class="fas fa-spin fa-spinner"></i></small></p>
-                 @endif
+                    <p>Showing filter for : <small id="textOption"><i class="fas fa-spin fa-spinner"></i></small></p>
+                @endif
 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -165,8 +165,8 @@
 @endsection
 
 @push('footer-script')
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <script>
         var datatable = $('#dataTable').DataTable({
@@ -204,7 +204,9 @@
                 }
             ]
         });
+        </script>
 
+        <script>
         $(document).ready(function() {
             var selectedValue = $('#id_employees').attr('selectedOption');
             if (selectedValue === '' || selectedValue === 'All') {
@@ -214,13 +216,13 @@
             }
 
             var selectedText = $('#id_employees option:selected').text();
-            $('#textOption').text(selectedText);
 
+
+            $('#textOption').text(selectedText);
             $('#form_filter').submit(function(event) {
                 event.preventDefault();
                 var selectedEmployeesId = $('#id_employees').val();
-                window.location.href = '{{ route('ManagePercentage') }}?id_employees=' +
-                    selectedEmployeesId;
+                window.location.href = '/a_percentage/' + selectedEmployeesId;
             });
         });
     </script>

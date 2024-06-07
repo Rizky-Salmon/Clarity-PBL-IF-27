@@ -94,6 +94,12 @@
             </div>
         </div>
 
+        @if (auth()->user()->default_password)
+            <div class="alert alert-danger" role="alert">
+                Your Password is Default. Please Change Your Password.
+            </div>
+        @endif
+
         <div class="card" style="font-family: Roboto, sans-serif;">
             <div class="row no-gutters">
                 <div class="col-12 col-md-3 mt-5 ml-5 my-5 text-center">
@@ -237,8 +243,8 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>

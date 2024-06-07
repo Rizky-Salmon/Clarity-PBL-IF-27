@@ -176,7 +176,7 @@
                     </button>
 
                     <div style="display: flex; align-items: center;">
-                        <img src="img/undraw_male.svg" alt=""
+                        <img src="{{ asset('img/undraw_male.svg') }}" alt="Profile Picture"
                             class="img-fluid rounded-circle" style="max-width: 50px;">
                         <div style="margin-left: 10px; font-weight: bold; font-size: 22px;">Welcome ,
                             {{ Auth::user()->name }}</div>
