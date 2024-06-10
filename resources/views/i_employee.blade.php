@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,6 @@
 
         button {
             clear: left;
-            float: left;
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -348,7 +346,7 @@
                 <i class="fa-solid fa-user-group fa-lg me-2"></i>
                 Employee
             </h4>
-            <h1 class="h3 mb-0 text-gray-800">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
                 <i class="fas fa-fw fa-chart-area"></i>
                 Data Visualization
             </h1>
@@ -357,7 +355,7 @@
         <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Employee Name</h3>
-            <div style="display: flex; flex-direction: column; ">
+            <div style="display: flex; flex-direction: column;">
                 <select id="limit" style="width: 100%; max-width: 170px;">
                     <option value="All">ALL</option>
                 </select>
@@ -368,16 +366,9 @@
                 <option value="1">Smallest to largest</option>
                 <option value="2">Random</option>
             </select>
-            <h3>Bg Color</h3>
-            <select id="bg">
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
-            </select>
         </fieldset>
 
         <div id="chart" class="chart">
-
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
         <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
@@ -402,12 +393,9 @@
             });
 
             const shuffleSelect = document.querySelector('#shuffle');
-            const bgSelect = document.querySelector('#bg');
-            bgSelect.selectedIndex = 0;
 
             limitSelect.addEventListener('change', render);
             shuffleSelect.addEventListener('change', render);
-            bgSelect.addEventListener('change', render);
 
             render();
 
@@ -417,23 +405,25 @@
                 let filteredData = selectedName === "All" ? activityData : activityData.filter(item => item.name ===
                     selectedName);
 
-                const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-                const shuffleOption = shuffleSelect.selectedIndex;
-                document.querySelector('#chart').innerHTML = '';
-
-                if (shuffleOption === 2) {
-                    filteredData = _.shuffle(filteredData);
-                } else if (shuffleOption === 1) {
-                    filteredData.sort((a, b) => a.value - b.value);
+                if (selectedName === "All") {
+                    filteredData = shuffleArray(filteredData).slice(0, 60);
                 } else {
-                    filteredData.sort((a, b) => b.value - a.value);
+                    const shuffleOption = shuffleSelect.selectedIndex;
+
+                    if (shuffleOption === 2) {
+                        filteredData = shuffleArray(filteredData);
+                    } else if (shuffleOption === 1) {
+                        filteredData.sort((a, b) => a.value - b.value);
+                    } else {
+                        filteredData.sort((a, b) => b.value - a.value);
+                    }
                 }
+
+                document.querySelector('#chart').innerHTML = '';
 
                 const values = filteredData.map(d => d.value);
                 const min = Math.min.apply(null, values);
                 const max = Math.max.apply(null, values);
-
-                document.body.style.backgroundColor = bgColor;
 
                 var diameter = 600,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -450,11 +440,11 @@
                         const color = getColor(i, values.length);
                         const nameText = selectedName === "All" ? `<strong>Name:</strong> ${item.name} <br>` : "";
                         return `<div class="d3-tip" style="background-color: ${color}; color: white;">
-                        ${nameText}
-                        <strong>Activity:</strong> ${item.aktivitas} <br>
-                        <strong>Percentage:</strong> ${item.value} %
-                        </div>
-                        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                ${nameText}
+                <strong>Activity:</strong> ${item.aktivitas} <br>
+                <strong>Percentage:</strong> ${item.value} %
+            </div>
+            <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
 
                 var margin = {
@@ -504,9 +494,9 @@
                         .style("text-anchor", "middle")
                         .style('font-family', 'Roboto')
                         .style('font-weight', 'bold')
-                        .style('font-size', '10px')
+                        .style('font-size', '8px')
                         .text(getName)
-                        .style("fill", "#adadad")
+                        .style("fill", "black")
                         .style('pointer-events', 'none');
                 }
 
@@ -561,6 +551,14 @@
                         label = label.slice(0, max) + '...';
                     }
                     return label;
+                }
+
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
                 }
             }
         </script>

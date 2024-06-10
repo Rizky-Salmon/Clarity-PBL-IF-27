@@ -62,4 +62,6 @@ class Employees extends Authenticatable
     {
         return $this->hasMany(ActivityPercentage::class, 'id_employees', 'id_employees');
     }
+
+    
 }

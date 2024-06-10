@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,6 @@
 
         button {
             clear: left;
-            float: left;
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -348,7 +346,7 @@
                 <i class="fa-solid fa-users-cog  fa-lg me-2"></i>
                 Max Employee / Activities
             </h4>
-            <h1 class="h3 mb-0 text-gray-800">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
                 <i class="fas fa-fw fa-chart-area"></i>
                 Data Visualization
             </h1>
@@ -358,17 +356,11 @@
         <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Max Employee</h3>
-            <div style="display: flex; flex-direction: column; ">
+            <div style="display: flex; flex-direction: column;">
                 <select id="limit" style="width: 100%; max-width: 170px;">
-                    <!-- Pilihan aktivitas akan diisi di sini -->
+                    <!-- Activity options will be populated here -->
                 </select>
             </div>
-            <h3>Bg Color</h3>
-            <select id="bg" style="width: 100%;">
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
-            </select>
         </fieldset>
 
         <div id="chart" class="chart">
@@ -384,8 +376,6 @@
             var activities = {!! $activities !!};
             var activityData = {!! $activityData !!};
             const limitSelect = document.querySelector('#limit');
-            const bgSelect = document.querySelector('#bg');
-            bgSelect.selectedIndex = 0;
 
             // Filter activity dropdown based on maximum employee count
             const maxEmployeeCount = Math.max(...activityData.map(data => data.employee_count));
@@ -394,7 +384,7 @@
                 return employeeCount === maxEmployeeCount;
             });
 
-            // Menggunakan objek JavaScript untuk menyimpan aktivitas unik dan jumlah total karyawan untuk setiap aktivitas
+            // Using a JavaScript object to store unique activities and the total number of employees for each activity
             const activityMap = {};
             activities.forEach(activity => {
                 const employeeCount = activityData.find(data => data.activity === activity)?.employee_count ?? 0;
@@ -405,17 +395,16 @@
                 }
             });
 
-            // Mengisi dropdown dengan opsi yang sesuai dari objek yang sudah disusun
+            // Populate dropdown with appropriate options from the constructed object
             Object.entries(activityMap).forEach(([activity, totalEmployees]) => {
                 const option = document.createElement('option');
-                option.value = activity; // Menggunakan activity sebagai nilai pilihan
+                option.value = activity; // Use activity as the option value
                 option.textContent =
-                    `${activity} (${totalEmployees} employees)`; // Teks yang akan ditampilkan di dropdown
+                `${activity} (${totalEmployees} employees)`; // Text to be displayed in the dropdown
                 limitSelect.appendChild(option);
             });
 
             limitSelect.addEventListener('change', render);
-            bgSelect.addEventListener('change', render);
 
             render();
 
@@ -423,10 +412,7 @@
                 const selectedActivity = limitSelect.options[limitSelect.selectedIndex].value;
                 let filteredData = activityData.filter(item => item.activity === selectedActivity);
 
-                const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-
                 document.querySelector('#chart').innerHTML = '';
-                document.body.style.backgroundColor = bgColor;
 
                 var diameter = 600,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -451,7 +437,7 @@
                 bubble(root);
 
                 var node = svg.selectAll('.node')
-                    .data(root.leaves()) // Menggunakan root.leaves() untuk mendapatkan daun dari hierarki
+                    .data(root.leaves()) // Use root.leaves() to get the leaves of the hierarchy
                     .enter()
                     .append('g')
                     .attr('class', 'node')
@@ -473,7 +459,7 @@
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
                     .style('font-size', getFontSizeForItem)
-                    .text(d => truncate(d.data.name)) // Menggunakan nama karyawan sebagai teks pada bulatan
+                    .text(d => truncate(d.data.name)) // Use employee name as text on the bubble
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 

@@ -51,7 +51,7 @@
                                         @forelse($sector as $key => $value)
                                             <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>
                                         @empty
-                                            <option value="">- No Sector -</option>
+                                            <option value="">- No Sectors -</option>
                                         @endforelse
                                     </select>
                                 </div>
@@ -59,7 +59,7 @@
                                     <label for="addSubsectorName">Subsector Name</label>
                                     <input type="text" name="add_subsectorName"
                                         class="form-control @error('add_subsectorName') is-invalid @enderror"
-                                        id="addSubsectorName" placeholder="Masukkan Nama Subsektor"
+                                        id="addSubsectorName" placeholder="Enter Subsector Name"
                                         value="{{ old('add_subsectorName') }}" required>
                                     @error('add_subsectorName')
                                         <small class="invalid-feedback">{{ $message }}</small>
@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label for="addSubsectorDescription">Description</label>
                                     <textarea name="add_description" class="form-control @error('add_description') is-invalid @enderror"
-                                        id="addSubsectorDescription" rows="3" placeholder="Masukkan Deskripsi" required>{{ old('add_description') }}</textarea>
+                                        id="addSubsectorDescription" rows="3" placeholder="Enter Description" required>{{ old('add_description') }}</textarea>
                                     @error('add_description')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror

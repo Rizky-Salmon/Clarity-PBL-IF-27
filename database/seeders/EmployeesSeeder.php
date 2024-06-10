@@ -56,7 +56,7 @@ class EmployeesSeeder extends Seeder
             [
                 'name' => 'DEGAUGUE',
                 'email' => 'degaugue@gmail.com',
-                'password' => bcrypt('degauguepassword'),
+                'password' => bcrypt('12345678'),
                 'role' => 'employees'
             ],
             [

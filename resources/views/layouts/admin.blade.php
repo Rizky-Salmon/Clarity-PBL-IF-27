@@ -120,7 +120,7 @@
 
                     <!-- Data visualization -->
                     <li
-                        class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' ? 'active' : '' }}">
+                        class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' || Request::segment(1) === 'i_sector' || Request::segment(1) === 'i_subsector' || Request::segment(1) === 'i_MinEmployee' || Request::segment(1) === 'i_MaxEmployee' ? 'active' : '' }}">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                             aria-expanded="false" aria-controls="collapseTwo">
                             <i class="fas fa-fw fa-chart-area"></i>
@@ -153,7 +153,7 @@
 
 
             <!-- Sidebar Toggle Button -->
-            <div class="text-center d-none d-md-inline">
+            <div class="text-center d-none d-md-inline ">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
@@ -406,10 +406,10 @@
             </div>
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white ">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Politeknik Negeri Batam || International Office Université Polytechnique Hauts-de-France </span>
                     </div>
                 </div>
             </footer>

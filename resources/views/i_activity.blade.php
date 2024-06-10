@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,7 @@
 
         button {
             clear: left;
-            float: left;
+
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -348,7 +347,7 @@
                 <i class="fa-solid fa-clipboard-list fa-lg me-2"></i>
                 Overall Activity
             </h4>
-            <h1 class="h3 mb-0 text-gray-800">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
                 <i class="fas fa-fw fa-chart-area"></i>
                 Data Visualization
             </h1>
@@ -369,13 +368,8 @@
             <h3>Order</h3>
             <select id="shuffle" style="width: 100%; max-width: 160px;">
                 <option value="0">Largest to smallest</option>
-                <option value="1">Random</option>
-            </select>
-            <h3>Background Color</h3>
-            <select id="bg" style="width: 100%; max-width: 160px;">
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
+                <option value="1">Smallest to largest</option>
+                <option value="2">Random</option>
             </select>
         </fieldset>
 
@@ -398,12 +392,9 @@
 
             const activitySelect = document.querySelector('#activity');
             const shuffleSelect = document.querySelector('#shuffle');
-            const bgSelect = document.querySelector('#bg');
 
             activitySelect.selectedIndex = 0;
-            bgSelect.selectedIndex = 0;
             activitySelect.addEventListener('change', render);
-            bgSelect.addEventListener('change', render);
             shuffleSelect.addEventListener('change', render);
 
             render();
@@ -411,25 +402,31 @@
             function render() {
                 let idx = 0;
                 const activityValue = activitySelect.options[activitySelect.selectedIndex].value;
-                const filteredData = activityValue === "ALL" ? activityData : activityData.filter(d => d.name ===
-                    activityValue);
-                const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-                const doShuffle = shuffleSelect.selectedIndex === 1;
+                let filteredData = activityValue === "ALL" ? activityData : activityData.filter(d => d.name === activityValue);
+                const order = shuffleSelect.value;
+
+                if (activityValue === "ALL") {
+                    filteredData = shuffleArray(filteredData).slice(0, 50);
+                } else {
+                    if (order === '0') {
+                        filteredData.sort((a, b) => b.value - a.value);
+                    } else if (order === '1') {
+                        filteredData.sort((a, b) => a.value - b.value);
+                    } else if (order === '2') {
+                        filteredData = shuffleArray(filteredData);
+                    }
+                }
+
                 document.querySelector('#chart').innerHTML = '';
 
                 var json = {
                     'children': filteredData
                 };
 
-                if (doShuffle) {
-                    json.children = _.shuffle(json.children);
-                }
                 const values = json.children.map(d => d.value);
                 const min = Math.min.apply(null, values);
                 const max = Math.max.apply(null, values);
                 const total = json.children.length;
-
-                document.body.style.backgroundColor = bgColor;
 
                 var diameter = 600;
 
@@ -442,8 +439,8 @@
                         const item = json.children[i];
                         const color = getColor(i, total);
                         return `<div class="d3-tip" style="background-color: ${color}"><strong>Activity:</strong>
-                        ${item.name} <br> <strong>${item.value}</strong> employees</div>
-                        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+            ${item.name} <br> <strong>${item.value}</strong> employees</div>
+            <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
 
                 var margin = {
@@ -485,29 +482,21 @@
 
                 node.call(tip);
 
-
                 node.append("text")
                     .attr("dy", "0.2em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
-                    .style('font-size', '14px')
-                    .text(function(d) {
-                        if (activityValue === "ALL") {
-                            return getLabel(d);
-                        } else {
-                            return d.data.name;
-                        }
-                    })
+                    .style('font-size', '10px')
+                    .text(d => truncate(d.data.name))
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
-
 
                 node.append("text")
                     .attr("dy", "1.3em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
-                    .style('font-size', getFontSizeForItem)
+                    .style('font-size', '14px')
                     .text(getValueText)
                     .style("fill", "black")
                     .style('pointer-events', 'none');
@@ -524,32 +513,26 @@
                 }
 
                 function getValueText(item) {
-                    if (item.data.value < max / 3.3) {
+                    if (item.data.value < max / 10) {
                         return '';
                     }
                     return item.data.value;
                 }
 
                 function truncate(label) {
-                    const max = 11;
+                    const max = 10;
                     if (label.length > max) {
                         label = label.slice(0, max) + '...';
                     }
                     return label;
                 }
 
-                function getFontSizeForItem(item) {
-                    return getFontSize(item.data.value, min, max, total);
-                }
-
-                function getFontSize(value, min, max, total) {
-                    const minPx = 6;
-                    const maxPx = 25;
-                    const pxRange = maxPx - minPx;
-                    const dataRange = max - min;
-                    const ratio = pxRange / dataRange;
-                    const size = Math.min(maxPx, Math.round(value * ratio) + minPx);
-                    return `${size}px`;
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
                 }
             }
         </script>

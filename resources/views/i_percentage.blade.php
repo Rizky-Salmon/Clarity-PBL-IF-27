@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,6 @@
 
         button {
             clear: left;
-            float: left;
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -348,7 +346,7 @@
                 <i class="fa-solid fa-percentage fa-lg me-2"></i>
                 Percentage of Employees Activities
             </h4>
-            <h1 class="h3 mb-0 text-gray-800">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
                 <i class="fas fa-fw fa-chart-area"></i>
                 Data Visualization
             </h1>
@@ -358,17 +356,17 @@
         <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Percentage</h3>
-            <div style="display: flex; flex-direction: column; ">
+            <div style="display: flex; flex-direction: column;">
                 <select id="limit-select" style="width: 100%; max-width: 110px;">
                     <option value="All">ALL</option>
                     <!-- Options will be generated dynamically using JavaScript -->
                 </select>
             </div>
-            <h3>Bg Color</h3>
-            <select id="bg" style="width: 100%; max-width: 110px;>
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
+            <h3>Order</h3>
+            <select id="shuffle">
+                <option value="0">Largest to smallest</option>
+                <option value="1">Smallest to largest</option>
+                <option value="2">Random</option>
             </select>
         </fieldset>
 
@@ -384,8 +382,8 @@
         <script>
             var activityData = {!! $datavisual !!};
             let limit = 'All'; // Default limit
-            const bgSelect = document.querySelector('#bg');
             const limitSelect = document.querySelector('#limit-select');
+            const shuffleSelect = document.querySelector('#shuffle');
 
             // Mengumpulkan nilai persentase unik dari data dan mengurutkannya
             const uniquePercentages = [...new Set(activityData.map(item => item.value))].sort((a, b) => a - b);
@@ -402,19 +400,28 @@
                 limit = limitSelect.value;
                 render();
             });
-            bgSelect.addEventListener('change', render);
+            shuffleSelect.addEventListener('change', render);
 
             function render() {
                 let filteredData;
 
                 if (limit === 'All') {
-                    filteredData = activityData;
+                    filteredData = shuffleArray(activityData).slice(0, 50);
                 } else {
                     // Mencari item dalam data yang memiliki nilai persentase sesuai dengan yang dipilih
                     filteredData = activityData.filter(item => item.value === parseInt(limit));
                 }
 
-                const bgColor = bgSelect.value;
+                const order = shuffleSelect.value;
+
+                if (order === '0') {
+                    filteredData.sort((a, b) => b.value - a.value);
+                } else if (order === '1') {
+                    filteredData.sort((a, b) => a.value - b.value);
+                } else if (order === '2' && limit !== 'All') {
+                    filteredData = shuffleArray(filteredData);
+                }
+
                 document.querySelector('#chart').innerHTML = '';
 
                 const diameter = 600;
@@ -428,14 +435,12 @@
                         const item = filteredData[i];
                         const color = getColor(i, filteredData.length);
                         return `<div class="d3-tip" style="background-color: ${color}; color: white;">
-                    <strong>Activity:</strong> ${item.aktivitas} <br>
-                    <strong>Name:</strong> ${item.name} <br>
-                    <strong>Percentage:</strong> ${item.value}%
-                </div>
-                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+            <strong>Activity:</strong> ${item.aktivitas} <br>
+            <strong>Name:</strong> ${item.name} <br>
+            <strong>Percentage:</strong> ${item.value}%
+        </div>
+        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
-
-                document.body.style.backgroundColor = bgColor;
 
                 const svg = d3.select('#chart').append('svg')
                     .attr('viewBox', `0 0 ${diameter} ${diameter}`)
@@ -464,52 +469,58 @@
 
                 node.call(tip);
 
-
                 node.append("text")
                     .attr("dy", "-1em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
-                    .style('font-size', '10px')
+                    .style('font-size', '8px')
                     .text(d => d.data.name)
                     .style("fill", "black")
                     .style('pointer-events', 'none');
-
-
-                function truncate(label) {
-                    const max = 10;
-                    if (label.length > max) {
-                        label = label.slice(0, max) + '...';
-                    }
-                    return label;
-                }
 
                 node.append("text")
                     .attr("dy", "0.2em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
-                    .style('font-size', '14px')
+                    .style('font-size', '10px')
                     .text(d => truncate(d.data.aktivitas)) // Menggunakan fungsi truncate untuk memotong teks
                     .style("fill", "#ffffff")
                     .style('pointer-events', 'none');
 
-                    if (limit === "All") {
-                node.append("text")
-                    .attr("dy", "1.3em")
-                    .style("text-anchor", "middle")
-                    .style('font-family', 'Roboto')
-                    .style('font-weight', 'bold')
-                    .style('font-size', '10px')
-                    .text(d => `${d.data.value}%`)
-                    .style("fill", "black")
-                    .style('pointer-events', 'none');
-                    }
+                if (limit === "All") {
+                    node.append("text")
+                        .attr("dy", "1.3em")
+                        .style("text-anchor", "middle")
+                        .style('font-family', 'Roboto')
+                        .style('font-weight', 'bold')
+                        .style('font-size', '10px')
+                        .text(d => `${d.data.value}%`)
+                        .style("fill", "black")
+                        .style('pointer-events', 'none');
+                }
+            }
+
+            function truncate(label) {
+                const max = 10;
+                if (label.length > max) {
+                    label = label.slice(0, max) + '...';
+                }
+                return label;
             }
 
             function getColor(idx, total) {
                 // Generate color based on the index and total number of items
                 const hue = (360 * idx / total) % 360;
                 return `hsl(${hue}, 70%, 50%)`;
+            }
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
             }
 
             // Initial rendering

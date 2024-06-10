@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,6 @@
 
         button {
             clear: left;
-            float: left;
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -343,35 +341,29 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-         <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="mb-0" style="font-weight: 600;">
                 <i class="fa-solid fa-user-tie  fa-lg me-2"></i>
                 Min Employee / Activities
             </h4>
-            <h1 class="h3 mb-0 text-gray-800">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
                 <i class="fas fa-fw fa-chart-area"></i>
                 Data Visualization
             </h1>
         </div>
 
 
-        <fieldset style="display: flex; flex-direction: column">
+        <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Min Employee</h3>
-            <div style="display: flex; flex-direction: column; ">
+            <div style="display: flex; flex-direction: column;">
                 <select id="limit" style="width: 100%; max-width: 170px;">
-                    <!-- Pilihan aktivitas akan diisi di sini -->
+                    <!-- Activity options will be populated here -->
                 </select>
             </div>
-            <h3>Bg Color</h3>
-            <select id="bg" style="width: 100%;">
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
-            </select>
         </fieldset>
 
-        <div id="chart" class="chart " >
+        <div id="chart" class="chart ">
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
         <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
@@ -384,8 +376,6 @@
             var activities = {!! $activities !!};
             var activityData = {!! $activityData !!};
             const limitSelect = document.querySelector('#limit');
-            const bgSelect = document.querySelector('#bg');
-            bgSelect.selectedIndex = 0;
 
             // Filter activity dropdown based on minimum employee count
             const minEmployeeCount = Math.min(...activityData.map(data => data.employee_count));
@@ -404,7 +394,6 @@
             });
 
             limitSelect.addEventListener('change', render);
-            bgSelect.addEventListener('change', render);
 
             render();
 
@@ -412,10 +401,7 @@
                 const selectedActivity = limitSelect.options[limitSelect.selectedIndex].value;
                 let filteredData = activityData.filter(item => item.activity === selectedActivity);
 
-                const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
-
                 document.querySelector('#chart').innerHTML = '';
-                document.body.style.backgroundColor = bgColor;
 
                 var diameter = 200,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -461,7 +447,7 @@
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
                     .style('font-size', getFontSizeForItem)
-                    .text(d => truncate(d.data.name)) // Menggunakan nama karyawan sebagai teks pada bulatan
+                    .text(d => truncate(d.data.name)) // Use employee name as text on the bubble
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 

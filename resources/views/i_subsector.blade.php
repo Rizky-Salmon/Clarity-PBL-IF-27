@@ -14,7 +14,6 @@
 
         body {
             background-color: #e0e0e0;
-            font: 14px Arial;
         }
 
         select,
@@ -76,7 +75,6 @@
 
         button {
             clear: left;
-            float: left;
             font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
@@ -348,27 +346,21 @@
             <h4 class="mb-0" style="font-weight: 600;">
                 <i class="fa-solid fa-sitemap fa-2x fa-lg me-2"></i>
                 Subsector
-            <h1 class="h3 mb-0 text-gray-800">
-                <i class="fas fa-fw fa-chart-area"></i>
-                Data Visualization
-            </h1>
+                <h1 class="h3 mb-0 text-gray-800 font-weight-bold">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    Data Visualization
+                </h1>
         </div>
 
 
         <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Subsector Name</h3>
-            <div style="display: flex; flex-direction: column; ">
+            <div style="display: flex; flex-direction: column;">
                 <select id="limit" style="width: 100%; max-width: 170px;">
                     <option value="All">All</option>
                 </select>
             </div>
-            <h3>Bg Color</h3>
-            <select id="bg">
-                <option value="#e0e0e0">Gray</option>
-                <option value="#eeeeee">Gray 2</option>
-                <option value="#111111">Dark</option>
-            </select>
         </fieldset>
 
         <div id="chart" class="chart"></div>
@@ -381,11 +373,9 @@
 
         <script>
             var activityData = {!! $datavisual !!};
-            let limit = 'All'; // Default limit
+            let limit = '10'; // Default limit
 
             const limitSelect = document.querySelector('#limit');
-            const bgSelect = document.querySelector('#bg');
-            bgSelect.selectedIndex = 0;
 
             // Populate dropdown with subsector names
             const subsectorNames = [...new Set(activityData.map(item => item.subsector))]; // Get unique subsector names
@@ -397,7 +387,6 @@
             });
 
             limitSelect.addEventListener('change', render);
-            bgSelect.addEventListener('change', render);
 
             render();
 
@@ -406,13 +395,13 @@
                 let filteredData = selectedSector === "All" ? activityData : activityData.filter(item => item.subsector ===
                     selectedSector);
 
-                const bgColor = bgSelect.options[bgSelect.selectedIndex].value;
+                if (selectedSector === "All" && filteredData.length > 30) {
+                    filteredData = shuffleArray(filteredData).slice(0, 30);
+                }
 
                 document.querySelector('#chart').innerHTML = '';
 
                 const values = filteredData.map(d => d.value);
-
-                document.body.style.backgroundColor = bgColor;
 
                 var diameter = 600,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -489,7 +478,7 @@
                     .style('pointer-events', 'none');
 
                 function truncate(label) {
-                    const max = 15;
+                    const max = 9;
                     if (label.length > max) {
                         label = label.slice(0, max) + '...';
                     }
@@ -504,6 +493,14 @@
 
                 function getFontSizeForItem(d) {
                     return Math.max(11, Math.min(24, 24 * d.r / diameter)) + 'px';
+                }
+
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
                 }
             }
         </script>
