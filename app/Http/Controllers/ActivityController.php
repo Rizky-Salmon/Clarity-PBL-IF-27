@@ -21,7 +21,7 @@ class ActivityController extends Controller
 
         // Inisialisasi query untuk Activity dengan mengambil relasi subsector
         $query = Activity::with(['subsectors' => function ($query) {
-            $query->orderBy('priority');
+            $query->orderBy('activity_subsector.priority'); // Menggunakan activity_subsector.priority untuk mengurutkan berdasarkan prioritas
         }]);
 
         // Jika ID subsector diberikan dan valid, tambahkan kriteria where
@@ -52,39 +52,39 @@ class ActivityController extends Controller
                     $subsector3Selected = $item->subsectors->count() > 2 ? $item->subsectors->get(2) : null;
 
                     $html = '
-                    <div class="edit-activity-buttons">
-                        <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
-                            <button type="button" class="btn btn-success btn-sm my-1 mx-1">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                        </a>
-                        <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity . '">
-                            <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </a>
-                    </div>
-                    <div class="modal fade" id="editActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editActivityModalLabel' . $item->id_activity . '">Update Activities</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="' . route('activity.update', $item->id_activity) . '" method="POST">
-                                        ' . method_field('PUT') . csrf_field() . '
-                                        <input type="hidden" name="id_activity" value="' . $item->id_activity . '">
-                                        <div class="form-group">
-                                            <label for="editActivityName">Activity Name</label>
-                                            <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) . '">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="editSubsector1">Subsector 1</label>
-                                            <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
-                                                <option value="">- Choose Subsector -</option>';
+                <div class="edit-activity-buttons">
+                    <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
+                        <button type="button" class="btn btn-success btn-sm my-1 mx-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity . '">
+                        <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </a>
+                </div>
+                <div class="modal fade" id="editActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editActivityModalLabel' . $item->id_activity . '">Update Activities</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="' . route('activity.update', $item->id_activity) . '" method="POST">
+                                    ' . method_field('PUT') . csrf_field() . '
+                                    <input type="hidden" name="id_activity" value="' . $item->id_activity . '">
+                                    <div class="form-group">
+                                        <label for="editActivityName">Activity Name</label>
+                                        <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) . '">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editSubsector1">Subsector 1</label>
+                                        <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
+                                            <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -94,12 +94,12 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="editSubsector2">Subsector 2</label>
-                                            <select name="subsector_id2" class="form-control subsector-dropdown" id="editSubsector2">
-                                                <option value="">- Choose Subsector -</option>';
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editSubsector2">Subsector 2</label>
+                                        <select name="subsector_id2" class="form-control subsector-dropdown" id="editSubsector2">
+                                            <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -109,12 +109,12 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="editSubsector3">Subsector 3</label>
-                                            <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
-                                                <option value="">- Choose Subsector -</option>';
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editSubsector3">Subsector 3</label>
+                                        <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
+                                            <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -124,38 +124,38 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                            </select>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </form>
-                                </div>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="deleteActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteActivityModalLabel' . $item->id_activity . '">Delete Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Are you sure you want to delete this activity?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form action="' . route('activity.destroy', $item->id_activity) . '" method="POST">
-                                        ' . csrf_field() . method_field('DELETE') . '
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                </div>
+                </div>
+                <div class="modal fade" id="deleteActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteActivityModalLabel' . $item->id_activity . '">Delete Activity</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this activity?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="' . route('activity.destroy', $item->id_activity) . '" method="POST">
+                                    ' . csrf_field() . method_field('DELETE') . '
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
-                ';
+                </div>
+            ';
 
                     return $html;
                 })
@@ -182,11 +182,11 @@ class ActivityController extends Controller
         ];
 
         $customMessages = [
-            'add_activityName.required' => 'Activity name is required',
-            'subsector_id1.required' => 'Subsector 1 is required',
-            'subsector_id1.exists' => 'Subsector 1 does not exist',
-            'subsector_id2.exists' => 'Subsector 2 does not exist',
-            'subsector_id3.exists' => 'Subsector 3 does not exist',
+            'add_activityName.required' => 'Nama aktivitas wajib diisi',
+            'subsector_id1.required' => 'Subsektor 1 wajib diisi',
+            'subsector_id1.exists' => 'Subsektor 1 tidak valid',
+            'subsector_id2.exists' => 'Subsektor 2 tidak valid',
+            'subsector_id3.exists' => 'Subsektor 3 tidak valid',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessages);
@@ -202,17 +202,22 @@ class ActivityController extends Controller
             'activity_name' => $request->input('add_activityName'),
         ]);
 
-        // Menyimpan relasi subsektor
-        $subsectors = array_filter([
-            $request->input('subsector_id1'),
-            $request->input('subsector_id2'),
-            $request->input('subsector_id3')
-        ]);
+        // Menyimpan relasi subsektor dengan prioritas
+        $subsectors = [];
+        if ($request->filled('subsector_id1')) {
+            $subsectors[$request->input('subsector_id1')] = ['priority' => 1];
+        }
+        if ($request->filled('subsector_id2')) {
+            $subsectors[$request->input('subsector_id2')] = ['priority' => 2];
+        }
+        if ($request->filled('subsector_id3')) {
+            $subsectors[$request->input('subsector_id3')] = ['priority' => 3];
+        }
 
         $activity->subsectors()->attach($subsectors);
 
-        Alert::success('Success', 'Activity added successfully!');
-        return redirect()->route('ManageActivity')->with('success', 'Activity successfully added.');
+        Alert::success('Sukses', 'Aktivitas berhasil ditambahkan!');
+        return redirect()->route('ManageActivity')->with('success', 'Aktivitas berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id_activity)
@@ -225,10 +230,10 @@ class ActivityController extends Controller
         ];
 
         $customMessages = [
-            'activity_name.required' => 'Activity name is required',
-            'subsector_id1.exists' => 'Subsector 1 does not exist',
-            'subsector_id2.exists' => 'Subsector 2 does not exist',
-            'subsector_id3.exists' => 'Subsector 3 does not exist',
+            'activity_name.required' => 'Nama aktivitas wajib diisi',
+            'subsector_id1.exists' => 'Subsektor 1 tidak valid',
+            'subsector_id2.exists' => 'Subsektor 2 tidak valid',
+            'subsector_id3.exists' => 'Subsektor 3 tidak valid',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessages);
@@ -244,30 +249,30 @@ class ActivityController extends Controller
             'activity_name' => $request->input('activity_name'),
         ]);
 
-        // Menyimpan relasi subsektor
-        $subsectors = array_filter([
-            $request->input('subsector_id1'),
-            $request->input('subsector_id2'),
-            $request->input('subsector_id3')
-        ]);
+        // Menyimpan relasi subsektor dengan prioritas
+        $subsectors = [];
+        if ($request->filled('subsector_id1')) {
+            $subsectors[$request->input('subsector_id1')] = ['priority' => 1];
+        }
+        if ($request->filled('subsector_id2')) {
+            $subsectors[$request->input('subsector_id2')] = ['priority' => 2];
+        }
+        if ($request->filled('subsector_id3')) {
+            $subsectors[$request->input('subsector_id3')] = ['priority' => 3];
+        }
 
         // Menghapus relasi subsektor sebelumnya
         $activity->subsectors()->detach();
 
         // Menyimpan relasi subsektor baru dengan prioritas
-        if ($request->has('subsector_id1')) {
-            $activity->subsectors()->attach($request->input('subsector_id1'), ['priority' => 1]);
-        }
-        if ($request->has('subsector_id2')) {
-            $activity->subsectors()->attach($request->input('subsector_id2'), ['priority' => 2]);
-        }
-        if ($request->has('subsector_id3')) {
-            $activity->subsectors()->attach($request->input('subsector_id3'), ['priority' => 3]);
-        }
+        $activity->subsectors()->attach($subsectors);
 
-        Alert::success('Success', 'Activity updated successfully!');
-        return redirect()->route('ManageActivity')->with('success', 'Activity successfully updated.');
+        Alert::success('Sukses', 'Aktivitas berhasil diperbarui!');
+        return redirect()->route('ManageActivity')->with('success', 'Aktivitas berhasil diperbarui.');
     }
+
+
+
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sector;
+use App\Models\Subsector;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
@@ -194,17 +195,17 @@ class SectorController extends Controller
     {
         $sector = Sector::findOrFail($id_sector);
 
-        Alert::success('Success', 'Sector deleted successfully!');
+        // Hapus subsector yang berelasi dengan sektor ini
+        Subsector::where('id_sector', $id_sector)->delete();
 
         if ($sector->delete()) {
+            Alert::success('Success', 'Sector deleted successfully!');
             return redirect()->route('sector.index')
-                ->with(
-                    'success',
-                    'Sector deleted successfully.'
-                );
+                ->with('success', 'Sector deleted successfully.');
         } else {
             return redirect()->back()
                 ->with('error', 'Failed to delete sector.');
         }
     }
+
 }

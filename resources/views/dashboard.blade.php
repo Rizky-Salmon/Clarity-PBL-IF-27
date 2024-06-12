@@ -271,13 +271,6 @@
         }
     </script>
 
-    @if (session('openModal'))
-        <script>
-            let modal = "{{ session('openModal') }}";
-            setTimeout(function() {
-                $('#' + modal).modal('show');
-            }, 2000);
-        </script>
-    @endif
+
 
 @endsection

@@ -16,7 +16,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
             <div style="display: flex; align-items: center;">
-                <img src="img/activity.png" style="height: 60px; width: 60px; margin-right: 10px;">
+                <img src="{{ asset('/img/activity.png') }}" style="height: 60px; width: 60px; margin-right: 10px;">
                 <h3 style="margin-top: 10px; font-weight: bold; color: black;">Activity Data</h3>
             </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivityModal">
@@ -164,7 +164,6 @@
             ]
         });
     </script>
-
 
     <script>
         $(document).ready(function() {

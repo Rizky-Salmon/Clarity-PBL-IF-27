@@ -53,6 +53,8 @@ class AdminController extends Controller
         $employee->name = $request->name;
         $employee->save();
 
+        Alert::success('Success', 'Name updated successfully');
+
         return redirect()->back()->with('success', 'Name updated successfully')->with('openModal', 'editNameModal');
     }
 
@@ -67,6 +69,8 @@ class AdminController extends Controller
         $employee = Employees::where('id_employees', $user_id)->first();
         $employee->email = $request->email;
         $employee->save();
+
+        Alert::success('Success', 'Email updated successfully');
 
         return redirect()->back()->with('success', 'Email updated successfully')->with('openModal', 'editEmailModal');
     }
