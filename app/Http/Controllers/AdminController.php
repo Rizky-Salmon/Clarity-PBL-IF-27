@@ -87,7 +87,7 @@ class AdminController extends Controller
         $employee = Employees::where('id_employees', $user_id)->first();
 
         if (!Hash::check($request->current_password, $employee->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'Current password is incorrect']);
+            return redirect()->back()->withErrors(['current_password' => 'Current password is incorrect'])->withInput()->with('openModal', 'editPasswordModal');
         }
 
         $employee->password = Hash::make($request->new_password);
@@ -98,5 +98,4 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Password updated successfully')->with('openModal', 'editPasswordModal');
     }
-
 }

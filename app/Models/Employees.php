@@ -35,6 +35,7 @@ class Employees extends Authenticatable
         'name',
         'email',
         'password',
+        'default_password',
         'role'
     ];
 
@@ -56,6 +57,7 @@ class Employees extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'default_password' => 'boolean',
     ];
 
     public function ActivitY()
@@ -63,5 +65,5 @@ class Employees extends Authenticatable
         return $this->hasMany(ActivityPercentage::class, 'id_employees', 'id_employees');
     }
 
-    
+
 }

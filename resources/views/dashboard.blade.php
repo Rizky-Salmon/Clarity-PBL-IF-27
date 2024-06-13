@@ -214,37 +214,56 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="current-password">Current Password</label>
-                                <input type="password" class="form-control" id="current-password"
-                                    name="current_password" placeholder="Enter Your Current Password" required>
+                                <input type="password"
+                                    class="form-control @error('current_password') is-invalid @enderror"
+                                    id="current-password" name="current_password"
+                                    placeholder="Enter Your Current Password" required>
+                                @error('current_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="new-password">New Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="new-password" name="new_password"
-                                        placeholder="Enter Your New Password" required>
+                                    <input type="password"
+                                        class="form-control @error('new_password') is-invalid @enderror" id="new-password"
+                                        name="new_password" placeholder="Enter Your New Password" required>
                                     <div class="input-group-append">
                                         <button style="font-weight: bold;" class="btn btn-outline-secondary"
-                                            type="button" onclick="togglePassword(this,'new-password')">
+                                            type="button" onclick="togglePassword(this, 'new-password')">
                                             <span class="fa fa-eye-slash"></span>
                                         </button>
                                     </div>
+                                    @error('new_password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="confirm-password">Confirm New Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="confirm-password"
-                                        name="new_password_confirmation" placeholder="Confirm Your New Password" required>
+                                    <input type="password"
+                                        class="form-control @error('new_password_confirmation') is-invalid @enderror"
+                                        id="confirm-password" name="new_password_confirmation"
+                                        placeholder="Confirm Your New Password" required>
                                     <div class="input-group-append">
                                         <button style="font-weight: bold;" class="btn btn-outline-secondary"
-                                            type="button" onclick="togglePassword(this,'confirm-password')">
+                                            type="button" onclick="togglePassword(this, 'confirm-password')">
                                             <span class="fa fa-eye-slash"></span>
                                         </button>
                                     </div>
+                                    @error('new_password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -253,23 +272,28 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function togglePassword(button, inputId) {
+                const input = document.getElementById(inputId);
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    button.querySelector('span').classList.remove('fa-eye-slash');
+                    button.querySelector('span').classList.add('fa-eye');
+                } else {
+                    input.type = 'password';
+                    button.querySelector('span').classList.remove('fa-eye');
+                    button.querySelector('span').classList.add('fa-eye-slash');
+                }
+            }
+
+            @if (session('openModal') === 'editPasswordModal')
+                $('#editPasswordModal').modal('show');
+            @endif
+        </script>
     </div>
     <!-- End of Content Wrapper -->
 
-    <script>
-        function togglePassword(e, inputId) {
-            var input = document.getElementById(inputId);
-            if (input.type === "password") {
-                input.type = "text";
-                e.querySelector('span').classList.remove('fa-eye-slash');
-                e.querySelector('span').classList.add('fa-eye');
-            } else {
-                input.type = "password";
-                e.querySelector('span').classList.remove('fa-eye');
-                e.querySelector('span').classList.add('fa-eye-slash');
-            }
-        }
-    </script>
 
 
 

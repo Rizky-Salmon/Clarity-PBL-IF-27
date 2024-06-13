@@ -18,7 +18,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/', [SessionController::class, 'index'])->name('login');
     Route::post('/', [SessionController::class, 'login'])->middleware('throttle:5,1');
 
-    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    // Menampilkan formulir registrasi
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+
+    // Menangani pengiriman formulir registrasi
+    Route::post('register', [RegisterController::class, 'register']);
 });
 
 

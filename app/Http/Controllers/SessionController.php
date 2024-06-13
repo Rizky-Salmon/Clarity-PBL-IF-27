@@ -29,9 +29,9 @@ class SessionController extends Controller
             'password' => $request->password
         ];
 
-        // ddd($infologin); // Tambahkan var_dump di sini
+        $remember = $request->has('remember') ? true : false;
 
-        if (Auth::attempt($infologin)) {
+        if (Auth::attempt($infologin, $remember)) {
             if (auth()->user()->role == 'admin') {
                 Alert::success('Success', 'Welcome to Clarity !');
                 return redirect('admin');
@@ -42,14 +42,11 @@ class SessionController extends Controller
         } else {
             return redirect()->back()->withErrors(['password' => 'Password did not match our records.'])->withInput();
         }
-
-        // return redirect('')->withErrors('Email or Password is wrong.')->withInput();
-
     }
 
     function logout()
     {
-        auth::logout();
+        Auth::logout();
         Alert::success('Success', 'Logout Success !');
         return redirect('');
     }
