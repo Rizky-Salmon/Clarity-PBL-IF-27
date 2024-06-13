@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityPercentage;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -227,15 +228,12 @@ class EmployeesController extends Controller
     {
         $employee = Employees::findOrFail($id_employee);
 
-
-        Alert::success('Success', 'Employee deleted successfully!');
+        ActivityPercentage::where('id_employees', $id_employee)->delete();
 
         if ($employee->delete()) {
+            Alert::success('Success', 'Employee deleted successfully!');
             return redirect()->route('employees.index')
-                ->with(
-                    'success',
-                    'Employees deleted successfully.'
-                );
+                ->with('success','Employees deleted successfully.');
         } else {
             return redirect()->back()
                 ->with('error', 'Failed to delete employees.');
