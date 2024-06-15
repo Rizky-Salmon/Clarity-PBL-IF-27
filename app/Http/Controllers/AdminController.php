@@ -25,7 +25,7 @@ class AdminController extends Controller
         $count['sub_sector'] = SubSector::count();
 
         // Count Employee
-        $count['employee'] = Employees::count();
+        $count['employee'] = Employees::where('role', 'employees')->count();
 
         // Fetch Employee Data
         $user_id = auth()->user()->id_employees; // Assuming you have `id` column in your `employees` table
@@ -33,6 +33,7 @@ class AdminController extends Controller
 
         return view('dashboard', ['count' => $count, 'employee' => $employee]);
     }
+
 
     public function employees()
     {

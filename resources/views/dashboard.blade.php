@@ -92,6 +92,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         @if (auth()->user()->default_password)

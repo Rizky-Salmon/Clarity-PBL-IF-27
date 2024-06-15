@@ -10,28 +10,31 @@ class VisusalisasiController extends Controller
     // Visulasasi Overall Activity
     public function OverallActivity()
     {
-        $datavisual = DB::select('SELECT activity.activity_name AS name,
-        COUNT(activity_percentage.id_activity) AS value FROM activity
-        JOIN activity_percentage ON activity_percentage.id_activity = activity.id_activity
-        GROUP BY activity_percentage.id_activity, activity.activity_name');
+        $datavisual = DB::select('SELECT activity.activity_name AS activity_name,
+                                   GROUP_CONCAT(employees.name SEPARATOR ", ") AS employee_names,
+                                   COUNT(activity_percentage.id_activity) AS value
+                              FROM activity
+                              JOIN activity_percentage ON activity_percentage.id_activity = activity.id_activity
+                              JOIN employees ON activity_percentage.id_employees = employees.id_employees
+                              GROUP BY activity.activity_name');
 
         // Mengonversi data menjadi array asosiatif
         $datavisualArray = [];
+        $activityNames = [];
         foreach ($datavisual as $data) {
             $datavisualArray[] = [
-                'name' => $data->name,
+                'activity_name' => $data->activity_name,
+                'employee_names' => $data->employee_names,
                 'value' => $data->value
             ];
+            $activityNames[] = ['activity_name' => $data->activity_name];
         }
 
         return view('i_activity', [
             'datavisual' => json_encode($datavisualArray),
-            'activities' => $datavisualArray, // Add this
+            'activities' => $activityNames,
         ]);
     }
-
-
-
 
     // Visualisasi Activity Percentage
     public function ActivityPercentage()
@@ -87,51 +90,99 @@ class VisusalisasiController extends Controller
     public function Sector()
     {
         $datavisual = DB::select('SELECT
-        subsector.subsector_name AS subsector,
-        subsector.description AS deskripsi,
-        sector.sector_name AS sector
+        sector.sector_name AS sector,
+        GROUP_CONCAT(CONCAT("[", subsector.subsector_name, "]") ORDER BY subsector.subsector_name SEPARATOR ", ") AS subsector,
+        GROUP_CONCAT(CONCAT("[", subsector.description, "]") ORDER BY subsector.subsector_name SEPARATOR ", ") AS deskripsi,
+        subquery.total_subsectors
+    FROM subsector
+    JOIN sector ON subsector.id_sector = sector.id_sector
+    JOIN (
+        SELECT
+            subsector.id_sector,
+            COUNT(subsector.id_subsector) AS total_subsectors
         FROM subsector
-        JOIN sector ON subsector.id_sector = sector.id_sector;');
+        GROUP BY subsector.id_sector
+    ) AS subquery ON subsector.id_sector = subquery.id_sector
+    GROUP BY sector.sector_name, subquery.total_subsectors
+    ORDER BY sector.sector_name;');
+
+        // Mengambil nama sektor untuk dropdown
+        $sectors = DB::table('sector')->select('sector_name')->orderBy('sector_name')->get();
 
         // Mengonversi data menjadi array asosiatif
         $datavisualArray = [];
         foreach ($datavisual as $data) {
             $datavisualArray[] = [
                 'sector' => $data->sector,
-                'deskripsi' => $data->deskripsi,
                 'subsector' => $data->subsector,
-                'value' => 30 // Contoh nilai, sesuaikan dengan kebutuhan Anda
+                'deskripsi' => $data->deskripsi,
+                'total_subsectors' => $data->total_subsectors
             ];
         }
 
         return view('i_sector', [
             'datavisual' => json_encode($datavisualArray),
+            'sectors' => $sectors
         ]);
     }
 
     public function SubSector()
     {
-        $datavisual = DB::select('SELECT
-        activity.activity_name AS activity,
-        subsector.subsector_name AS subsector
-        FROM activity_subsector
-        JOIN activity ON activity_subsector.id_activity = activity.id_activity
-        JOIN subsector ON activity_subsector.id_subsector = subsector.id_subsector');
+        $query = 'SELECT
+        subsector_info.id_subsector,
+        subsector_info.subsector_name,
+        subsector_info.total_activities,
+        activity_info.activity_name AS aktivitas,
+        activity_info.total_percentage,
+        activity_info.employees_involvement
+    FROM
+        (
+            SELECT
+                s.id_subsector,
+                s.subsector_name,
+                COUNT(DISTINCT acs.id_activity) AS total_activities
+            FROM
+                subsector s
+            JOIN
+                activity_subsector acs ON s.id_subsector = acs.id_subsector
+            GROUP BY
+                s.id_subsector, s.subsector_name
+        ) AS subsector_info
+    JOIN
+        (
+            SELECT
+                s.id_subsector,
+                a.activity_name,
+                SUM(ap.percentage) AS total_percentage,
+                GROUP_CONCAT(DISTINCT CONCAT(e.name, " (", ap.percentage, "%)") ORDER BY e.name ASC SEPARATOR ", ") AS employees_involvement
+            FROM
+                subsector s
+            JOIN
+                activity_subsector acs ON s.id_subsector = acs.id_subsector
+            JOIN
+                activity a ON acs.id_activity = a.id_activity
+            JOIN
+                activity_percentage ap ON a.id_activity = ap.id_activity
+            JOIN
+                employees e ON ap.id_employees = e.id_employees
+            GROUP BY
+                s.id_subsector, a.activity_name
+        ) AS activity_info
+    ON
+        subsector_info.id_subsector = activity_info.id_subsector
+    ORDER BY
+        subsector_info.id_subsector, activity_info.activity_name';
 
-        // Mengonversi data menjadi array asosiatif
-        $datavisualArray = [];
-        foreach ($datavisual as $data) {
-            $datavisualArray[] = [
-                'activity' => $data->activity,
-                'subsector' => $data->subsector,
-                'value' => 70 // Contoh nilai, sesuaikan dengan kebutuhan Anda
-            ];
-        }
+        $datavisual = DB::select($query);
 
         return view('i_subsector', [
-            'datavisual' => json_encode($datavisualArray),
+            'datavisual' => json_encode($datavisual),
         ]);
     }
+
+
+
+
 
     public function MinEmployee()
     {

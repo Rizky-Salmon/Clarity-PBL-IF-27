@@ -373,12 +373,10 @@
 
         <script>
             var activityData = {!! $datavisual !!};
-            let limit = '10'; // Default limit
-
             const limitSelect = document.querySelector('#limit');
 
             // Populate dropdown with subsector names
-            const subsectorNames = [...new Set(activityData.map(item => item.subsector))]; // Get unique subsector names
+            const subsectorNames = [...new Set(activityData.map(item => item.subsector_name))];
             subsectorNames.forEach(subsector => {
                 const option = document.createElement('option');
                 option.value = subsector;
@@ -391,17 +389,29 @@
             render();
 
             function render() {
-                const selectedSector = limitSelect.options[limitSelect.selectedIndex].value;
-                let filteredData = selectedSector === "All" ? activityData : activityData.filter(item => item.subsector ===
-                    selectedSector);
+                const selectedSector = limitSelect.value;
+                let filteredData;
 
-                if (selectedSector === "All" && filteredData.length > 30) {
-                    filteredData = shuffleArray(filteredData).slice(0, 30);
+                if (selectedSector === "All") {
+                    filteredData = activityData.reduce((acc, curr) => {
+                        const existing = acc.find(item => item.id_subsector === curr.id_subsector);
+                        if (!existing) {
+                            acc.push({
+                                id_subsector: curr.id_subsector,
+                                subsector_name: curr.subsector_name,
+                                total_activities: curr.total_activities,
+                                employees_involvement: curr.employees_involvement
+                            });
+                        }
+                        return acc;
+                    }, []);
+                } else {
+                    filteredData = activityData.filter(item => item.subsector_name === selectedSector);
                 }
 
                 document.querySelector('#chart').innerHTML = '';
 
-                const values = filteredData.map(d => d.value);
+                const values = filteredData.map(d => selectedSector === "All" ? d.total_activities : d.total_percentage);
 
                 var diameter = 600,
                     color = d3.scaleOrdinal(d3.schemeCategory20c);
@@ -416,7 +426,11 @@
                     .html((d, i) => {
                         const item = filteredData[i];
                         const color = getColor(i, filteredData.length);
-                        return `<div class="d3-tip" style="background-color: ${color}"><strong>Subsector:</strong> ${item.subsector}<br><strong>Activity:</strong> ${item.activity}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        if (selectedSector === "All") {
+                            return `<div class="d3-tip" style="background-color: ${color}"><strong>Subsector:</strong> ${item.subsector_name}<br><strong>Total Activities:</strong> ${item.total_activities}<br><strong>Employees Involvement:</strong> ${item.employees_involvement}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        } else {
+                            return `<div class="d3-tip" style="background-color: ${color}"><strong>Subsector:</strong> ${item.subsector_name}<br><strong>Activity:</strong> ${item.aktivitas}<br><strong>Total Percentage:</strong> ${item.total_percentage}%<br><strong>Employees Involvement:</strong> ${item.employees_involvement}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        }
                     });
 
                 var svg = d3.select('#chart').append('svg')
@@ -429,7 +443,7 @@
                         children: filteredData
                     })
                     .sum(function(d) {
-                        return d.value;
+                        return selectedSector === "All" ? d.total_activities : d.total_percentage;
                     });
 
                 bubble(root);
@@ -455,52 +469,23 @@
 
                 node.call(tip);
 
-                if (selectedSector === "All") {
-                    node.append("text")
-                        .attr("dy", "-1.3em") // move up
-                        .style("text-anchor", "middle")
-                        .style('font-family', 'Roboto')
-                        .style('font-weight', 'bold')
-                        .style('font-size', getFontSizeForItem)
-                        .text(d => truncate(d.data.subsector))
-                        .style("fill", "#ffffff")
-                        .style('pointer-events', 'none');
-                }
-
                 node.append("text")
-                    .attr("dy", "0.2em")
+                    .attr("dy", "0.3em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
                     .style('font-weight', 'bold')
                     .style('font-size', getFontSizeForItem)
-                    .text(d => truncate(d.data.activity))
+                    .text(d => selectedSector === "All" ? d.data.total_activities : d.data.total_percentage + '%')
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 
-                function truncate(label) {
-                    const max = 9;
-                    if (label.length > max) {
-                        label = label.slice(0, max) + '...';
-                    }
-                    return label;
-                }
-
                 function getColor(idx, total) {
-                    // Generate color based on the index and total number of items
                     const hue = (360 * idx / total) % 360;
                     return `hsl(${hue}, 70%, 50%)`;
                 }
 
                 function getFontSizeForItem(d) {
                     return Math.max(11, Math.min(24, 24 * d.r / diameter)) + 'px';
-                }
-
-                function shuffleArray(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
                 }
             }
         </script>

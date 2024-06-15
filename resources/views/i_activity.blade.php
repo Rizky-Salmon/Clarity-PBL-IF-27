@@ -353,7 +353,6 @@
             </h1>
         </div>
 
-
         <fieldset style="display: flex; flex-direction: column;">
             <legend>Graph Options</legend>
             <h3 class="first-h3">Activity Name</h3>
@@ -361,17 +360,13 @@
                 <select id="activity" style="width: 100%; max-width: 160px;">
                     <option value="ALL">ALL</option>
                     @foreach ($activities as $activity)
-                        <option value="{{ $activity['name'] }}">{{ $activity['name'] }}</option>
+                        <option value="{{ $activity['activity_name'] }}">{{ $activity['activity_name'] }}</option>
                     @endforeach
                 </select>
             </div>
-            <h3>Order</h3>
-            <select id="shuffle" style="width: 100%; max-width: 160px;">
-                <option value="0">Largest to smallest</option>
-                <option value="1">Smallest to largest</option>
-                <option value="2">Random</option>
-            </select>
         </fieldset>
+
+
 
         <div id="chart" class="chart">
         </div>
@@ -391,30 +386,31 @@
             }
 
             const activitySelect = document.querySelector('#activity');
-            const shuffleSelect = document.querySelector('#shuffle');
 
             activitySelect.selectedIndex = 0;
             activitySelect.addEventListener('change', render);
-            shuffleSelect.addEventListener('change', render);
 
             render();
 
             function render() {
                 let idx = 0;
                 const activityValue = activitySelect.options[activitySelect.selectedIndex].value;
-                let filteredData = activityValue === "ALL" ? activityData : activityData.filter(d => d.name === activityValue);
-                const order = shuffleSelect.value;
+                let filteredData = activityValue === "ALL" ? activityData : activityData.filter(d => d.activity_name ===
+                    activityValue);
 
-                if (activityValue === "ALL") {
-                    filteredData = shuffleArray(filteredData).slice(0, 50);
-                } else {
-                    if (order === '0') {
-                        filteredData.sort((a, b) => b.value - a.value);
-                    } else if (order === '1') {
-                        filteredData.sort((a, b) => a.value - b.value);
-                    } else if (order === '2') {
-                        filteredData = shuffleArray(filteredData);
-                    }
+                if (activityValue !== "ALL") {
+                    // Split employee names into individual entries
+                    let employeeData = [];
+                    filteredData.forEach(activity => {
+                        let employeeNames = activity.employee_names.split(', ');
+                        employeeNames.forEach(name => {
+                            employeeData.push({
+                                employee_name: name,
+                                activity_name: activity.activity_name
+                            });
+                        });
+                    });
+                    filteredData = employeeData;
                 }
 
                 document.querySelector('#chart').innerHTML = '';
@@ -438,9 +434,19 @@
                     .html((d, i) => {
                         const item = json.children[i];
                         const color = getColor(i, total);
-                        return `<div class="d3-tip" style="background-color: ${color}"><strong>Activity:</strong>
-            ${item.name} <br> <strong>${item.value}</strong> employees</div>
-            <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        if (activityValue === "ALL") {
+                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                        <strong style="color: black;">Activity:</strong> <strong style="color: white;">${item.activity_name}</strong> <br>
+                        <strong style="color: black;">Total Employee:</strong> <strong style="color: white;">${item.value}</strong> <br>
+                        <strong style="color: black;">Employees Name:</strong> <strong style="color: white;">${item.employee_names}</strong>
+                    </div>
+                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        } else {
+                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                        <strong style="color: black;">Activity:</strong> <strong style="color: white;">${item.activity_name} </strong>
+                    </div>
+                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        }
                     });
 
                 var margin = {
@@ -458,7 +464,7 @@
 
                 var root = d3.hierarchy(json)
                     .sum(function(d) {
-                        return d.value;
+                        return d.value || 1; // Use 1 as value for individual employees
                     });
 
                 bubble(root);
@@ -486,18 +492,8 @@
                     .attr("dy", "0.2em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
-                    .style('font-size', '10px')
-                    .text(d => truncate(d.data.name))
-                    .style("fill", "#ffffff")
-                    .style('pointer-events', 'none');
-
-                node.append("text")
-                    .attr("dy", "1.3em")
-                    .style("text-anchor", "middle")
-                    .style('font-family', 'Roboto')
-                    .style('font-weight', 'bold')
                     .style('font-size', '14px')
-                    .text(getValueText)
+                    .text(d => getBubbleText(d.data))
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 
@@ -505,26 +501,12 @@
                     return getColor(idx++, total);
                 }
 
-                function getLabel(item) {
-                    if (item.data.value < max / 3.3) {
-                        return '';
+                function getBubbleText(data) {
+                    if (activityValue === "ALL") {
+                        return data.value;
+                    } else {
+                        return data.employee_name;
                     }
-                    return truncate(item.data.name);
-                }
-
-                function getValueText(item) {
-                    if (item.data.value < max / 10) {
-                        return '';
-                    }
-                    return item.data.value;
-                }
-
-                function truncate(label) {
-                    const max = 10;
-                    if (label.length > max) {
-                        label = label.slice(0, max) + '...';
-                    }
-                    return label;
                 }
 
                 function shuffleArray(array) {
@@ -536,6 +518,12 @@
                 }
             }
         </script>
+
+
+
+
+
+
 
     </div>
     <!-- /.container-fluid -->

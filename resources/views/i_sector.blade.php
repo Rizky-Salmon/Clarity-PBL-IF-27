@@ -358,6 +358,9 @@
             <div style="display: flex; flex-direction: column;">
                 <select id="limit" style="width: 100%; max-width: 170px;">
                     <option value="All">All</option>
+                    @foreach ($sectors as $sector)
+                        <option value="{{ $sector->sector_name }}">{{ $sector->sector_name }}</option>
+                    @endforeach
                 </select>
             </div>
         </fieldset>
@@ -536,63 +539,95 @@
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
 
-        <script>
+        <script id="rendered-js">
             var activityData = {!! $datavisual !!};
-            let limit = 'All'; // Default limit
 
-            const limitSelect = document.querySelector('#limit');
+            function getColor(idx, total) {
+                const hue = (360 * idx / total) % 360;
+                return `hsl(${hue}, 70%, 50%)`;
+            }
 
-            // Populate dropdown with sector names
-            const sectorNames = [...new Set(activityData.map(item => item.sector))]; // Get unique sector names
-            sectorNames.forEach(sector => {
-                const option = document.createElement('option');
-                option.value = sector;
-                option.textContent = sector;
-                limitSelect.appendChild(option);
-            });
+            const activitySelect = document.querySelector('#limit');
 
-            limitSelect.addEventListener('change', render);
+            activitySelect.selectedIndex = 0;
+            activitySelect.addEventListener('change', render);
 
             render();
 
             function render() {
-                const selectedSector = limitSelect.options[limitSelect.selectedIndex].value;
-                let filteredData = selectedSector === "All" ? activityData : activityData.filter(item => item.sector ===
-                    selectedSector);
+                let idx = 0;
+                const activityValue = activitySelect.options[activitySelect.selectedIndex].value;
+                let filteredData = activityValue === "All" ? activityData : activityData.filter(d => d.sector ===
+                activityValue);
+
+                if (activityValue !== "All") {
+                    // Split subsectors into individual entries
+                    let subsectorData = [];
+                    filteredData.forEach(activity => {
+                        let subsectors = activity.subsector.split(', ');
+                        subsectors.forEach(name => {
+                            subsectorData.push({
+                                sector: activity.sector,
+                                subsector: name,
+                                deskripsi: activity.deskripsi
+                            });
+                        });
+                    });
+                    filteredData = subsectorData;
+                }
 
                 document.querySelector('#chart').innerHTML = '';
 
-                const values = filteredData.map(d => d.value);
+                var json = {
+                    'children': filteredData
+                };
 
-                var diameter = 600,
-                    color = d3.scaleOrdinal(d3.schemeCategory20c);
+                const values = json.children.map(d => d.total_subsectors || 1);
+                const min = Math.min.apply(null, values);
+                const max = Math.max.apply(null, values);
+                const total = json.children.length;
 
-                var bubble = d3.pack()
-                    .size([diameter, diameter])
-                    .padding(0);
+                var diameter = 600;
+
+                var bubble = d3.pack().size([diameter, diameter]).padding(0);
 
                 var tip = d3.tip()
                     .attr('class', 'd3-tip-outer')
                     .offset([-38, 0])
                     .html((d, i) => {
-                        const item = filteredData[i];
-                        const color = getColor(i, filteredData.length);
-                        // Menampilkan sektor hanya saat opsi "All" dipilih
-                        const sectorText = selectedSector === "All" ? `<strong>Sector:</strong> ${item.sector}<br>` : "";
-                        return `<div class="d3-tip" style="background-color: ${color}">${sectorText}<strong>Subsector:</strong> ${item.subsector}<br><strong>Description:</strong> ${item.deskripsi}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        const item = json.children[i];
+                        const color = getColor(i, total);
+                        if (activityValue === "All") {
+                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                        <strong style="color: black;">Sector:</strong> <strong style="color: white;">${item.sector}</strong> <br>
+                        <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector}</strong> <br>
+                        <strong style="color: black;">Description:</strong> <strong style="color: white;">${item.deskripsi}</strong>
+                    </div>
+                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        } else {
+                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                        <strong style="color: black;">Sector:</strong> <strong style="color: white;">${item.sector}</strong> <br>
+                    </div>
+                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        }
                     });
 
+                var margin = {
+                    left: 25,
+                    right: 25,
+                    top: 25,
+                    bottom: 25
+                };
+
                 var svg = d3.select('#chart').append('svg')
-                    .attr('viewBox', '0 0 ' + diameter + ' ' + diameter)
-                    .attr('width', diameter)
+                    .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
+                    .attr('width', diameter + margin.right)
                     .attr('height', diameter)
                     .attr('class', 'chart-svg');
 
-                var root = d3.hierarchy({
-                        children: filteredData
-                    })
+                var root = d3.hierarchy(json)
                     .sum(function(d) {
-                        return d.value;
+                        return activityValue === "All" ? d.total_subsectors : 1;
                     });
 
                 bubble(root);
@@ -610,73 +645,23 @@
                     .attr("r", function(d) {
                         return d.r;
                     })
-                    .style("fill", function(d, i) {
-                        return getColor(i, filteredData.length);
-                    })
+                    .style("fill", getItemColor)
                     .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
                 node.call(tip);
 
-                if (selectedSector === "All") {
-                    node.append("text")
-                        .attr("dy", "-1.3em") // move up
-                        .style("text-anchor", "middle")
-                        .style('font-family', 'Roboto')
-                        .style('font-weight', 'bold')
-                        .style('font-size', getFontSizeForItem)
-                        .text(getSectorText)
-                        .style("fill", "#adadad")
-                        .style('pointer-events', 'none');
-                }
-
                 node.append("text")
                     .attr("dy", "0.2em")
                     .style("text-anchor", "middle")
                     .style('font-family', 'Roboto')
-                    .style('font-weight', 'bold')
-                    .style('font-size', getFontSizeForItem)
-                    .text(d => truncate(getLabel(d)))
+                    .style('font-size', '14px')
+                    .text(d => activityValue === "All" ? d.data.total_subsectors : d.data.subsector)
                     .style("fill", "black")
                     .style('pointer-events', 'none');
 
-                node.append("text")
-                    .attr("dy", "1.3em")
-                    .style("text-anchor", "middle")
-                    .style('font-family', 'Roboto')
-                    .style('font-size', getFontSizeForItem)
-                    .text(d => truncate(getDeskripsi(d)))
-                    .style("fill", "#ffffff")
-                    .style('pointer-events', 'none');
-
-                function truncate(label) {
-                    const max = 15;
-                    if (label.length > max) {
-                        label = label.slice(0, max) + '...';
-                    }
-                    return label;
-                }
-
-                function getColor(idx, total) {
-                    // Generate color based on the index and total number of items
-                    const hue = (360 * idx / total) % 360;
-                    return `hsl(${hue}, 70%, 50%)`;
-                }
-
-                function getFontSizeForItem(d) {
-                    return Math.max(11, Math.min(24, 24 * d.r / diameter)) + 'px';
-                }
-
-                function getSectorText(d) {
-                    return d.data.sector;
-                }
-
-                function getLabel(d) {
-                    return d.data.subsector;
-                }
-
-                function getDeskripsi(d) {
-                    return d.data.deskripsi;
+                function getItemColor(item) {
+                    return getColor(idx++, total);
                 }
             }
         </script>
