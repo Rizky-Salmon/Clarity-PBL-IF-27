@@ -427,9 +427,17 @@
                         const item = filteredData[i];
                         const color = getColor(i, filteredData.length);
                         if (selectedSector === "All") {
-                            return `<div class="d3-tip" style="background-color: ${color}"><strong>Subsector:</strong> ${item.subsector_name}<br><strong>Total Activities:</strong> ${item.total_activities}<br><strong>Employees Involvement:</strong> ${item.employees_involvement}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                            return `<div class="d3-tip" style="background-color: ${color}">
+                                <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name}</strong><br>
+                                <strong style="color: black;">Total Activities:</strong> <strong style="color: white;">${item.total_activities}</strong> <br>
+                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                         } else {
-                            return `<div class="d3-tip" style="background-color: ${color}"><strong>Subsector:</strong> ${item.subsector_name}<br><strong>Activity:</strong> ${item.aktivitas}<br><strong>Total Percentage:</strong> ${item.total_percentage}%<br><strong>Employees Involvement:</strong> ${item.employees_involvement}</div><div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                            return `<div class="d3-tip" style="background-color: ${color}">
+                                <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name} </strong> <br>
+                                <strong style="color: black;">Activity:</strong> <strong style="color: white;"> ${item.aktivitas} </strong> <br>
+                                <strong style="color: black;">Total Percentage:</strong> <strong style="color: white;"> ${item.total_percentage}% </strong><br>
+                                <strong style="color: black;">Employees Involvement:</strong> <strong style="color: white;"> ${item.employees_involvement} </strong> </div>
+                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                         }
                     });
 

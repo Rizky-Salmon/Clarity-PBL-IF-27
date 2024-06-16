@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@yield('title' ?? 'Login') | {{ env('APP_NAME') }}</title>
+    <title>@yield('title' ?? 'Login') | {{ config('app.name') }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
