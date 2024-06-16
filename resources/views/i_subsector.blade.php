@@ -426,18 +426,20 @@
                     .html((d, i) => {
                         const item = filteredData[i];
                         const color = getColor(i, filteredData.length);
+                        const employeesInvolvement = item.employees_involvement ? item.employees_involvement.split(', ')
+                            .map(name => `- ${name}`).join('<br>') : '';
                         if (selectedSector === "All") {
                             return `<div class="d3-tip" style="background-color: ${color}">
-                                <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name}</strong><br>
-                                <strong style="color: black;">Total Activities:</strong> <strong style="color: white;">${item.total_activities}</strong> <br>
-                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name}</strong><br>
+                        <strong style="color: black;">Total Activities:</strong> <strong style="color: white;">${item.total_activities}</strong> <br>
+                        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                         } else {
                             return `<div class="d3-tip" style="background-color: ${color}">
-                                <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name} </strong> <br>
-                                <strong style="color: black;">Activity:</strong> <strong style="color: white;"> ${item.aktivitas} </strong> <br>
-                                <strong style="color: black;">Total Percentage:</strong> <strong style="color: white;"> ${item.total_percentage}% </strong><br>
-                                <strong style="color: black;">Employees Involvement:</strong> <strong style="color: white;"> ${item.employees_involvement} </strong> </div>
-                                <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                        <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector_name}</strong> <br>
+                        <strong style="color: black;">Activity:</strong> <strong style="color: white;">${item.aktivitas}</strong> <br>
+                        <strong style="color: black;">Total Percentage:</strong> <strong style="color: white;">${item.total_percentage}%</strong><br>
+                        <strong style="color: black;">Employees Involvement:</strong><br><strong style="color: white;">${employeesInvolvement}</strong>
+                        <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                         }
                     });
 
@@ -497,6 +499,7 @@
                 }
             }
         </script>
+
 
     </div>
     <!-- /.container-fluid -->

@@ -352,18 +352,18 @@
             </h1>
         </div>
 
-        <fieldset style="display: flex; flex-direction: column;">
-            <legend>Graph Options</legend>
-            <h3 class="first-h3">Sector Name</h3>
-            <div style="display: flex; flex-direction: column;">
-                <select id="limit" style="width: 100%; max-width: 170px;">
-                    <option value="All">All</option>
-                    @foreach ($sectors as $sector)
-                        <option value="{{ $sector->sector_name }}">{{ $sector->sector_name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </fieldset>
+<fieldset style="display: flex; flex-direction: column;">
+    <legend>Graph Options</legend>
+    <h3 class="first-h3">Sector Name</h3>
+    <div style="display: flex; flex-direction: column;">
+        <select id="limit" style="width: 100%; max-width: 170px;">
+            <option value="All">All</option>
+            @foreach ($sectors as $sector)
+                <option value="{{ $sector->sector_name }}">{{ $sector->sector_name }}</option>
+            @endforeach
+        </select>
+    </div>
+</fieldset>
 
 
         <div id="chart" class="chart">
@@ -539,132 +539,137 @@
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js"></script>
 
-        <script id="rendered-js">
-            var activityData = {!! $datavisual !!};
+<script id="rendered-js">
+    var activityData = {!! $datavisual !!};
 
-            function getColor(idx, total) {
-                const hue = (360 * idx / total) % 360;
-                return `hsl(${hue}, 70%, 50%)`;
-            }
+    function getColor(idx, total) {
+        const hue = (360 * idx / total) % 360;
+        return `hsl(${hue}, 70%, 50%)`;
+    }
 
-            const activitySelect = document.querySelector('#limit');
+    const activitySelect = document.querySelector('#limit');
 
-            activitySelect.selectedIndex = 0;
-            activitySelect.addEventListener('change', render);
+    activitySelect.selectedIndex = 0;
+    activitySelect.addEventListener('change', render);
 
-            render();
+    render();
 
-            function render() {
-                let idx = 0;
-                const activityValue = activitySelect.options[activitySelect.selectedIndex].value;
-                let filteredData = activityValue === "All" ? activityData : activityData.filter(d => d.sector ===
-                activityValue);
+    function render() {
+        let idx = 0;
+        const activityValue = activitySelect.options[activitySelect.selectedIndex].value;
+        let filteredData = activityValue === "All" ? activityData : activityData.filter(d => d.sector === activityValue);
 
-                if (activityValue !== "All") {
-                    // Split subsectors into individual entries
-                    let subsectorData = [];
-                    filteredData.forEach(activity => {
-                        let subsectors = activity.subsector.split(', ');
-                        subsectors.forEach(name => {
-                            subsectorData.push({
-                                sector: activity.sector,
-                                subsector: name,
-                                deskripsi: activity.deskripsi
-                            });
-                        });
+        if (activityValue !== "All") {
+            // Split subsectors into individual entries
+            let subsectorData = [];
+            filteredData.forEach(activity => {
+                let subsectors = activity.subsector.split(', ');
+                let deskripsis = activity.deskripsi.split(', ');
+                subsectors.forEach((name, index) => {
+                    subsectorData.push({
+                        sector: activity.sector,
+                        subsector: name,
+                        deskripsi: deskripsis[index]
                     });
-                    filteredData = subsectorData;
-                }
+                });
+            });
+            filteredData = subsectorData;
+        }
 
-                document.querySelector('#chart').innerHTML = '';
+        document.querySelector('#chart').innerHTML = '';
 
-                var json = {
-                    'children': filteredData
-                };
+        var json = {
+            'children': filteredData
+        };
 
-                const values = json.children.map(d => d.total_subsectors || 1);
-                const min = Math.min.apply(null, values);
-                const max = Math.max.apply(null, values);
-                const total = json.children.length;
+        const values = json.children.map(d => d.total_subsectors || 1);
+        const min = Math.min.apply(null, values);
+        const max = Math.max.apply(null, values);
+        const total = json.children.length;
 
-                var diameter = 600;
+        var diameter = 600;
 
-                var bubble = d3.pack().size([diameter, diameter]).padding(0);
+        var bubble = d3.pack().size([diameter, diameter]).padding(0);
 
-                var tip = d3.tip()
-                    .attr('class', 'd3-tip-outer')
-                    .offset([-38, 0])
-                    .html((d, i) => {
-                        const item = json.children[i];
-                        const color = getColor(i, total);
-                        if (activityValue === "All") {
-                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+        var tip = d3.tip()
+            .attr('class', 'd3-tip-outer')
+            .offset([-38, 0])
+            .html((d, i) => {
+                const item = json.children[i];
+                const color = getColor(i, total);
+                if (activityValue === "All") {
+                    const subsectorsWithDescriptions = item.subsector.split(', ').map((name, index) => {
+                        const description = item.deskripsi.split(', ')[index];
+                        return `- ${name} || <strong style="color: #000;">Description : </strong> ${description}`;
+                    }).join('<br>');
+                    return `<div class="d3-tip" style="background-color: ${color}; color: white;">
                         <strong style="color: black;">Sector:</strong> <strong style="color: white;">${item.sector}</strong> <br>
-                        <strong style="color: black;">Subsector:</strong> <strong style="color: white;">${item.subsector}</strong> <br>
+                        <strong style="color: black;">Subsector:</strong> <br> <strong style="color: white;">${subsectorsWithDescriptions}</strong>
+                    </div>
+                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
+                } else {
+                    return `<div class="d3-tip" style="background-color: ${color}; color: white;">
+                        <strong style="color: black;">Sector:</strong> <strong style="color: white;">${item.sector}</strong> <br>
                         <strong style="color: black;">Description:</strong> <strong style="color: white;">${item.deskripsi}</strong>
                     </div>
                     <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
-                        } else {
-                            return `<div class="d3-tip" style="background-color: ${color}; color: white;">
-                        <strong style="color: black;">Sector:</strong> <strong style="color: white;">${item.sector}</strong> <br>
-                    </div>
-                    <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
-                        }
-                    });
-
-                var margin = {
-                    left: 25,
-                    right: 25,
-                    top: 25,
-                    bottom: 25
-                };
-
-                var svg = d3.select('#chart').append('svg')
-                    .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
-                    .attr('width', diameter + margin.right)
-                    .attr('height', diameter)
-                    .attr('class', 'chart-svg');
-
-                var root = d3.hierarchy(json)
-                    .sum(function(d) {
-                        return activityValue === "All" ? d.total_subsectors : 1;
-                    });
-
-                bubble(root);
-
-                var node = svg.selectAll('.node')
-                    .data(root.children)
-                    .enter()
-                    .append('g').attr('class', 'node')
-                    .attr('transform', function(d) {
-                        return 'translate(' + d.x + ' ' + d.y + ')';
-                    })
-                    .append('g').attr('class', 'graph');
-
-                node.append("circle")
-                    .attr("r", function(d) {
-                        return d.r;
-                    })
-                    .style("fill", getItemColor)
-                    .on('mouseover', tip.show)
-                    .on('mouseout', tip.hide);
-
-                node.call(tip);
-
-                node.append("text")
-                    .attr("dy", "0.2em")
-                    .style("text-anchor", "middle")
-                    .style('font-family', 'Roboto')
-                    .style('font-size', '14px')
-                    .text(d => activityValue === "All" ? d.data.total_subsectors : d.data.subsector)
-                    .style("fill", "black")
-                    .style('pointer-events', 'none');
-
-                function getItemColor(item) {
-                    return getColor(idx++, total);
                 }
-            }
-        </script>
+            });
+
+        var margin = {
+            left: 25,
+            right: 25,
+            top: 25,
+            bottom: 25
+        };
+
+        var svg = d3.select('#chart').append('svg')
+            .attr('viewBox', '0 0 ' + (diameter + margin.right) + ' ' + diameter)
+            .attr('width', diameter + margin.right)
+            .attr('height', diameter)
+            .attr('class', 'chart-svg');
+
+        var root = d3.hierarchy(json)
+            .sum(function(d) {
+                return activityValue === "All" ? d.total_subsectors : 1;
+            });
+
+        bubble(root);
+
+        var node = svg.selectAll('.node')
+            .data(root.children)
+            .enter()
+            .append('g').attr('class', 'node')
+            .attr('transform', function(d) {
+                return 'translate(' + d.x + ' ' + d.y + ')';
+            })
+            .append('g').attr('class', 'graph');
+
+        node.append("circle")
+            .attr("r", function(d) {
+                return d.r;
+            })
+            .style("fill", getItemColor)
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+        node.call(tip);
+
+        node.append("text")
+            .attr("dy", "0.2em")
+            .style("text-anchor", "middle")
+            .style('font-family', 'Roboto')
+            .style('font-size', '14px')
+            .text(d => activityValue === "All" ? d.data.total_subsectors : d.data.subsector)
+            .style("fill", "black")
+            .style('pointer-events', 'none');
+
+        function getItemColor(item) {
+            return getColor(idx++, total);
+        }
+    }
+</script>
+
 
     </div>
     <!-- /.container-fluid -->

@@ -434,11 +434,13 @@
                     .html((d, i) => {
                         const item = json.children[i];
                         const color = getColor(i, total);
+                        const employeeNames = item.employee_names ? item.employee_names.split(', ').map(name => `- ${name}`)
+                            .join('<br>') : '';
                         if (activityValue === "ALL") {
                             return `<div class="d3-tip" style="background-color: ${color}; color: white;">
                         <strong style="color: black;">Activity:</strong> <strong style="color: white;">${item.activity_name}</strong> <br>
                         <strong style="color: black;">Total Employee:</strong> <strong style="color: white;">${item.value}</strong> <br>
-                        <strong style="color: black;">Employees Name:</strong> <strong style="color: white;">${item.employee_names}</strong>
+                        <strong style="color: black;">Employees Name:</strong> <br> <strong style="color: white;">${employeeNames}</strong>
                     </div>
                     <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                         } else {
@@ -518,6 +520,7 @@
                 }
             }
         </script>
+
 
 
 

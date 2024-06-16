@@ -91,8 +91,8 @@ class VisusalisasiController extends Controller
     {
         $datavisual = DB::select('SELECT
         sector.sector_name AS sector,
-        GROUP_CONCAT(CONCAT("[", subsector.subsector_name, "]") ORDER BY subsector.subsector_name SEPARATOR ", ") AS subsector,
-        GROUP_CONCAT(CONCAT("[", subsector.description, "]") ORDER BY subsector.subsector_name SEPARATOR ", ") AS deskripsi,
+        GROUP_CONCAT(subsector.subsector_name ORDER BY subsector.subsector_name SEPARATOR ", ") AS subsector,
+        GROUP_CONCAT(subsector.description ORDER BY subsector.subsector_name SEPARATOR ", ") AS deskripsi,
         subquery.total_subsectors
     FROM subsector
     JOIN sector ON subsector.id_sector = sector.id_sector
@@ -125,6 +125,8 @@ class VisusalisasiController extends Controller
             'sectors' => $sectors
         ]);
     }
+
+
 
     public function SubSector()
     {
