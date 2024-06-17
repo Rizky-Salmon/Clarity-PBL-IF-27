@@ -129,12 +129,12 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
-                                <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a>
+                                {{-- <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a> --}}
                                 <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
                                 <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
                                 <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
-                                <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
-                                <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a>
+                                {{-- <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
+                                <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a> --}}
                             </div>
                         </div>
                     </li>

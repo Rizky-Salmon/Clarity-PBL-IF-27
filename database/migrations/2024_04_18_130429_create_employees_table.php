@@ -18,6 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->string('remember_token', 255)->nullable();
             $table->boolean('default_password')->default(0);
             $table->enum('role', ['admin', 'employees'])->default('employees');
             $table->timestamp('email_verified_at')->nullable();
