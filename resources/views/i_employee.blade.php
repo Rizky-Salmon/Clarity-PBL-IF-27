@@ -438,11 +438,11 @@
                     .html((d, i) => {
                         const item = filteredData[i];
                         const color = getColor(i, values.length);
-                        const nameText = selectedName === "All" ? `<strong>Name:</strong> ${item.name} <br>` : "";
+                        const nameText = selectedName === "All" ? ` <strong style="color: black;">Name:</strong>  <strong style="color: white;">${item.name} </strong><br>` : "";
                         return `<div class="d3-tip" style="background-color: ${color}; color: white;">
                 ${nameText}
-                <strong>Activity:</strong> ${item.aktivitas} <br>
-                <strong>Percentage:</strong> ${item.value} %
+                 <strong style="color: black;">Activity:</strong>  <strong style="color: white;">${item.aktivitas} </strong><br>
+                 <strong style="color: black;">Percentage:</strong>  <strong style="color: white;">${item.value} </strong> %
             </div>
             <div class="d3-stem" style="border-color: ${color} transparent transparent transparent"></div>`;
                     });
