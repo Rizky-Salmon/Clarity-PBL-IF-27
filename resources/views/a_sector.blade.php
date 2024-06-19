@@ -5,8 +5,6 @@
 @push('head-script')
 <!-- Custom styles for this page -->
 <link href="\vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<!-- CSS DataTables -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.8/css/jquery.dataTables.css">
 
 @endpush
 
