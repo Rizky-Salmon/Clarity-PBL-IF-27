@@ -18,7 +18,6 @@ class ActivityController extends Controller
         // Mengambil semua data SubSector
         $sectors = Sector::with('subSectors')->get();
         $subsectors = SubSector::all();
-
         // Inisialisasi query untuk Activity dengan mengambil relasi subsector
         $query = Activity::with(['subsectors' => function ($query) {
             $query->orderBy('activity_subsector.priority'); // Menggunakan activity_subsector.priority untuk mengurutkan berdasarkan prioritas
@@ -46,45 +45,50 @@ class ActivityController extends Controller
                 ->addColumn('subsector_name3', function ($activity) {
                     return $activity->subsectors->count() > 2 ? $activity->subsectors->get(2)->subsector_name : '-';
                 })
-                ->addColumn('action', function ($item) use ($subsectors, $sectors) {
+                ->addColumn('action', function ($item) use ($sectors) {
                     $subsector1Selected = $item->subsectors->isNotEmpty() ? $item->subsectors->get(0) : null;
                     $subsector2Selected = $item->subsectors->count() > 1 ? $item->subsectors->get(1) : null;
                     $subsector3Selected = $item->subsectors->count() > 2 ? $item->subsectors->get(2) : null;
 
                     $html = '
-                <div class="edit-activity-buttons">
-                    <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
-                        <button type="button" class="btn btn-success btn-sm my-1 mx-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                    </a>
-                    <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity . '">
-                        <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </a>
-                </div>
-                <div class="modal fade" id="editActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editActivityModalLabel' . $item->id_activity . '">Update Activities</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+            <div class="edit-activity-buttons">
+                <a href="#" data-toggle="modal" data-target="#editActivityModal' . $item->id_activity . '">
+                    <button type="button" class="btn btn-success btn-sm my-1 mx-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </a>
+                <a href="#" data-toggle="modal" data-target="#deleteActivityModal' . $item->id_activity . '">
+                    <button type="button" class="btn btn-danger btn-sm my-1 mx-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </a>
+            </div>
+            <div class="modal fade" id="editActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="editActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editActivityModalLabel' . $item->id_activity . '">Update Activities</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-warning">
+                                <ul>
+                                    <li>Cannot enter the same subsector.</li>
+                                </ul>
                             </div>
-                            <div class="modal-body">
-                                <form action="' . route('activity.update', $item->id_activity) . '" method="POST">
-                                    ' . method_field('PUT') . csrf_field() . '
-                                    <input type="hidden" name="id_activity" value="' . $item->id_activity . '">
-                                    <div class="form-group">
-                                        <label for="editActivityName">Activity Name</label>
-                                        <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) . '">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editSubsector1">Subsector 1</label>
-                                        <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
-                                            <option value="">- Choose Subsector -</option>';
+                            <form action="' . route('activity.update', $item->id_activity) . '" method="POST">
+                                ' . method_field('PUT') . csrf_field() . '
+                                <input type="hidden" name="id_activity" value="' . $item->id_activity . '">
+                                <div class="form-group">
+                                    <label for="editActivityName">Activity Name</label>
+                                    <input type="text" class="form-control" id="editActivityName" name="activity_name" value="' . old('activity_name', $item->activity_name) . '">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editSubsector1">Subsector 1</label>
+                                    <select name="subsector_id1" class="form-control subsector-dropdown" id="editSubsector1">
+                                        <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -94,12 +98,12 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editSubsector2">Subsector 2</label>
-                                        <select name="subsector_id2" class="form-control subsector-dropdown" id="editSubsector2">
-                                            <option value="">- Choose Subsector -</option>';
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editSubsector2">Subsector 2</label>
+                                    <select name="subsector_id2" class="form-control subsector-dropdown" id="editSubsector2">
+                                        <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -109,12 +113,12 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editSubsector3">Subsector 3</label>
-                                        <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
-                                            <option value="">- Choose Subsector -</option>';
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editSubsector3">Subsector 3</label>
+                                    <select name="subsector_id3" class="form-control subsector-dropdown" id="editSubsector3">
+                                        <option value="">- Choose Subsector -</option>';
                     foreach ($sectors as $sector) {
                         $html .= '<optgroup label="Sector: ' . $sector->sector_name . '">';
                         foreach ($sector->subSectors as $subsector) {
@@ -124,38 +128,37 @@ class ActivityController extends Controller
                         $html .= '</optgroup>';
                     }
                     $html .= '
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="deleteActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteActivityModalLabel' . $item->id_activity . '">Delete Activity</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete this activity?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <form action="' . route('activity.destroy', $item->id_activity) . '" method="POST">
-                                    ' . csrf_field() . method_field('DELETE') . '
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            </div>
+            </div>
+            <div class="modal fade" id="deleteActivityModal' . $item->id_activity . '" tabindex="-1" role="dialog" aria-labelledby="deleteActivityModalLabel' . $item->id_activity . '" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteActivityModalLabel' . $item->id_activity . '">Delete Activity</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this activity?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="' . route('activity.destroy', $item->id_activity) . '" method="POST">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
-            ';
+            </div>';
 
                     return $html;
                 })
@@ -165,12 +168,16 @@ class ActivityController extends Controller
 
         // Mengembalikan view dengan data subsectors dan activities
         return view('a_activity', [
-            'activity' => $activities,
+            'activities' => $activities,
             'sectors' => $sectors,
-            'subsector' => $subsectors,
+            'subsectors' => $subsectors,
             'selectedSubsector' => $id_subsector,
         ]);
     }
+
+
+
+
 
     public function store(Request $request)
     {
@@ -182,14 +189,28 @@ class ActivityController extends Controller
         ];
 
         $customMessages = [
-            'add_activityName.required' => 'Nama aktivitas wajib diisi',
-            'subsector_id1.required' => 'Subsektor 1 wajib diisi',
-            'subsector_id1.exists' => 'Subsektor 1 tidak valid',
-            'subsector_id2.exists' => 'Subsektor 2 tidak valid',
-            'subsector_id3.exists' => 'Subsektor 3 tidak valid',
+            'add_activityName.required' => 'Activity name is required',
+            'subsector_id1.required' => 'Subsector 1 is required',
+            'subsector_id1.exists' => 'Subsector 1 is not valid',
+            'subsector_id2.exists' => 'Subsector 2 is not valid',
+            'subsector_id3.exists' => 'Subsector 3 is not valid',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessages);
+
+        // Custom validation for duplicate subsectors
+        $subsectors = [
+            $request->input('subsector_id1'),
+            $request->input('subsector_id2'),
+            $request->input('subsector_id3')
+        ];
+
+        $subsectors = array_filter($subsectors); // Remove null values
+        if (count($subsectors) !== count(array_unique($subsectors))) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('subsector_id', 'Cannot enter the same subsector.');
+            });
+        }
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -202,23 +223,24 @@ class ActivityController extends Controller
             'activity_name' => $request->input('add_activityName'),
         ]);
 
-        // Menyimpan relasi subsektor dengan prioritas
-        $subsectors = [];
+        // Storing subsector relationships with priority
+        $subsectorsWithPriority = [];
         if ($request->filled('subsector_id1')) {
-            $subsectors[$request->input('subsector_id1')] = ['priority' => 1];
+            $subsectorsWithPriority[$request->input('subsector_id1')] = ['priority' => 1];
         }
         if ($request->filled('subsector_id2')) {
-            $subsectors[$request->input('subsector_id2')] = ['priority' => 2];
+            $subsectorsWithPriority[$request->input('subsector_id2')] = ['priority' => 2];
         }
         if ($request->filled('subsector_id3')) {
-            $subsectors[$request->input('subsector_id3')] = ['priority' => 3];
+            $subsectorsWithPriority[$request->input('subsector_id3')] = ['priority' => 3];
         }
 
-        $activity->subsectors()->attach($subsectors);
+        $activity->subsectors()->attach($subsectorsWithPriority);
 
-        Alert::success('Sukses', 'Aktivitas berhasil ditambahkan!');
-        return redirect()->route('ManageActivity')->with('success', 'Aktivitas berhasil ditambahkan.');
+        Alert::success('Success', 'Activity has been added!');
+        return redirect()->route('ManageActivity')->with('success', 'Activity has been added.');
     }
+
 
     public function update(Request $request, $id_activity)
     {
@@ -230,17 +252,32 @@ class ActivityController extends Controller
         ];
 
         $customMessages = [
-            'activity_name.required' => 'Nama aktivitas wajib diisi',
-            'subsector_id1.exists' => 'Subsektor 1 tidak valid',
-            'subsector_id2.exists' => 'Subsektor 2 tidak valid',
-            'subsector_id3.exists' => 'Subsektor 3 tidak valid',
+            'activity_name.required' => 'Activity name is required',
+            'subsector_id1.exists' => 'Invalid subsector 1',
+            'subsector_id2.exists' => 'Invalid subsector 2',
+            'subsector_id3.exists' => 'Invalid subsector 3',
         ];
 
         $validator = Validator::make($request->all(), $rules, $customMessages);
 
+        // Custom validation for duplicate subsectors
+        $subsectors = [
+            $request->input('subsector_id1'),
+            $request->input('subsector_id2'),
+            $request->input('subsector_id3')
+        ];
+
+        $subsectors = array_filter($subsectors); // Remove null values
+        if (count($subsectors) !== count(array_unique($subsectors))) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('subsector_id', 'No subsector should be the same.');
+            });
+        }
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
+                ->with(['openModal' => 'editActivityModal' . $id_activity])
                 ->withInput($request->all());
         }
 
@@ -249,32 +286,40 @@ class ActivityController extends Controller
             'activity_name' => $request->input('activity_name'),
         ]);
 
-        // Menyimpan relasi subsektor dengan prioritas
-        $subsectors = [];
+        // Storing subsector relationships with priority
+        $subsectorsWithPriority = [];
         if ($request->filled('subsector_id1')) {
-            $subsectors[$request->input('subsector_id1')] = ['priority' => 1];
+            $subsectorsWithPriority[$request->input('subsector_id1')] = ['priority' => 1];
         }
         if ($request->filled('subsector_id2')) {
-            $subsectors[$request->input('subsector_id2')] = ['priority' => 2];
+            $subsectorsWithPriority[$request->input('subsector_id2')] = ['priority' => 2];
         }
         if ($request->filled('subsector_id3')) {
-            $subsectors[$request->input('subsector_id3')] = ['priority' => 3];
+            $subsectorsWithPriority[$request->input('subsector_id3')] = ['priority' => 3];
         }
 
-        // Menghapus relasi subsektor sebelumnya
+        // Detaching previous subsector relationships
         $activity->subsectors()->detach();
 
-        // Menyimpan relasi subsektor baru dengan prioritas
-        $activity->subsectors()->attach($subsectors);
+        // Storing new subsector relationships with priority
+        $activity->subsectors()->attach($subsectorsWithPriority);
 
-        Alert::success('Sukses', 'Aktivitas berhasil diperbarui!');
-        return redirect()->route('ManageActivity')->with('success', 'Aktivitas berhasil diperbarui.');
+        Alert::success('Success', 'Activity updated successfully!');
+        return redirect()->route('ManageActivity')->with('success', 'Activity updated successfully.');
     }
 
 
+    public function destroy($id_activity)
+    {
+        $activity = Activity::findOrFail($id_activity);
 
-
-
+        if ($activity->delete()) {
+            Alert::success('Success', 'Activity deleted successfully!');
+            return redirect()->route('ManageActivity')->with('success', 'Activity deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to delete activity.');
+        }
+    }
 
     // Menampilkan detail kegiatan
     public function show(Activity $activity)
@@ -287,18 +332,5 @@ class ActivityController extends Controller
     {
         $subsectors = SubSector::all();
         return view('a_activity.edit', compact('activity', 'subsectors'));
-    }
-
-    // Menghapus kegiatan
-    public function destroy($id_activity)
-    {
-        $activity = Activity::findOrFail($id_activity);
-
-        if ($activity->delete()) {
-            Alert::success('Success', 'Activity deleted successfully!');
-            return redirect()->route('ManageActivity')->with('success', 'Activity deleted successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Failed to delete activity.');
-        }
     }
 }

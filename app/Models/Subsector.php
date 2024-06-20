@@ -36,6 +36,7 @@ class SubSector extends Model
 
     public function activities()
     {
-        return $this->belongsToMany(Activity::class, 'activity_subsector', 'subsector_id', 'activity_id');
+        return $this->belongsToMany(Activity::class, 'activity_subsector', 'id_subsector', 'id_activity')
+        ->withPivot('priority');
     }
 }

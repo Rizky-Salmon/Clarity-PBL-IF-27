@@ -28,7 +28,8 @@ class Activity extends Model
 
     public function subsectors()
     {
-        return $this->belongsToMany(SubSector::class, 'activity_subsector', 'id_activity', 'id_subsector');
+        return $this->belongsToMany(SubSector::class, 'activity_subsector', 'id_activity', 'id_subsector')
+        ->withPivot('priority');
     }
 
     public function percentage()

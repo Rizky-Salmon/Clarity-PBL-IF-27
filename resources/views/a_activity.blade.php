@@ -8,7 +8,6 @@
 @endpush
 
 @section('content')
-
     <!-- DataTables Activity -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex align-items-center justify-content-between">
@@ -30,12 +29,22 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <!-- Modal form for adding activity -->
                             <form action="{{ route('activity.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="add_activityName">Activities</label>
                                     <textarea class="form-control" id="add_activityName" name="add_activityName" rows="3"
-                                        placeholder="Enter The Activities Name" required></textarea>
+                                        placeholder="Enter The Activities Name" required>{{ old('add_activityName') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="addSubsector1">Subsector 1</label>
@@ -45,8 +54,10 @@
                                         @foreach ($sectors as $sector)
                                             <optgroup label="Sector: {{ $sector->sector_name }}">
                                                 @foreach ($sector->subSectors as $subsector)
-                                                    <option value="{{ $subsector->id_subsector }}">
-                                                        {{ $subsector->subsector_name }}</option>
+                                                    <option value="{{ $subsector->id_subsector }}"
+                                                        {{ old('subsector_id1') == $subsector->id_subsector ? 'selected' : '' }}>
+                                                        {{ $subsector->subsector_name }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
                                         @endforeach
@@ -59,8 +70,10 @@
                                         @foreach ($sectors as $sector)
                                             <optgroup label="Sector: {{ $sector->sector_name }}">
                                                 @foreach ($sector->subSectors as $subsector)
-                                                    <option value="{{ $subsector->id_subsector }}">
-                                                        {{ $subsector->subsector_name }}</option>
+                                                    <option value="{{ $subsector->id_subsector }}"
+                                                        {{ old('subsector_id2') == $subsector->id_subsector ? 'selected' : '' }}>
+                                                        {{ $subsector->subsector_name }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
                                         @endforeach
@@ -73,8 +86,10 @@
                                         @foreach ($sectors as $sector)
                                             <optgroup label="Sector: {{ $sector->sector_name }}">
                                                 @foreach ($sector->subSectors as $subsector)
-                                                    <option value="{{ $subsector->id_subsector }}">
-                                                        {{ $subsector->subsector_name }}</option>
+                                                    <option value="{{ $subsector->id_subsector }}"
+                                                        {{ old('subsector_id3') == $subsector->id_subsector ? 'selected' : '' }}>
+                                                        {{ $subsector->subsector_name }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
                                         @endforeach
@@ -115,7 +130,6 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/js/demo/datatables-demo.js"></script>
-
     <script>
         var datatable = $('#dataTable').DataTable({
             processing: true,
@@ -164,21 +178,26 @@
 
     <script>
         $(document).ready(function() {
-            var selectedValue = $('#id_sector').attr('selectedOption');
+            // Script ini diubah untuk memungkinkan pemilihan subsector yang sama tanpa menonaktifkan opsi
 
-            // Mengecek jika nilai adalah kosong atau 'All', dan mengatur nilainya di select
-            if (selectedValue === '' || selectedValue === 'All') {
-                $('#id_sector').val('All');
-            } else {
-                $('#id_sector').val(selectedValue);
-            }
+            $('.subsector-dropdown').change(function() {
+                // Ambil nilai dari dropdown yang dipilih
+                var selectedValues = [];
+                $('.subsector-dropdown').each(function() {
+                    var value = $(this).val();
+                    if (value) {
+                        selectedValues.push(value);
+                    }
+                });
 
-            var selectedText = $('#id_sector option:selected').text();
+                // Tidak perlu memperbarui dropdown lainnya karena kita mengizinkan pemilihan subsector yang sama
+            });
 
-            // Tampilkan teks di dalam elemen dengan ID 'textOption'
-            $('#textOption').text(selectedText);
+            // Inisialisasi dropdowns jika ada nilai default yang diatur
+            $('.subsector-dropdown').trigger('change');
         });
     </script>
+
 
     @if (session('openModal'))
         <script>
@@ -190,33 +209,5 @@
         </script>
     @endif
 
-    <script>
-        $(document).ready(function() {
-            $('.subsector-dropdown').change(function() {
-                // Ambil nilai dari dropdown yang dipilih
-                var selectedValues = [];
-                $('.subsector-dropdown').each(function() {
-                    var value = $(this).val();
-                    if (value) {
-                        selectedValues.push(value);
-                    }
-                });
 
-                // Perbarui dropdown lainnya
-                $('.subsector-dropdown').each(function() {
-                    var dropdown = $(this);
-                    var currentValue = dropdown.val();
-                    dropdown.find('option').each(function() {
-                        var option = $(this);
-                        if (selectedValues.indexOf(option.val()) > -1 && option.val() !=
-                            currentValue) {
-                            option.prop('disabled', true);
-                        } else {
-                            option.prop('disabled', false);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 @endpush
