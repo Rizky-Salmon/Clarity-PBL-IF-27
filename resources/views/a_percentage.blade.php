@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label for="addActivityName">Activity</label>
                                     <select name="add_activityName" class="form-control" id="addActivityName"
-                                        selectedOption="{{ old('add_activityName') }}">
+                                        required>
                                         <option value="">- Select Activity -</option>
                                         @forelse($activity as $key => $value)
                                             <option value="{{ $value->id_activity }}">{{ $value->activity_name }}</option>
@@ -62,9 +62,9 @@
 
                                 @if ($user->role === 'admin')
                                     <div class="form-group">
-                                        <label for="addEmployeeName">Employee Name</label>
+                                        <label for="addEmployeeName">Employee Name </label>
                                         <select name="add_employeeName" class="form-control" id="addEmployeeName"
-                                            selectedOption="{{ old('add_employeeName') }}">
+                                            required>
                                             <option value="">- Select Employee -</option>
                                             @forelse($employees as $key => $value)
                                                 <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
@@ -78,12 +78,12 @@
                                         <label for="employeeName">Employee Name</label>
                                         <input type="text" name="employee_name" class="form-control" id="employeeName"
                                             value="{{ $user->name }}" readonly>
-                                        <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}">
+                                        <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}" required>
                                     </div>
                                 @endif
 
                                 <div class="form-group">
-                                    <label for="percentage">Percentage (0-100)</label>
+                                    <label for="percentage">Percentage (0-100) </label>
                                     <input type="number" name="percentage"
                                         class="form-control @error('percentage') is-invalid @enderror" id="percentage"
                                         min="0" max="100" placeholder="Enter Percentage"
@@ -116,9 +116,9 @@
                             <div class="modal-body">
                                 <form action="/a_percentage" method="GET" id="form_filter">
                                     <div class="form-group">
-                                        <label for="id_employees">Employee</label>
+                                        <label for="id_employees">Employee<span class="text-danger">*</span></label>
                                         <select name="id_employees" class="form-control" id="id_employees"
-                                            selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}">
+                                            selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}" required>
                                             <option value="">- Select Employee -</option>
                                             <option value="All">All Employees</option>
                                             @forelse($employees as $key => $value)

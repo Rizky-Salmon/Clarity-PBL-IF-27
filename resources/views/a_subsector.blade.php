@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label for="add_sectorName">Sector Name</label>
                                     <select name="add_sectorName" class="form-control" id="add_sectorName"
-                                        selectedOption="{{ old('add_sectorName') }}">
+                                        selectedOption="{{ old('add_sectorName') }}" required>
                                         <option value="">- Choose Sector -</option>
                                         @forelse($sector as $key => $value)
                                             <option value="{{ $value->id_sector }}">{{ $value->sector_name }}</option>

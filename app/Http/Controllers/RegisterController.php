@@ -34,11 +34,11 @@ class RegisterController extends Controller
             'role' => 'employees', // Default role as 'employees'
         ]);
 
-
         // Menampilkan pesan sukses
-        Alert::success('Success', 'Akun Anda telah dibuat!');
+        Alert::success('Success', 'Your account has been created!');
 
         // Mengarahkan ke halaman yang diinginkan
         return redirect()->route('login'); // Ganti 'dashboard' dengan rute yang diinginkan
     }
 }
+
