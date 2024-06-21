@@ -27,9 +27,10 @@ class EmployeesController extends Controller
                 }
             )
             ->addcolumn('action', function ($item) {
-                return '
-                    <div class="edit-employee-buttons">
-                        <a href="#" data-toggle="modal" data-target="#editEmployeeModal' . $item->id_employees . '">
+                $return= '
+                    <div class="edit-employee-buttons"> ';
+                    if (auth()->user()->email != $item->email) {
+                        $return .= '<a href="#" data-toggle="modal" data-target="#editEmployeeModal' . $item->id_employees . '">
                             <button type="button" class="btn btn-success btn-sm">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
@@ -38,7 +39,9 @@ class EmployeesController extends Controller
                             <button type="button" class="btn btn-danger btn-sm">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                        </a>
+                        </a>';
+                    } $return .= '
+
                         <a href="' . route('ManagePercentage', $item->id_employees) . '">
                             <button type="button" class="btn btn-secondary btn-sm my-1 mx-1">
                                 Manage Activity
@@ -105,6 +108,7 @@ class EmployeesController extends Controller
                         </div>
                     </div>
                 ';
+                return $return;
             })
                 ->rawColumns(['action'])
                 ->make();

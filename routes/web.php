@@ -68,9 +68,11 @@ Route::middleware('auth')->group(function () {
 
     // Manage Activity Percentage
     Route::get('/a_percentage/{id_employees?}', [ActivityPercentageController::class, 'index'])->name('ManagePercentage');
+    // Route::get('/a_percentage/generate/{id_employees?}', [ActivityPercentageController::class, 'generate'])->name('generate');
     Route::post('/activity_percentage/store', [ActivityPercentageController::class, 'store'])->name('activity_percentage.store');
     Route::put('/activity_percentage/update/{id_activity_percentage}', [ActivityPercentageController::class, 'update'])->name('activity_percentage.update');
     Route::delete('/activity_percentage/destroy/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
+
 });
 
 

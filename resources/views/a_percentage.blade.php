@@ -22,6 +22,10 @@
                         data-target="#filterEmployees">
                         <i class="fas fa-filter"></i> Filter employee
                     </button>
+
+                    {{-- <button type="button" class="btn btn-primary" id="buttonGenerate" data-toggle="" data-target="">
+                        <i class="fas fa-filter"></i> Generate Job Description
+                    </button> --}}
                 @endif
                 <!-- Add Percentage button -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPercentageModal">
@@ -45,8 +49,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="addActivityName">Activity</label>
-                                    <select name="add_activityName" class="form-control" id="addActivityName"
-                                        required>
+                                    <select name="add_activityName" class="form-control" id="addActivityName" required>
                                         <option value="">- Select Activity -</option>
                                         @forelse($activity as $key => $value)
                                             <option value="{{ $value->id_activity }}">{{ $value->activity_name }}</option>
@@ -63,8 +66,7 @@
                                 @if ($user->role === 'admin')
                                     <div class="form-group">
                                         <label for="addEmployeeName">Employee Name </label>
-                                        <select name="add_employeeName" class="form-control" id="addEmployeeName"
-                                            required>
+                                        <select name="add_employeeName" class="form-control" id="addEmployeeName" required>
                                             <option value="">- Select Employee -</option>
                                             @forelse($employees as $key => $value)
                                                 <option value="{{ $value->id_employees }}">{{ $value->name }}</option>
@@ -78,7 +80,8 @@
                                         <label for="employeeName">Employee Name</label>
                                         <input type="text" name="employee_name" class="form-control" id="employeeName"
                                             value="{{ $user->name }}" readonly>
-                                        <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}" required>
+                                        <input type="hidden" name="add_employeeName" value="{{ $user->id_employees }}"
+                                            required>
                                     </div>
                                 @endif
 
@@ -118,7 +121,8 @@
                                     <div class="form-group">
                                         <label for="id_employees">Employee<span class="text-danger">*</span></label>
                                         <select name="id_employees" class="form-control" id="id_employees"
-                                            selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}" required>
+                                            selectedOption="{{ $selectedEmployees ? $selectedEmployees : 'All' }}"
+                                            required>
                                             <option value="">- Select Employee -</option>
                                             <option value="All">All Employees</option>
                                             @forelse($employees as $key => $value)
@@ -204,9 +208,9 @@
                 }
             ]
         });
-        </script>
+    </script>
 
-        <script>
+    <script>
         $(document).ready(function() {
             var selectedValue = $('#id_employees').attr('selectedOption');
             if (selectedValue === '' || selectedValue === 'All') {
@@ -223,6 +227,13 @@
                 event.preventDefault();
                 var selectedEmployeesId = $('#id_employees').val();
                 window.location.href = '/a_percentage/' + selectedEmployeesId;
+            });
+
+
+            $('#buttonGenerate').on('click', function() {
+                event.preventDefault();
+                var selectedEmployeesId = $('#id_employees').val();
+                window.location.href = '/a_percentage/generate/' + selectedEmployeesId;
             });
         });
     </script>

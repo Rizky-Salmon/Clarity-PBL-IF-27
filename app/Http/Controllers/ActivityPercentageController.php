@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sector;
 use App\Models\Activity;
 use App\Models\Employees;
-use App\Models\ActivityPercentage;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Models\ActivityPercentage;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
@@ -265,6 +267,39 @@ class ActivityPercentageController extends Controller
         }
     }
 
+    public function generate(Request $request, $id_employees = null){
+
+        $query = Employees::query();
+
+        // Jika ID karyawan diberikan, tambahkan kriteria where
+        if ($id_employees && $id_employees !== 'All') {
+            $query = Employees::where('id_employees', $id_employees)->get();
+        } else {
+            $query = Employees::all();
+        }
+
+        $query->transform(function ($employee) {
+            $employee->list_activity =
+            ActivityPercentage::where('id_employees', $employee->id_employees)->get()
+            ->transform(
+
+                function ( $activity ) {
+                    $activity->activity = Activity::where('id_activity', $activity->id_activity)->get();
+                    return $activity;
+                }
+
+
+            );
+
+            return $employee;
+        });
+
+
+        $data = DB::select("SELECT subsector.description FROM subsector WHERE id_subsector IN(SELECT DISTINCT  (id_subsector)  FROM activity_subsector WHERE id_activity IN(SELECT id_activity FROM activity_percentage WHERE activity_percentage.id_employees=?))", [$id_employees]);
+
+        ddd( $query->first() );
+    }
+
 
     public function create()
     {
@@ -272,7 +307,6 @@ class ActivityPercentageController extends Controller
         $employees = Employees::all();
         return view('activity_percentage.create', compact('activities', 'employees'));
     }
-
 
     public function show(ActivityPercentage $activityPercentage)
     {
