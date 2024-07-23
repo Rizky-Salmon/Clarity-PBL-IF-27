@@ -17,6 +17,7 @@
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/sb-admin-2.css">
 
     @stack('head-script')
 

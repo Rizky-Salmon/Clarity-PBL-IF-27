@@ -15,22 +15,100 @@
 
                 <hr class="my-4">
 
-                <div class="container text-center">
-                    <div class="card text-dark border-0">
-                        <div class="card-body">
-                            <h3 class="card-title font-weight-bold">Our Team</h3>
-                            <p class="card-text">Jonathan Allen Brindle as Client and Collaborator <br><small>(Université Polytechnique Hauts-de-France)</small></p>
-                            <p class="card-text">Miratul Khusna Mufida as Client <br><small>(Politeknik Negeri Batam)</small></p>
-                            <p class="card-text">Gilang Bagus Ramadhan as Project Manager <br><small>(Politeknik Negeri Batam)</small></p>
-                            <p class="card-text">Rendi Sinaga as Team Leader <br><small>(Politeknik Negeri Batam)</small></p>
-                            <h6 class="card-text font-weight-bold mt-4">Team Members:</h6>
-                            <ul class="list-unstyled mt-2">
-                                <li>Khairunnisa <br><small>(Politeknik Negeri Batam)</small></li>
-                                <li>Oktarira Die Ananda <br><small>(Politeknik Negeri Batam)</small></li>
-                                <li>Cindy Anggraeni <br><small>(Politeknik Negeri Batam)</small></li>
-                                <li>Syalzi Astaudi <br><small>(Politeknik Negeri Batam)</small></li>
-                                <li>Farrel Ariq Nadhil <br><small>(Politeknik Negeri Batam)</small></li>
-                            </ul>
+                <div class="container text-center text-dark">
+                    <h3 class="mb-4 font-weight-bold">Our Team</h3>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/jonatan.png" alt="Jonatan Brindle" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Jonathan Brindle</h6>
+                                    <p class="text-muted" style="font-size: 14px">Client and Collaborator</p>
+                                    <small class="font-italic">Université Polytechnique Hauts-de-France</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/mufida.jpg" alt="Miratul Khusna Mufida" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Miratul Khusna Mufida</h6>
+                                    <p class="text-muted" style="font-size: 14px">Client and Collaborator</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/gilang.png" alt="Gilang Bagus Ramadhan" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 17px; font-weight: bold; margin-bottom: 0px">Gilang Bagus Ramadhan</h6>
+                                    <p class="text-muted" style="font-size: 14px">Project Manager</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/rendi.png" alt="Rendi Sinaga" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Rendi Sinaga</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Leader</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/nisa.jpg" alt="Khairunnisa" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Khairunnisa</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Member</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/okta.jpg" alt="Oktarira Die Ananda" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Oktarira Die Ananda</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Member</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/cindy.jpg" alt="Cindy Anggraeni" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Cindy Anggraeni</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Member</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/salzi.jpg" alt="Syalzi Astaudi" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Syalzi Astaudi</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Member</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="img/farrel.jpg" alt="Farrel Ariq Nadhil" class="card-img-top team-img">
+                                <div class="card-body text-center">
+                                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Farrel Ariq Nadhil</h6>
+                                    <p class="text-muted" style="font-size: 14px">Team Member</p>
+                                    <small class="font-italic">Politeknik Negeri Batam</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -45,3 +123,4 @@
 </div>
 
 @endsection
+
