@@ -409,7 +409,7 @@
             <footer class="sticky-footer bg-white ">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Politeknik Negeri Batam || International Office Université Polytechnique Hauts-de-France </span>
+                        <span >&copy;  Politeknik Negeri Batam. Developed in collaboration with Jonatan Allen Brindle - Office International Université Polytechnique Hauts-de-France.</span>
                     </div>
                 </div>
             </footer>

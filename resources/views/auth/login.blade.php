@@ -13,15 +13,6 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Welcome! Please login to start your session</h1>
                             </div>
-                            {{-- @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $item)
-                                            <li>{{ $item }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif --}}
                             <form class="user" method="post" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
@@ -72,6 +63,14 @@
                         </div>
                     </div>
                 </div>
+                <footer class="footer py-3 shadow-sm">
+                    <div class="container">
+                        <div class="text-center">
+                            <small class="text-muted">&copy;  Politeknik Negeri Batam.</small>
+                            <small class="text-muted"> Developed in collaboration with Jonatan Allen Brindle - Office International Université Polytechnique Hauts-de-France.</small>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
