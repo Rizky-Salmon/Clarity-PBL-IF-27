@@ -21,6 +21,7 @@ Route::middleware('guest')->group(function () {
     // Menampilkan formulir registrasi
     Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 
+
     // Menangani pengiriman formulir registrasi
     Route::post('register', [RegisterController::class, 'register']);
 });
@@ -28,6 +29,7 @@ Route::middleware('guest')->group(function () {
 
 // Harus Login
 Route::middleware('auth')->group(function () {
+
     Route::get('/logout', [SessionController::class, 'logout']);
 
     Route::get('/employee', [AdminController::class, 'employees']);
@@ -90,7 +92,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/activity_percentage/destroy/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
 });
 
-
-
-
-
+Route::get('/credit', function () {
+    return view('auth.credit');
+})->name('credit');

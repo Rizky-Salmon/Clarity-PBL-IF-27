@@ -406,14 +406,27 @@
             </div>
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white ">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span >&copy;  Politeknik Negeri Batam. Developed in collaboration with Jonatan Allen Brindle - Office International Université Polytechnique Hauts-de-France.</span>
+            <footer class="sticky-footer bg-white" style="padding: 10px 0;">
+                <div class="container my-auto d-flex justify-content-between align-items-center">
+                    <div>
+                        <img src="img/Logo-poltek-batam.png" style="width: 60px; height: auto;" alt="">
+                    </div>
+                    <div class="copyright text-center my-auto" style="font-size: 12px;">
+                        <span class="text-muted">&copy; <a href="https://polibatam.ac.id"
+                                target="_blank">Politeknik Negeri Batam</a>, in collaboration with <a
+                                href="https://www.linkedin.com/in/jonathan-brindle/" target="_blank">Jonathan
+                                Brindle</a>, International Office, <a href="https://www.uphf.fr/"
+                                target="_blank">Université Polytechnique Hauts-de-France</a>.<br>
+                                <a href="{{ route('credit') }}"> Credits and Team </a></span>
+                    </div>
+                    <div>
+                        <img src="img/Logo-uphf.png" style="width: 60px; height: auto;" alt="">
                     </div>
                 </div>
             </footer>
             <!-- End of Footer -->
+
+
 
         </div>
     </div>
@@ -440,7 +453,6 @@
 
 
     @stack('footer-script')
-
 </body>
 
 </html>
