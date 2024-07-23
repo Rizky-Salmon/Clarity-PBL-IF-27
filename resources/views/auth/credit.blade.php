@@ -12,9 +12,7 @@
                 <div class="mx-auto text-center">
                     <img src="img/Logo-merge.png" alt="" style="max-width: 40%; height: auto; border-radius:50px; margin-top:2%">
                 </div>
-
                 <hr class="my-4">
-
                 <div class="container text-center text-dark">
                     <h3 class="mb-4 font-weight-bold">Our Team</h3>
                     <div class="row">
