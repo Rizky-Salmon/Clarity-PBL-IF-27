@@ -420,7 +420,7 @@
                                 <a href="{{ route('credit') }}"> Credits and Team </a></span>
                     </div>
                     <div>
-                        <img src="img/Logo-uphf.png" style="width: 60px; height: auto;" alt="">
+                        <img src="img/Logo-uphf.png" style="width: 110px; height: auto;" alt="">
                     </div>
                 </div>
             </footer>
