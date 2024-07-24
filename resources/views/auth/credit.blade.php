@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/jonatan.png" alt="Jonatan Brindle" class="card-img-top team-img">
+                                <img src="img/jonatan.png" alt="Jonatan Brindle" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Jonathan Brindle</h6>
                                     <p class="text-muted" style="font-size: 14px">Client and Collaborator</p>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/mufida.jpg" alt="Miratul Khusna Mufida" class="card-img-top team-img">
+                                <img src="img/mufida.jpg" alt="Miratul Khusna Mufida" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Miratul Khusna Mufida</h6>
                                     <p class="text-muted" style="font-size: 14px">Client and Collaborator</p>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/gilang.png" alt="Gilang Bagus Ramadhan" class="card-img-top team-img">
+                                <img src="img/gilang.png" alt="Gilang Bagus Ramadhan" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 17px; font-weight: bold; margin-bottom: 0px">Gilang Bagus Ramadhan</h6>
                                     <p class="text-muted" style="font-size: 14px">Project Manager</p>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/rendi.png" alt="Rendi Sinaga" class="card-img-top team-img">
+                                <img src="img/rendi.png" alt="Rendi Sinaga" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Rendi Sinaga</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Leader</p>
@@ -60,7 +60,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/nisa.jpg" alt="Khairunnisa" class="card-img-top team-img">
+                                <img src="img/nisa.jpg" alt="Khairunnisa" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Khairunnisa</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Member</p>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/okta.jpg" alt="Oktarira Die Ananda" class="card-img-top team-img">
+                                <img src="img/okta.jpg" alt="Oktarira Die Ananda" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Oktarira Die Ananda</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Member</p>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/cindy.jpg" alt="Cindy Anggraeni" class="card-img-top team-img">
+                                <img src="img/cindy.jpg" alt="Cindy Anggraeni" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Cindy Anggraeni</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Member</p>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/salzi.jpg" alt="Syalzi Astaudi" class="card-img-top team-img">
+                                <img src="img/salzi.jpg" alt="Syalzi Astaudi" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Syalzi Astaudi</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Member</p>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card shadow-sm">
-                                <img src="img/farrel.jpg" alt="Farrel Ariq Nadhil" class="card-img-top team-img">
+                                <img src="img/farrel.jpg" alt="Farrel Ariq Nadhil" class="card-img-top" style="max-width: 100%; height: 250px; object-fit: cover; border-radius: 50%;">
                                 <div class="card-body text-center">
                                     <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 0px">Farrel Ariq Nadhil</h6>
                                     <p class="text-muted" style="font-size: 14px">Team Member</p>
@@ -121,4 +121,3 @@
 </div>
 
 @endsection
-
