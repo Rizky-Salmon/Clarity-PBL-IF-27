@@ -74,7 +74,7 @@
                                     Polytechnique Hauts-de-France</a>.</small>
 
                             <br>
-                            <small class="text-muted"><a href="/credit">Credit</a></small>
+                            <small class="text-muted"><a href="/credits">Credit</a></small>
                         </div>
                     </div>
                 </footer>

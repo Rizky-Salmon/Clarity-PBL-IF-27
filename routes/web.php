@@ -92,6 +92,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/activity_percentage/destroy/{id_activity_percentage}', [ActivityPercentageController::class, 'destroy'])->name('activity_percentage.destroy');
 });
 
-Route::get('/credit', function () {
+Route::get('/credits', function () {
     return view('auth.credit');
 })->name('credits');

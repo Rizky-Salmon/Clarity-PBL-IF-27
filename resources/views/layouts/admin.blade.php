@@ -417,7 +417,7 @@
                                 href="https://www.linkedin.com/in/jonathan-brindle/" target="_blank">Jonathan
                                 Brindle</a>, International Office, <a href="https://www.uphf.fr/"
                                 target="_blank">Université Polytechnique Hauts-de-France</a>.<br>
-                                <a href="{{ route('credit') }}"> Credits and Team </a></span>
+                                <a href="{{ route('credits') }}"> Credits and Team </a></span>
                     </div>
                     <div>
                         <img src="img/Logo-uphf.png" style="width: 110px; height: auto;" alt="">

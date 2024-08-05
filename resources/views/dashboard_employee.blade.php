@@ -19,38 +19,49 @@
             </div>
         @endif
 
-        <div class="card" style="font-family: Roboto, sans-serif;">
+        <div class="card" style="font-family: Roboto, sans-serif; transition: transform 0.3s, box-shadow 0.3s;">
             <div class="row no-gutters">
-                <div class="col-12 col-md-3 mt-5 ml-5 my-5 text-center">
-                    <img src="img/profile.svg" class="card-img rounded" alt="Sorry, it's Empty.">
+                <div class="col-12 col-md-3 text-center" style="padding: 20px; margin-bottom: 0px">
+                    <img src="img/profile.svg" class="card-img rounded" alt="Profile Image"
+                        style="max-width: 200px; height: auto; margin: 20px auto;">
                 </div>
-                <div class="col-12 col-md-7 mt-5 ml-5">
-                    <h5 class="card-title"><b>
-                            <center>PROFILE</center>
-                        </b></h5>
+                <div class="col-12 col-md-7" style="padding: 20px;">
+                    <h5 class="card-title" style="font-weight: bold; text-align: center; margin-bottom: 20px;">PROFILE</h5>
                     <hr>
                     <table class="table table-responsive">
                         <tbody>
                             <tr>
-                                <td>Name</td>
-                                <td>:&nbsp;&nbsp;</td>
+                                <td style="width: 150px;">Name</td>
+                                <td style="width: 20px;">:</td>
                                 <td>{{ $employee->name }}</td>
-                                <td><a href="#editNameModal" class="edit-profile-link" data-toggle="modal"><i
-                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                <td style="width: 40px;">
+                                    <a href="#editNameModal" class="edit-profile-link" data-toggle="modal"
+                                        style="color: #007bff; transition: color 0.3s;">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Email</td>
-                                <td>:&nbsp;&nbsp;</td>
+                                <td style="width: 150px;">Email</td>
+                                <td style="width: 20px;">:</td>
                                 <td>{{ $employee->email }}</td>
-                                <td><a href="#editEmailModal" class="edit-profile-link" data-toggle="modal"><i
-                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                <td style="width: 40px;">
+                                    <a href="#editEmailModal" class="edit-profile-link" data-toggle="modal"
+                                        style="color: #007bff; transition: color 0.3s;">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Password</td>
-                                <td>:&nbsp;&nbsp;</td>
+                                <td style="width: 150px;">Password</td>
+                                <td style="width: 20px;">:</td>
                                 <td>********</td>
-                                <td><a href="#editPasswordModal" class="edit-profile-link" data-toggle="modal"><i
-                                            class="fa-solid fa-pen-to-square"></i></a></td>
+                                <td style="width: 40px;">
+                                    <a href="#editPasswordModal" class="edit-profile-link" data-toggle="modal"
+                                        style="color: #007bff; transition: color 0.3s;">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
