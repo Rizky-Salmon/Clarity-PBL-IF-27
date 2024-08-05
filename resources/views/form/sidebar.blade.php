@@ -1,12 +1,12 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-pastel sidebar sidebar-light sidebar-light-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-pastel sidebar sidebar-light accordion" id="accordionSidebar" style="background-color: #f8f9fc;">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" style="margin-top: 20px;">
         <div class="sidebar-brand-icon">
-            <img src="img/CLAIRVOYANT.png" alt="" style="max-width: 70px; height: auto; margin-top: 30px;">
+            <img src="img/CLAIRVOYANT.png" alt="" style="max-width: 50px; height: auto;">
         </div>
-        <div class="sidebar-brand-text mx-3">CLARITY</div>
+        <div class="sidebar-brand-text mx-3" style="font-weight: bold; color: #5a5c69;">CLARITY</div>
     </a>
 
     <!-- Divider -->
@@ -24,7 +24,7 @@
     <hr class="sidebar-divider">
 
     <!-- Heading - Admin Menu -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading" style="color: #858796;">
         Admin Menu
     </div>
 
@@ -62,8 +62,9 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+
     <!-- Heading - Employee Menu -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading" style="color: #858796;">
         Employee Menu
     </div>
 
@@ -72,7 +73,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="false" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Data visualization</span>
+            <span>Data Visualization</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">

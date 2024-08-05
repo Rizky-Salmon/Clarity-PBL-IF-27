@@ -68,12 +68,13 @@
                 <footer class="footer py-3 shadow-sm">
                     <div class="container">
                         <div class="text-center">
-                            <small class="text-muted">&copy;<a href="https://polibatam.ac.id"
-                                target="_blank">Politeknik Negeri Batam</a>, in collaboration with <a
-                                href="https://www.linkedin.com/in/jonathan-brindle/" target="_blank">Jonathan
-                                Brindle</a>, International Office, <a href="https://www.uphf.fr/"
-                                target="_blank">Université Polytechnique Hauts-de-France</a>. <br>
-                                <a href="{{ route('credit') }}"> Credits and Team </a></small>
+                            <small class="text-muted">© <a href="https://polibatam.ac.id">Politeknik Negeri Batam</a>, in
+                                collaboration with <a href="https://www.linkedin.com/in/jonathan-brindle/">Jonathan
+                                    Brindle</a>, International Office, <a href="https://www.uphf.fr/">Université
+                                    Polytechnique Hauts-de-France</a>.</small>
+
+                            <br>
+                            <small class="text-muted"><a href="/credit">Credit</a></small>
                         </div>
                     </div>
                 </footer>

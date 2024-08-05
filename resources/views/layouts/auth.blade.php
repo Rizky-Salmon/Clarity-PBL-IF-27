@@ -19,6 +19,26 @@
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/sb-admin-2.css">
 
+    <style>
+        .bg-gradient-pastel {
+            background: linear-gradient(-45deg, #FFD1DC, #D1E8FF, #E6E6FA, #98FB98);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+
     @stack('head-script')
 
 </head>
@@ -26,8 +46,6 @@
 <body class="bg-gradient-pastel">
 
     @include('sweetalert::alert')
-
-
 
     <div class="container">
 

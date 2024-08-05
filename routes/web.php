@@ -94,4 +94,4 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/credit', function () {
     return view('auth.credit');
-})->name('credit');
+})->name('credits');

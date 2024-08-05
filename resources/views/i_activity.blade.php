@@ -12,6 +12,20 @@
     <style>
         @import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i");
 
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         body {
             background-color: #e0e0e0;
         }
@@ -353,11 +367,14 @@
             </h1>
         </div>
 
-        <fieldset style="display: flex; flex-direction: column;">
-            <legend>Graph Options</legend>
-            <h3 class="first-h3">Activity Name</h3>
+        <fieldset
+            style="display: flex; flex-direction: column; background: linear-gradient(135deg, #f2994a, #f2c94c, #56ccf2, #2f80ed); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); animation: gradient 5s infinite;">
+            <legend style="font-size: 1.5em; font-weight: bold; border-radius: 7px; color: rgb(0, 0, 0); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">
+                Graph Options</legend>
+            <h3 class="first-h3" style="color: white; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">Activity Name</h3>
             <div style="display: flex; flex-direction: column;">
-                <select id="activity" style="width: 100%; max-width: 160px;">
+                <select id="activity"
+                    style="width: 100%; max-width: 160px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
                     <option value="ALL">ALL</option>
                     @foreach ($activities as $activity)
                         <option value="{{ $activity['activity_name'] }}">{{ $activity['activity_name'] }}</option>
@@ -365,6 +382,10 @@
                 </select>
             </div>
         </fieldset>
+
+
+
+
 
 
 
