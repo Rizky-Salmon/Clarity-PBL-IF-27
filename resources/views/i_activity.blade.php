@@ -31,15 +31,6 @@
         background-color: #e0e0e0;
     }
 
-    html,
-    body,
-    #container {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-
     select,
     input {
         font: 14px Arial;
@@ -70,8 +61,8 @@
     }
 
     #container {
-        width: 1100px;
-        height: 700px;
+        width: 30px;
+        height: 1px;
         margin: 0 auto;
     }
 
@@ -119,12 +110,11 @@
 
     .chart {
         margin: 0 auto;
-        max-width: 700px;
+        max-width: 300px;
     }
 
     .chart-svg {
         width: 100%;
-        height: 100%;
     }
 
     .node {
@@ -379,70 +369,135 @@
     <div id="container"></div>
 
     <!-- Chart.js Library -->
-    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-sunburst.min.js"></script>
+    <!-- TAMPUNG CHART -->
+    <div id="chart"></div>
 
-    <script id="rendered-js">
-        anychart.onDocumentReady(function() {
-            // =========================================
-            // 1. Ambil data activity & employee dari PHP
-            //    Format elemen: {activity_name: "...", employee_names: "Emp A, Emp B", value: 2}
-            // =========================================
-            const activityData = {!!$datavisual!!};
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    var activityData = {!! $datavisual !!};
 
-            // =========================================
-            // 2. Ubah ke format pohon AnyChart
-            //    Root “Activities”  → activity → employee
-            // =========================================
-            const sunburstData = [{
-                name: "Activities",
-                // value di root bersifat opsional
-                children: activityData.map(act => {
-                    const employees = (act.employee_names || "")
-                        .split(",")
-                        .map(e => e.trim())
-                        .filter(e => e.length);
+    // 1. Convert ke hirarki untuk Sunburst
+    const data = {
+        name: "Activities",
+        children: activityData.map(act => {
+            const employees = (act.employee_names || "")
+                .split(",")
+                .map(e => e.trim())
+                .filter(e => e.length);
 
-                    return {
-                        name: act.activity_name,
-                        // value di tingkat activity = jumlah employee
-                        value: employees.length || 1,
-                        children: employees.map(emp => ({
-                            name: emp,
-                            // value 1 utk masing-masing employee (tidak akan ditampilkan)
-                            value: 1,
-                            fullName: emp // dipakai di tooltip
-                        }))
-                    };
-                })
-            }];
+            return {
+                name: act.activity_name,
+                children: employees.length ?
+                    employees.map(emp => ({
+                        name: emp,
+                        value: 1
+                    })) :
+                    [{
+                        name: "No Employee",
+                        value: 1
+                    }]
+            };
+        })
+    };
 
-            // =========================================
-            // 3. Buat chart sunburst
-            // =========================================
-            const chart = anychart.sunburst(sunburstData, "as-tree");
+    // 2. Setup SVG & Partition
+    const width = 600;
+    const radius = width / 12;
 
-            // Judul—silakan ubah sesuai kebutuhan
-            chart.title("Aktivitas & Karyawan");
+    const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+    const partition = d3.partition().size([2 * Math.PI, root.height + 1]);
+    partition(root);
+    root.each(d => d.current = d);
 
-            // Label hanya nama (tanpa angka)
-            chart.labels().format("{%name}");
+    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, root.children.length + 1));
+    const arc = d3.arc()
+        .startAngle(d => d.x0)
+        .endAngle(d => d.x1)
+        .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+        .padRadius(radius * 1.5)
+        .innerRadius(d => d.y0 * radius)
+        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
 
-            // Tooltip: tampilkan nama (atau fullName) saja
-            chart.tooltip()
-                .useHtml(true)
-                .format(function() {
-                    return this.getData("fullName") || this.getData("name");
-                })
-                .fontColor("black");
+    const svg = d3.select("#chart").append("svg")
+        .attr("viewBox", [-300, -150, 600, 320])
+        .style("font", "12px sans-serif");
 
-            // =========================================
-            // 4. Tampilkan chart
-            // =========================================
-            chart.container("container"); // pastikan ada <div id="container"></div>
-            chart.draw();
+    const g = svg.append("g");
+
+    const path = g.append("g")
+        .selectAll("path")
+        .data(root.descendants().slice(1))
+        .join("path")
+        .attr("fill", d => {
+            while (d.depth > 1) d = d.parent;
+            return color(d.data.name);
+        })
+        .attr("d", d => arc(d.current));
+
+    path.append("title")
+        .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}
+${d.value}`);
+
+    path.filter(d => d.children)
+        .style("cursor", "pointer")
+        .on("click", clicked);
+
+    const label = g.append("g")
+        .attr("pointer-events", "none")
+        .attr("text-anchor", "middle")
+        .selectAll("text")
+        .data(root.descendants().slice(1))
+        .join("text")
+        .attr("dy", "0.35em")
+        .attr("fill-opacity", d => +labelVisible(d.current))
+        .attr("transform", d => labelTransform(d.current))
+        .style("font-size", "6px")
+        .text(d => d.data.name.length > 11 ? d.data.name.slice(0, 11) + "…" : d.data.name);
+
+    const parent = g.append("circle")
+        .datum(root)
+        .attr("r", radius)
+        .attr("fill", "none")
+        .attr("pointer-events", "all")
+        .on("click", clicked);
+
+    // 3. Klik untuk zoom
+    function clicked(event, p) {
+        parent.datum(p.parent || root);
+
+        root.each(d => d.target = {
+            x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+            x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+            y0: Math.max(0, d.y0 - p.depth),
+            y1: Math.max(0, d.y1 - p.depth)
         });
-    </script>
+
+        const t = g.transition().duration(750);
+
+        path.transition(t)
+            .tween("data", d => {
+                const i = d3.interpolate(d.current, d.target);
+                return t => d.current = i(t);
+            })
+            .attrTween("d", d => () => arc(d.current));
+
+        label.transition(t)
+            .attr("fill-opacity", d => +labelVisible(d.target))
+            .attrTween("transform", d => () => labelTransform(d.current));
+    }
+
+    function labelVisible(d) {
+        return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+    }
+
+    function labelTransform(d) {
+        const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
+        const y = (d.y0 + d.y1) / 2 * radius;
+        return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+    }
+</script>
+
 
 
 
