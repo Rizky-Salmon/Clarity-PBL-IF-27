@@ -38,6 +38,17 @@ class ActivityPercentageController extends Controller
             $query->where('id_employees', $user->id_employees);
         }
 
+        if ($user->role === 'assistant') {
+            $allowedIds = [$user->id_employees]; // default: hanya lihat dirinya sendiri
+
+            if ($user->id_employees == 20) {
+                // Khusus untuk karyawan id 1, tambahkan id 9
+                $allowedIds[] = 9;
+            }
+
+            $query->whereIn('id_employees', $allowedIds);
+        }
+
         if ($request->ajax()) {
             return DataTables::of($query)
                 ->addColumn('activity_name', function ($percentage) {
@@ -267,7 +278,8 @@ class ActivityPercentageController extends Controller
         }
     }
 
-    public function generate(Request $request, $id_employees = null){
+    public function generate(Request $request, $id_employees = null)
+    {
 
         $query = Employees::query();
 
@@ -280,16 +292,16 @@ class ActivityPercentageController extends Controller
 
         $query->transform(function ($employee) {
             $employee->list_activity =
-            ActivityPercentage::where('id_employees', $employee->id_employees)->get()
-            ->transform(
+                ActivityPercentage::where('id_employees', $employee->id_employees)->get()
+                ->transform(
 
-                function ( $activity ) {
-                    $activity->activity = Activity::where('id_activity', $activity->id_activity)->get();
-                    return $activity;
-                }
+                    function ($activity) {
+                        $activity->activity = Activity::where('id_activity', $activity->id_activity)->get();
+                        return $activity;
+                    }
 
 
-            );
+                );
 
             return $employee;
         });
@@ -297,7 +309,7 @@ class ActivityPercentageController extends Controller
 
         $data = DB::select("SELECT subsector.description FROM subsector WHERE id_subsector IN(SELECT DISTINCT  (id_subsector)  FROM activity_subsector WHERE id_activity IN(SELECT id_activity FROM activity_percentage WHERE activity_percentage.id_employees=?))", [$id_employees]);
 
-        ddd( $query->first() );
+        ddd($query->first());
     }
 
 

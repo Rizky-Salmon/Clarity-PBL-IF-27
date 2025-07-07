@@ -49,110 +49,117 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             @auth
-                @if (Auth::user()->role == 'admin')
-                    <!-- Nav Item - Dashboard -->
-                    <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/admin') }}">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                @elseif (Auth::user()->role == 'employees')
-                    <!-- Nav Item - Dashboard -->
-                    <li class="nav-item {{ Request::is('employee') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/employee') }}">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                @endif
+            @if (Auth::user()->role == 'admin')
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/admin') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            @elseif (Auth::user()->role == 'employees')
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ Request::is('employee') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/employee') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            @elseif (Auth::user()->role == 'assistant')
+            <li class="nav-item {{ Request::is('employee') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/employee') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            @endif
 
-                @if (Auth::user()->role == 'admin')
-                    <!-- Divider -->
-                    <hr class="sidebar-divider">
+            @if (Auth::user()->role == 'admin')
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-                    <!-- Heading - Admin Menu -->
-                    <div class="sidebar-heading">
-                        Admin Menu
+            <!-- Heading - Admin Menu -->
+            <div class="sidebar-heading">
+                Admin Menu
+            </div>
+
+            <!-- Manage Employee -->
+            <li class="nav-item {{ Request::segment(1) === 'employees' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/employees') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Manage Employee</span>
+                </a>
+            </li>
+
+            <!-- Manage Sector -->
+            <li class="nav-item {{ Request::segment(1) === 'sector' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/sector') }}">
+                    <i class="icon fas fa-globe"></i>
+                    <span>Manage Sector</span>
+                </a>
+            </li>
+
+            <!-- Manage Sub Sector -->
+            <li class="nav-item {{ Request::segment(1) === 'a_subsector' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/a_subsector') }}">
+                    <i class="fa-solid fa-sitemap"></i>
+                    <span>Manage Sub Sector</span>
+                </a>
+            </li>
+
+            <!-- Manage Activity Percentage -->
+            <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/activity') }}">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Manage Activity Sub-sector</span>
+                </a>
+            </li>
+            <!-- Manage Activity Percentage -->
+            <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/activity_sector') }}">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Manage Activity Sector</span>
+                </a>
+            </li>
+            @endif
+
+            @if (Auth::user()->role == 'employees' || Auth::user()->role == 'assistant' || Auth::user()->role == 'admin')
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading - Employee Menu -->
+            <div class="sidebar-heading">
+                Employee Menu
+            </div>
+
+            <!-- Data visualization -->
+            <li
+                class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' || Request::segment(1) === 'i_sector' || Request::segment(1) === 'i_subsector' || Request::segment(1) === 'i_MinEmployee' || Request::segment(1) === 'i_MaxEmployee' ? 'active' : '' }}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Data Visualization</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
+                        {{-- <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a> --}}
+                        <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
+                        <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
+                        <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
+                        {{-- <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
+                        <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a> --}}
                     </div>
+                </div>
+            </li>
 
-                    <!-- Manage Employee -->
-                    <li class="nav-item {{ Request::segment(1) === 'employees' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/employees') }}">
-                            <i class="fas fa-fw fa-users"></i>
-                            <span>Manage Employee</span>
-                        </a>
-                    </li>
-
-                    <!-- Manage Sector -->
-                    <li class="nav-item {{ Request::segment(1) === 'sector' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/sector') }}">
-                            <i class="icon fas fa-globe"></i>
-                            <span>Manage Sector</span>
-                        </a>
-                    </li>
-
-                    <!-- Manage Sub Sector -->
-                    <li class="nav-item {{ Request::segment(1) === 'a_subsector' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/a_subsector') }}">
-                            <i class="fa-solid fa-sitemap"></i>
-                            <span>Manage Sub Sector</span>
-                        </a>
-                    </li>
-
-                    <!-- Manage Activity Percentage -->
-                    <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/activity') }}">
-                            <i class="fa-solid fa-clipboard-list"></i>
-                            <span>Manage Activity Sub-sector</span>
-                        </a>
-                    </li>
-                    <!-- Manage Activity Percentage -->
-                    <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/activity_sector') }}">
-                            <i class="fa-solid fa-clipboard-list"></i>
-                            <span>Manage Activity Sector</span>
-                        </a>
-                    </li>
-                @endif
-
-                @if (Auth::user()->role == 'employees' || Auth::user()->role == 'admin')
-                    <!-- Divider -->
-                    <hr class="sidebar-divider">
-
-                    <!-- Heading - Employee Menu -->
-                    <div class="sidebar-heading">
-                        Employee Menu
-                    </div>
-
-                    <!-- Data visualization -->
-                    <li
-                        class="nav-item {{ Request::segment(1) === 'i_activity' || Request::segment(1) === 'i_percentage' || Request::segment(1) === 'i_employee' || Request::segment(1) === 'i_sector' || Request::segment(1) === 'i_subsector' || Request::segment(1) === 'i_MinEmployee' || Request::segment(1) === 'i_MaxEmployee' ? 'active' : '' }}">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Data Visualization</span>
-                        </a>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="{{ asset('/i_activity') }}">Overall Activity</a>
-                                {{-- <a class="collapse-item" href="{{ asset('/i_percentage') }}">Activity Percentage</a> --}}
-                                <a class="collapse-item" href="{{ asset('/i_employee') }}">Employee</a>
-                                <a class="collapse-item" href="{{ asset('/i_sector') }}">Sector</a>
-                                <a class="collapse-item" href="{{ asset('/i_subsector') }}">Sub Sector</a>
-                                {{-- <a class="collapse-item" href="{{ asset('/i_MinEmployee') }}">Min Employee / Activities</a>
-                                <a class="collapse-item" href="{{ asset('/i_MaxEmployee') }}">Max Employee / Activities</a> --}}
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ asset('/a_percentage') }}">
-                            <i class="fas fa-fw fa-tasks"></i>
-                            <span>Manage Activity Percentage</span>
-                        </a>
-                    </li>
-                @endif
+            <li class="nav-item {{ Request::segment(1) === 'a_percentage' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ asset('/a_percentage') }}">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Manage Activity Percentage</span>
+                </a>
+            </li>
+            @endif
             @endauth
 
             <!-- Divider -->
@@ -186,7 +193,8 @@
                         <img src="{{ asset('img/undraw_male.svg') }}" alt="Profile Picture"
                             class="img-fluid rounded-circle" style="max-width: 50px;">
                         <div style="margin-left: 10px; font-weight: bold; font-size: 22px;">Welcome ,
-                            {{ Auth::user()->name }}</div>
+                            {{ Auth::user()->name }}
+                        </div>
                     </div>
 
 
@@ -424,7 +432,7 @@
                                 href="https://www.linkedin.com/in/jonathan-brindle/" target="_blank">Jonathan
                                 Brindle</a>, International Office, <a href="https://www.uphf.fr/"
                                 target="_blank">Université Polytechnique Hauts-de-France</a>.<br>
-                                <a href="{{ route('credits') }}"> Credits and Team </a></span>
+                            <a href="{{ route('credits') }}"> Credits and Team </a></span>
                     </div>
                     <div>
                         <img src="img/Logo-uphf.png" style="width: 110px; height: auto;" alt="">

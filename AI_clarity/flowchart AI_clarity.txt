@@ -1,0 +1,35 @@
+flowchart AI_clarity
+
+graph TD
+    subgraph "Tahap Input"
+        A[👤 Input Pengguna] --> B{Masukkan Teks Aktivitas};
+    end
+
+    subgraph "Tahap Pemrosesan"
+        B --> C[🔡 Koreksi Ejaan Hibrida];
+        C --> C1(Periksa Kamus Domain?);
+        C1 -- Ya, Kata Dikenal --> C3(Biarkan Kata Asli);
+        C1 -- Tidak --> C2(Periksa Pyspellchecker?);
+        C2 -- Typo Umum --> C4(Koreksi Kata);
+        C2 -- Bukan Typo --> C3;
+        C3 --> D[Teks Bersih];
+        C4 --> D;
+        
+        D --> E["🔢 Ubah Teks menjadi Angka (TF-IDF Vectorizer)"];
+    end
+
+    subgraph "Tahap Prediksi"
+        E --> F((🤖 Model AI Terlatih));
+        F --> G[Prediksi Sektor];
+        F --> H[Prediksi Sub-sektor];
+    end
+
+    subgraph "Tahap Output"
+        G --> I{📊 Gabungkan Hasil Prediksi};
+        H --> I;
+        I --> J[🖥️ Tampilkan Prediksi Sektor & Sub-sektor];
+    end
+
+    style A fill:#D6EAF8,stroke:#3498DB
+    style J fill:#D5F5E3,stroke:#2ECC71
+    style F fill:#FCF3CF,stroke:#F1C40F

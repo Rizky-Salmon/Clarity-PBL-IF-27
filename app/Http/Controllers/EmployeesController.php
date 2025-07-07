@@ -76,6 +76,7 @@ class EmployeesController extends Controller
                                             <select class="form-control" id="employeeRole" name="employeeRole">
                                                 <option value="admin" ' . (old('employeeRole', $item->role) == 'admin' ? 'selected' : '') . '>Admin</option>
                                                 <option value="employees" ' . (old('employeeRole', $item->role) == 'employees' ? 'selected' : '') . '>Employees</option>
+                                                <option value="assistant" ' . (old('employeeRole', $item->role) == 'assistant' ? 'selected' : '') . '>Assistant</option>
                                             </select>
                                         </div>
                                         <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Save Changes</button>
@@ -130,7 +131,7 @@ class EmployeesController extends Controller
         $rules = [
             'add_employeeName' => 'required',
             'add_employeeEmail' => 'required|email|unique:employees,email',
-            'add_employeeRole' => ['required', Rule::in(['admin', 'employees'])],
+            'add_employeeRole' => ['required', Rule::in(['admin','employee'])],
             'add_employeePassword' => 'required|min:8', // Validasi untuk password baru
         ];
 

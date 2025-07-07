@@ -38,6 +38,9 @@ class SessionController extends Controller
             } elseif (auth()->user()->role == 'employees') {
                 Alert::success('Success', 'Welcome to Clarity !');
                 return redirect('employee');
+            } elseif (auth()->user()->role == 'assistant') {
+                Alert::success('Success', 'Welcome to Clarity !');
+                return redirect('employee');
             }
         } else {
             return redirect()->back()->withErrors(['password' => 'Password did not match our records.'])->withInput();
