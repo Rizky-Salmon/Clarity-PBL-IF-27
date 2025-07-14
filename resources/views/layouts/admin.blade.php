@@ -114,13 +114,6 @@
                     <span>Manage Activity Sub-sector</span>
                 </a>
             </li>
-            <!-- Manage Activity Percentage -->
-            <li class="nav-item {{ Request::segment(1) === 'activity' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ asset('/activity_sector') }}">
-                    <i class="fa-solid fa-clipboard-list"></i>
-                    <span>Manage Activity Sector</span>
-                </a>
-            </li>
             @endif
 
             @if (Auth::user()->role == 'employees' || Auth::user()->role == 'assistant' || Auth::user()->role == 'admin')

@@ -18,3 +18,6 @@ yarn-error.log
 /.vscode
 venv/
 .venv/
+selenium_test/
+test/
+pengujian_locust/

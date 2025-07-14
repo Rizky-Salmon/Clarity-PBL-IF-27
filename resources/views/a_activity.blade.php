@@ -99,7 +99,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="margin-left: 140px;">Add
+                            <button type="submit" id="submit_activity" class="btn btn-primary" style="margin-left: 140px;">Add
                                 Activity</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </form>

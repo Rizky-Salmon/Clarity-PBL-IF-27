@@ -12,7 +12,6 @@ use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\SubSectorController;
 use App\Http\Controllers\ActivityPercentageController;
 use App\Http\Controllers\VisusalisasiController;
-use App\Http\Controllers\ActivityWithSectorsController;
 
 // Akses Tanpa Login
 Route::middleware('guest')->group(function () {
@@ -81,8 +80,6 @@ Route::middleware('auth')->group(function () {
         Route::post('activity', [ActivityController::class, 'store'])->name('activity.store');
         Route::put('activity/{id_activity}', [ActivityController::class, 'update'])->name('activity.update');
         Route::delete('activity/{id_activity}', [ActivityController::class, 'destroy'])->name('activity.destroy');
-
-        Route::get('/activity_sector', [ActivityWithSectorsController::class, 'index'])->name('activity.sector');
     });
 
 

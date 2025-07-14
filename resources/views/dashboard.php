@@ -248,10 +248,10 @@
                             </td>
                             <td>70%</td>
                             <td>
-                                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editEmployeeProgressModal">
+                                <button class="btn btn-success btn-sm" id="edit" data-toggle="modal" data-target="#editEmployeeProgressModal">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEmployeeProgressModal">
+                                <button class="btn btn-danger btn-sm" id="delete" data-toggle="modal" data-target="#deleteEmployeeProgressModal">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
